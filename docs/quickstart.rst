@@ -3,84 +3,94 @@
 Quickstart
 ==========
 
+This project provides a generic Monte Carlo Tree Search (MCTS) framework. Its core concept is the replacement of the Genetic Programming (GP) engine from ``chess-ant`` with a modern AI agent. While inspired by AlphaZero, it uses a simpler, decoupled approach: the standard UCT algorithm is augmented by an external AI agent that performs **Policy Pruning**—narrowing the search space by supplying a pre-filtered list of promising moves.
+
+This guide covers how to install the package and configure it for use with an AI agent like the Gemini CLI.
+
 Installation
 ------------
 
-**For Users:**
+Standard Installation
+~~~~~~~~~~~~~~~~~~~~~
+
+The core package can be installed directly using pip:
 
 .. code-block:: bash
 
    pip install mcts-gen
 
-**For Developers:**
+Installation with Game-Specific Dependencies
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To include support for specific games, you can install optional dependencies (extras). For example, to install with support for Shogi:
 
 .. code-block:: bash
 
-   # Clone the repository
-   git clone https://github.com/akuroiwa/mcts-gen.git
-   cd mcts-gen
+   pip install mcts-gen[shogi]
 
-   # Install in editable mode with dev dependencies
-   python -m venv venv
-   source venv/bin/activate
-   pip install -e .[dev]
+This will automatically install the ``python-shogi`` library alongside the core package.
 
-Running the Servers
--------------------
+Server Setup for Gemini CLI
+---------------------------
 
-**1. FastAPI Server (for web clients):**
+To allow the Gemini agent to use the MCTS-Gen tools, you must register the server in your ``settings.json`` file. This allows the Gemini CLI to automatically manage the server process and provide the necessary context files.
 
-.. code-block:: bash
+Create or update your ``settings.json`` file with the following configuration:
 
-   uvicorn mcts_gen.api.main:app --reload --port 8000
+.. code-block:: json
 
-**2. FastMCP Server (for AI agents):**
-
-.. code-block:: bash
-
-   python -m mcts_gen.fastmcp_server
-
-Local Execution (REPL)
-----------------------
-
-1.  Create a ``config.json`` file in the project root:
-
-    .. code-block:: json
-
-       {
-         "state_module": "mcts_gen.games.dummy_game",
-         "state_class": "TicTacToeDummy"
+   {
+     "context": {
+       "fileName": [
+         "AGENTS.md",
+         "GEMINI.md"
+       ]
+     },
+     "mcpServers": {
+       "mcts_gen_simulator_server": {
+         "command": "python",
+         "args": [
+           "-m",
+           "mcts_gen.fastmcp_server"
+         ]
        }
+     }
+   }
 
-2.  Run the interactive REPL:
+**Note**: The ``context`` block tells the Gemini CLI to load ``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the agent to understand how to use the tools.
 
-    .. code-block:: bash
+You can place this ``settings.json`` file in one of two locations:
 
-       python -m mcts_gen.cli.repl
+1.  **Project-Specific**: ``./.gemini/settings.json`` (inside this project directory)
+2.  **Global**: ``~/.gemini/settings.json`` (in your home directory)
 
-AI Agent Integration (Gemini CLI)
----------------------------------
+For an alternative setup method using the ``fastmcp`` command-line tool, please see the official guide:
 
-To enable an AI agent like Gemini CLI to effectively use this framework, you need to provide it with the agent instructions.
+- `Gemini CLI 🤝 FastMCP <https://gofastmcp.com/integrations/gemini-cli>`_
 
-1.  **Locate ``AGENTS.md``**: This file is in the root of the project.
-2.  **Configure Gemini CLI**: Set the ``contextFileName`` in your ``~/.gemini/settings.json`` to point to the absolute path of the ``AGENTS.md`` file in this project.
+For Maintainers: How to Release a New Version
+----------------------------------------------
 
-    .. code-block:: json
+The package publication process is automated using GitHub Actions.
 
-       { "contextFileName": "/path/to/your/mcts-gen/AGENTS.md" }
+Releasing to TestPyPI (for testing)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-3.  **Register the Tools**: Start the FastMCP server and register it with your agent:
+To release a version to the TestPyPI repository for verification, create and push a git tag with a ``-test`` suffix.
 
-    .. code-block:: bash
+.. code-block:: bash
 
-       # In one terminal, start the server
-       python -m mcts_gen.fastmcp_server
+   # Example for version 0.1.0
+   git tag v0.1.0-test1
+   git push origin v0.1.0-test1
 
-       # In your Gemini CLI session, register the server
-       /tool register http://127.0.0.1:8000
+Releasing to PyPI (Official)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-4.  **Interact**: You can now instruct the agent with natural language. For example:
+To perform an official release, create and push a git tag that follows the semantic versioning format (e.g., ``vX.Y.Z``).
 
-    -   "Create a game of Tic-Tac-Toe for me."
-    -   "Run a search on the current Tic-Tac-Toe game for 100 steps."
+.. code-block:: bash
+
+   # Example for version 0.1.0
+   git tag v0.1.0
+   git push origin v0.1.0

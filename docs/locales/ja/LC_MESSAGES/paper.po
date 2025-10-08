@@ -1,137 +1,310 @@
+
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: mcts-gen 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-29 00:12+0900\n"
+"POT-Creation-Date: 2025-10-08 23:43+0900\n"
 "PO-Revision-Date: 2025-09-29 00:12+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: ../../paper.rst:4
+#: ../../paper.rst:5
 msgid "Paper: AI-Augmented UCT for General Game Playing"
 msgstr "小論文: AI拡張UCTによる汎用ゲームプレイ"
 
-#: ../../paper.rst:10
+#: ../../paper.rst:8
 msgid "Abstract"
 msgstr "概要"
 
-#: ../../paper.rst:12
-msgid "This paper introduces `mcts-gen`, a novel framework for Monte Carlo Tree Search (MCTS) that replaces the evolutionary mechanisms of Genetic Programming (GP) with a modern AI agent. We propose an architecture centered on an \"AI-Augmented UCT\" algorithm, where a standard UCT search is enhanced at three key points by an external AI: terminal node evaluation (Value), dynamic search parameter tuning (Exploration), and, most significantly, action space reduction via **Policy Pruning**. This approach diverges from the popular AlphaZero model by retaining the UCT algorithm's simplicity while leveraging an AI's policy model to dramatically improve performance in games with large branching factors, such as Shogi. We demonstrate a stateful client-server model where the AI agent orchestrates the entire simulation loop, iteratively refining its strategy based on real-time performance metrics."
-msgstr "本稿では、遺伝的プログラミング（GP）の進化的メカニズムを現代的なAIエージェントで置き換える、モンテカルロ木探索（MCTS）のための新しいフレームワーク`mcts-gen`を紹介する。我々は「AI拡張UCT」アルゴリズムを中心としたアーキテクチャを提案する。このアルゴリズムでは、標準的なUCT探索が外部AIによって3つの重要な点で強化される。すなわち、末端ノード評価（価値）、動的な探索パラメータ調整（探索）、そして最も重要な点として、**Policy Pruning（方針による枝刈り）**による行動空間の削減である。このアプローチは、UCTアルゴリズムの単純さを維持しつつ、AIの方針モデルを活用して将棋のような巨大な分岐因子を持つゲームのパフォーマンスを劇的に向上させる点で、一般的なAlphaZeroモデルとは一線を画す。我々は、AIエージェントがリアルタイムのパフォーマンス指標に基づいて戦略を繰り返し洗練させながら、シミュレーションループ全体を統括する、ステートフルなクライアントサーバーモデルを実証する。"
+#: ../../paper.rst:10
+msgid ""
+"This paper introduces `mcts-gen`, a novel framework for Monte Carlo Tree "
+"Search (MCTS) that replaces the evolutionary mechanisms of Genetic "
+"Programming (GP) with a modern AI agent. We propose an architecture "
+"centered on an \"AI-Augmented UCT\" algorithm, where a standard UCT "
+"search is enhanced at three key points by an external AI: terminal node "
+"evaluation (Value), dynamic search parameter tuning (Exploration), and, "
+"most significantly, action space reduction via **Policy Pruning**. This "
+"approach diverges from the popular AlphaZero model by retaining the UCT "
+"algorithm's simplicity while leveraging an AI's policy model to "
+"dramatically improve performance in games with large branching factors, "
+"such as Shogi. We demonstrate a stateful client-server model where the AI"
+" agent orchestrates the entire simulation loop, iteratively refining its "
+"strategy based on real-time performance metrics."
+msgstr ""
+"本稿では、遺伝的プログラミング（GP）の進化的メカニズムを現代的なAIエージェントで置き換える、モンテカルロ木探索（MCTS）のための新しいフレームワーク"
+"`mcts-"
+"gen`を紹介する。我々は「AI拡張UCT」アルゴリズムを中心としたアーキテクチャを提案する。このアルゴリズムでは、標準的なUCT探索が外部AIによって3つの重要な点で強化される。すなわち、末端ノード評価（価値）、動的な探索パラメータ調整（探索）、そして最も重要な点として、**Policy"
+" "
+"Pruning（方針による枝刈り）**による行動空間の削減である。このアプローチは、UCTアルゴリズムの単純さを維持しつつ、AIの方針モデルを活用して将棋のような巨大な分岐因子を持つゲームのパフォーマンスを劇的に向上させる点で、一般的なAlphaZeroモデルとは一線を画す。我々は、AIエージェントがリアルタイムのパフォーマンス指標に基づいて戦略を繰り返し洗練させながら、シミュレーションループ全体を統括する、ステートフルなクライアントサーバーモデルを実証する。"
 
-#: ../../paper.rst:18
+#: ../../paper.rst:13
 msgid "1. Replacing Genetic Programming with an AI Agent"
 msgstr "1. 遺伝的プログラミングのAIエージェントによる置換"
 
-#: ../../paper.rst:20
-msgid "In previous works like `chess-ant`, Genetic Programming was used to evolve a strategy for tuning the MCTS `explorationConstant`. This process, while effective, involved a computationally expensive evolutionary cycle with a large population and multiple generations. Each evaluation required a full MCTS simulation, leading to significant time investment."
-msgstr "`chess-ant`のような過去の研究では、MCTSの`explorationConstant`を調整する戦略を進化させるために遺伝的プログラミングが使用された。このプロセスは効果的である一方、大規模な個体群と多くの世代を要する、計算コストの高い進化サイクルを伴った。個々の評価には完全なMCTSシミュレーションが必要であり、多大な時間的投資を要した。"
+#: ../../paper.rst:15
+msgid ""
+"In previous works like `chess-ant`, Genetic Programming was used to "
+"evolve a strategy for tuning the MCTS `explorationConstant`. This "
+"process, while effective, involved a computationally expensive "
+"evolutionary cycle with a large population and multiple generations. Each"
+" evaluation required a full MCTS simulation, leading to significant time "
+"investment."
+msgstr ""
+"`chess-"
+"ant`のような過去の研究では、MCTSの`explorationConstant`を調整する戦略を進化させるために遺伝的プログラミングが使用された。このプロセスは効果的である一方、大規模な個体群と多くの世代を要する、計算コストの高い進化サイクルを伴った。個々の評価には完全なMCTSシミュレーションが必要であり、多大な時間的投資を要した。"
 
-#: ../../paper.rst:22
-msgid "`mcts-gen` replaces this entire evolutionary loop with a single, intelligent AI agent. The agent maintains a single strategic model (e.g., a Python function) and iteratively refines it based on direct feedback from the search process. This AI-driven, single-strategy evolution is significantly more efficient, allowing for rapid strategy adaptation without the overhead of managing a genetic population."
-msgstr "`mcts-gen`は、この進化ループ全体を、単一の知的なAIエージェントで置き換える。エージェントは単一の戦略モデル（例: Python関数）を保持し、探索プロセスからの直接的なフィードバックに基づいてそれを繰り返し洗練させる。このAI主導の単一戦略進化は著しく効率的であり、遺伝的個体群を管理するオーバーヘッドなしに、迅速な戦略の適応を可能にする。"
+#: ../../paper.rst:17
+msgid ""
+"`mcts-gen` replaces this entire evolutionary loop with a single, "
+"intelligent AI agent. The agent maintains a single strategic model (e.g.,"
+" a Python function) and iteratively refines it based on direct feedback "
+"from the search process. This AI-driven, single-strategy evolution is "
+"significantly more efficient, allowing for rapid strategy adaptation "
+"without the overhead of managing a genetic population."
+msgstr ""
+"`mcts-gen`は、この進化ループ全体を、単一の知的なAIエージェントで置き換える。エージェントは単一の戦略モデル（例: "
+"Python関数）を保持し、探索プロセスからの直接的なフィードバックに基づいてそれを繰り返し洗練させる。このAI主導の単一戦略進化は著しく効率的であり、遺伝的個体群を管理するオーバーヘッドなしに、迅速な戦略の適応を可能にする。"
 
-#: ../../paper.rst:24
-msgid "The core of this interaction is a stateful simulator (`AiGpSimulator`) whose methods are exposed as MCP tools. The AI agent calls these tools iteratively, managing the simulation loop externally and enabling a tight feedback cycle of execution, analysis, and self-correction."
+#: ../../paper.rst:19
+msgid ""
+"The core of this interaction is a stateful simulator (`AiGpSimulator`) "
+"whose methods are exposed as MCP tools. The AI agent calls these tools "
+"iteratively, managing the simulation loop externally and enabling a tight"
+" feedback cycle of execution, analysis, and self-correction."
 msgstr "この相互作用の中核をなすのは、そのメソッドがMCPツールとして公開されるステートフルなシミュレータ（`AiGpSimulator`）である。AIエージェントはこれらのツールを繰り返し呼び出し、シミュレーションループを外部から管理することで、実行、分析、自己修正という緊密なフィードバックサイクルを可能にする。"
 
-#: ../../paper.rst:27
+#: ../../paper.rst:22
 msgid "2. Policy Pruning: An Alternative to PUCT"
 msgstr "2. Policy Pruning: PUCTの代替案"
 
-#: ../../paper.rst:29
-msgid "AlphaZero and its derivatives integrate a policy network directly into the selection phase of MCTS via the PUCT (Polynomial Upper Confidence Trees) formula. While powerful, this tightly couples the search algorithm with the policy model."
+#: ../../paper.rst:24
+msgid ""
+"AlphaZero and its derivatives integrate a policy network directly into "
+"the selection phase of MCTS via the PUCT (Polynomial Upper Confidence "
+"Trees) formula. While powerful, this tightly couples the search algorithm"
+" with the policy model."
 msgstr "AlphaZeroとその派生技術は、PUCT（多項式UCT）の計算式を介して、MCTSの選択フェーズに方針ネットワークを直接統合する。これは強力である一方、探索アルゴリズムと方針モデルを密結合させる。"
 
-#: ../../paper.rst:31
-msgid "We propose a simpler, more decoupled approach: **Policy Pruning**. The workflow is as follows:"
+#: ../../paper.rst:26
+msgid ""
+"We propose a simpler, more decoupled approach: **Policy Pruning**. The "
+"workflow is as follows:"
 msgstr "我々は、よりシンプルで疎結合なアプローチである**Policy Pruning**を提案する。そのワークフローは以下の通りである。"
 
-#: ../../paper.rst:33
-msgid "The AI agent calls a tool (`get_possible_actions`) to retrieve all legal moves from the current node."
+#: ../../paper.rst:28
+msgid ""
+"The AI agent calls a tool (`get_possible_actions`) to retrieve all legal "
+"moves from the current node."
 msgstr "AIエージェントがツール（`get_possible_actions`）を呼び出し、現在のノードから全ての合法手を取得する。"
 
-#: ../../paper.rst:34
-msgid "The agent applies its internal policy model to this list, filtering out unpromising moves and creating a smaller, pruned list of candidate actions."
+#: ../../paper.rst:29
+msgid ""
+"The agent applies its internal policy model to this list, filtering out "
+"unpromising moves and creating a smaller, pruned list of candidate "
+"actions."
 msgstr "エージェントは自身の内部的な方針モデルをこのリストに適用し、有望でない手を除外して、より小さな、枝刈りされた候補手のリストを作成する。"
 
-#: ../../paper.rst:35
-msgid "The agent then calls the main search tool (`run_mcts_round`), passing this pruned list (`actions_to_expand`) as an argument."
+#: ../../paper.rst:30
+msgid ""
+"The agent then calls the main search tool (`run_mcts_round`), passing "
+"this pruned list (`actions_to_expand`) as an argument."
 msgstr "その後、エージェントは主要な探索ツール（`run_mcts_round`）を呼び出し、この枝刈りされたリスト（`actions_to_expand`）を引数として渡す。"
 
-#: ../../paper.rst:36
-msgid "The MCTS engine, upon receiving this list, constrains its expansion phase to only consider the actions provided by the AI."
+#: ../../paper.rst:31
+msgid ""
+"The MCTS engine, upon receiving this list, constrains its expansion phase"
+" to only consider the actions provided by the AI."
 msgstr "MCTSエンジンは、このリストを受け取ると、その展開フェーズをAIによって提供されたアクションのみを考慮するように制約する。"
 
-#: ../../paper.rst:38
-msgid "This method effectively uses the AI's policy as a high-level filter, dramatically reducing the branching factor of the search tree, especially in complex games like Shogi. It allows the underlying engine to remain a standard UCT implementation, simplifying the architecture while still reaping the primary benefit of a policy network."
+#: ../../paper.rst:33
+msgid ""
+"This method effectively uses the AI's policy as a high-level filter, "
+"dramatically reducing the branching factor of the search tree, especially"
+" in complex games like Shogi. It allows the underlying engine to remain a"
+" standard UCT implementation, simplifying the architecture while still "
+"reaping the primary benefit of a policy network."
 msgstr "この手法は、AIの方針を高度なフィルターとして効果的に使用し、特に将棋のような複雑なゲームにおいて、探索木の分岐因子を劇的に削減する。これにより、根底にあるエンジンは標準的なUCT実装のままでよく、アーキテクチャを単純化しつつ、方針ネットワークの主要な利点を享受することができる。"
 
-#: ../../paper.rst:41
+#: ../../paper.rst:36
 msgid "3. UCT with AI-driven Exploration"
 msgstr "3. AI主導の探索によるUCT"
 
-#: ../../paper.rst:43
-msgid "Instead of PUCT, `mcts-gen` uses the standard UCT (Upper Confidence bounds for Trees) algorithm for node selection. The key innovation lies in how the `explorationConstant` (C in the UCT formula) is determined."
-msgstr "PUCTの代わりに、`mcts-gen`はノード選択に標準的なUCT（木に対する信頼性上限）アルゴリズムを使用する。主要な革新は、`explorationConstant`（UCT計算式におけるC）がどのように決定されるかにある。"
+#: ../../paper.rst:38
+msgid ""
+"Instead of PUCT, `mcts-gen` uses the standard UCT (Upper Confidence "
+"bounds for Trees) algorithm for node selection. The key innovation lies "
+"in how the `explorationConstant` (C in the UCT formula) is determined."
+msgstr ""
+"PUCTの代わりに、`mcts-"
+"gen`はノード選択に標準的なUCT（木に対する信頼性上限）アルゴリズムを使用する。主要な革新は、`explorationConstant`（UCT計算式におけるC）がどのように決定されるかにある。"
 
-#: ../../paper.rst:45
-msgid "The AI agent is responsible for generating and maintaining a strategy (e.g., a Python function) that determines the optimal `explorationConstant` for any given game state."
-msgstr "AIエージェントは、与えられたあらゆるゲーム状態に対して最適な`explorationConstant`を決定する戦略（例: Python関数）を生成・維持する責任を負う。"
+#: ../../paper.rst:40
+msgid ""
+"The AI agent is responsible for generating and maintaining a strategy "
+"(e.g., a Python function) that determines the optimal "
+"`explorationConstant` for any given game state."
+msgstr ""
+"AIエージェントは、与えられたあらゆるゲーム状態に対して最適な`explorationConstant`を決定する戦略（例: "
+"Python関数）を生成・維持する責任を負う。"
 
-#: ../../paper.rst:46
-msgid "This strategy can be complex, taking into account game-specific features (e.g., `board.is_check()`) and generic simulation metrics (e.g., `improvement` of the UCT value)."
-msgstr "この戦略は、ゲーム固有の特徴（例: `board.is_check()`）や、汎用的なシミュレーション指標（例: UCT値の`improvement`）を考慮に入れた、複雑なものになり得る。"
+#: ../../paper.rst:41
+msgid ""
+"This strategy can be complex, taking into account game-specific features "
+"(e.g., `board.is_check()`) and generic simulation metrics (e.g., "
+"`improvement` of the UCT value)."
+msgstr ""
+"この戦略は、ゲーム固有の特徴（例: `board.is_check()`）や、汎用的なシミュレーション指標（例: "
+"UCT値の`improvement`）を考慮に入れた、複雑なものになり得る。"
 
-#: ../../paper.rst:47
-msgid "The AI executes this strategy to choose a constant for each simulation loop and refines the strategy code based on performance, effectively learning how to best balance exploration and exploitation."
+#: ../../paper.rst:42
+msgid ""
+"The AI executes this strategy to choose a constant for each simulation "
+"loop and refines the strategy code based on performance, effectively "
+"learning how to best balance exploration and exploitation."
 msgstr "AIはこの戦略を実行して各シミュレーションループの定数を選択し、パフォーマンスに基づいて戦略コードを洗練させることで、探索と活用のバランスを最適に取る方法を効果的に学習する。"
 
-#: ../../paper.rst:50
+#: ../../paper.rst:45
 msgid "4. Other Differences from AlphaZero"
 msgstr "4. AlphaZeroとのその他の相違点"
 
+#: ../../paper.rst:47
+msgid ""
+"**Decoupled Logic:** The MCTS engine and the AI \"brain\" are fully "
+"decoupled. The engine provides generic tools, and the AI uses them to "
+"implement its own, potentially complex, search logic."
+msgstr ""
+"**疎結合なロジック:** "
+"MCTSエンジンとAIの「頭脳」は完全に分離されている。エンジンは汎用的なツールを提供し、AIはそれらを使って、潜在的に複雑な独自の探索ロジックを実装する。"
+
+#: ../../paper.rst:48
+msgid ""
+"**Stateful Interaction:** Unlike a stateless model, the server maintains "
+"the MCTS tree instance across multiple tool calls, allowing the AI to "
+"build upon previous search results within a single turn."
+msgstr ""
+"**ステートフルな相互作用:** "
+"ステートレスなモデルとは異なり、サーバーは複数のツール呼び出しにわたってMCTSツリーのインスタンスを維持し、AIが1ターン内で以前の探索結果の上に構築していくことを可能にする。"
+
+#: ../../paper.rst:49
+msgid ""
+"**Explicit Strategy:** The AI's exploration strategy is an explicit, "
+"human-readable piece of code, which can be logged and analyzed, offering "
+"greater transparency than the implicit weights of a neural network."
+msgstr ""
+"**明示的な戦略:** "
+"AIの探索戦略は、明示的で人間が読めるコードであり、ログに記録して分析することが可能で、ニューラルネットワークの暗黙的な重みよりも高い透明性を提供する。"
+
 #: ../../paper.rst:52
-msgid "**Decoupled Logic:** The MCTS engine and the AI \"brain\" are fully decoupled. The engine provides generic tools, and the AI uses them to implement its own, potentially complex, search logic."
-msgstr "**疎結合なロジック:** MCTSエンジンとAIの「頭脳」は完全に分離されている。エンジンは汎用的なツールを提供し、AIはそれらを使って、潜在的に複雑な独自の探索ロジックを実装する。"
-
-#: ../../paper.rst:53
-msgid "**Stateful Interaction:** Unlike a stateless model, the server maintains the MCTS tree instance across multiple tool calls, allowing the AI to build upon previous search results within a single turn."
-msgstr "**ステートフルな相互作用:** ステートレスなモデルとは異なり、サーバーは複数のツール呼び出しにわたってMCTSツリーのインスタンスを維持し、AIが1ターン内で以前の探索結果の上に構築していくことを可能にする。"
-
-#: ../../paper.rst:54
-msgid "**Explicit Strategy:** The AI's exploration strategy is an explicit, human-readable piece of code, which can be logged and analyzed, offering greater transparency than the implicit weights of a neural network."
-msgstr "**明示的な戦略:** AIの探索戦略は、明示的で人間が読めるコードであり、ログに記録して分析することが可能で、ニューラルネットワークの暗黙的な重みよりも高い透明性を提供する。"
-
-#: ../../paper.rst:57
 msgid "5. The Challenge of Game Logic Generation"
 msgstr "5. ゲームロジック生成の課題"
 
-#: ../../paper.rst:59
-msgid "The `mcts-gen` framework is designed to be generic. This requires the creation of game-specific logic files (`*_mcts.py`) that inherit from a `GameStateBase` abstract class. This task has proven to be complex for both humans and AI agents due to the need for a deep understanding of two separate APIs: the game library (e.g., `python-shogi`) and the `GameStateBase` interface."
-msgstr "`mcts-gen`フレームワークは汎用的であるように設計されている。そのためには、`GameStateBase`抽象クラスを継承する、ゲーム固有のロジックファイル（`*_mcts.py`）を作成する必要がある。この作業は、ゲームライブラリ（例: `python-shogi`）と`GameStateBase`インターフェースという、2つの異なるAPIへの深い理解を必要とするため、人間にとってもAIエージェントにとっても複雑であることが判明した。"
+#: ../../paper.rst:54
+msgid ""
+"The `mcts-gen` framework is designed to be generic. This requires the "
+"creation of game-specific logic files (`*_mcts.py`) that inherit from a "
+"`GameStateBase` abstract class. This task has proven to be complex for "
+"both humans and AI agents due to the need for a deep understanding of two"
+" separate APIs: the game library (e.g., `python-shogi`) and the "
+"`GameStateBase` interface."
+msgstr ""
+"`mcts-"
+"gen`フレームワークは汎用的であるように設計されている。そのためには、`GameStateBase`抽象クラスを継承する、ゲーム固有のロジックファイル（`*_mcts.py`）を作成する必要がある。この作業は、ゲームライブラリ（例:"
+" `python-"
+"shogi`）と`GameStateBase`インターフェースという、2つの異なるAPIへの深い理解を必要とするため、人間にとってもAIエージェントにとっても複雑であることが判明した。"
+
+#: ../../paper.rst:56
+msgid ""
+"Our experience shows that this process is not a simple, one-shot "
+"generation. It requires iterative trial and error, debugging, and a "
+"precise understanding of concepts like object copying (`deepcopy`), "
+"return value conventions, and API-specific methods (e.g., "
+"`board.outcome()` vs. `board.is_checkmate()`)."
+msgstr ""
+"我々の経験によれば、このプロセスは単純な一度きりの生成ではない。それには、オブジェクトのコピー（`deepcopy`）、戻り値の規約、API固有のメソッド（例:"
+" "
+"`board.outcome()`対`board.is_checkmate()`）といった概念の正確な理解と、繰り返しの試行錯誤、デバッグが必要である。"
+
+#: ../../paper.rst:58
+msgid ""
+"The use of a framework like `spec-kit` is highly recommended for this "
+"process. By defining the requirements in structured markdown files "
+"(`spec.md`, `plan.md`, `tasks.md`), the AI can follow a clear, test-"
+"driven development (TDD) cycle, breaking down the complex task into "
+"manageable steps and verifying each one, which has proven essential for "
+"success."
+msgstr ""
+"このプロセスには`spec-kit`のようなフレームワークの使用を強く推奨する。構造化されたマークダウンファイル（`spec.md`, "
+"`plan.md`, "
+"`tasks.md`）で要件を定義することにより、AIは明確なテスト駆動開発（TDD）サイクルに従うことができ、複雑なタスクを管理可能なステップに分解してそれぞれを検証することが、成功に不可欠であることが証明された。"
 
 #: ../../paper.rst:61
-msgid "Our experience shows that this process is not a simple, one-shot generation. It requires iterative trial and error, debugging, and a precise understanding of concepts like object copying (`deepcopy`), return value conventions, and API-specific methods (e.g., `board.outcome()` vs. `board.is_checkmate()`)."
-msgstr "我々の経験によれば、このプロセスは単純な一度きりの生成ではない。それには、オブジェクトのコピー（`deepcopy`）、戻り値の規約、API固有のメソッド（例: `board.outcome()`対`board.is_checkmate()`）といった概念の正確な理解と、繰り返しの試行錯誤、デバッグが必要である。"
-
-#: ../../paper.rst:63
-msgid "The use of a framework like `spec-kit` is highly recommended for this process. By defining the requirements in structured markdown files (`spec.md`, `plan.md`, `tasks.md`), the AI can follow a clear, test-driven development (TDD) cycle, breaking down the complex task into manageable steps and verifying each one, which has proven essential for success."
-msgstr "このプロセスには`spec-kit`のようなフレームワークの使用を強く推奨する。構造化されたマークダウンファイル（`spec.md`, `plan.md`, `tasks.md`）で要件を定義することにより、AIは明確なテスト駆動開発（TDD）サイクルに従うことができ、複雑なタスクを管理可能なステップに分解してそれぞれを検証することが、成功に不可欠であることが証明された。"
-
-#: ../../paper.rst:66
 msgid "6. Comparison with `chess-ant`'s GP Model"
 msgstr "6. `chess-ant`のGPモデルとの比較"
 
-#: ../../paper.rst:68
-msgid "**`chess-ant`:** The Genetic Programming model in `chess-ant` relies on a large-scale evolutionary simulation. The main GP loop iterates over a population for multiple generations, and *each individual evaluation* triggers a full MCTS simulation. The MCTS instance state is preserved throughout the evaluation of a single individual but is reset for the next. This is computationally massive."
-msgstr "**`chess-ant`:** `chess-ant`の遺伝的プログラミングモデルは、大規模な進化的シミュレーションに依存している。主要なGPループは複数世代にわたって個体群を反復し、*個々の評価ごと*に完全なMCTSシミュレーションが実行される。MCTSインスタンスの状態は一個体の評価中は維持されるが、次の個体のためにリセットされる。これは計算量が膨大である。"
+#: ../../paper.rst:63
+msgid ""
+"**`chess-ant`:** The Genetic Programming model in `chess-ant` relies on a"
+" large-scale evolutionary simulation. The main GP loop iterates over a "
+"population for multiple generations, and *each individual evaluation* "
+"triggers a full MCTS simulation. The MCTS instance state is preserved "
+"throughout the evaluation of a single individual but is reset for the "
+"next. This is computationally massive."
+msgstr ""
+"**`chess-ant`:** `chess-"
+"ant`の遺伝的プログラミングモデルは、大規模な進化的シミュレーションに依存している。主要なGPループは複数世代にわたって個体群を反復し、*個々の評価ごと*に完全なMCTSシミュレーションが実行される。MCTSインスタンスの状態は一個体の評価中は維持されるが、次の個体のためにリセットされる。これは計算量が膨大である。"
 
-#: ../../paper.rst:70
-msgid "**`mcts-gen`:** The AI agent replaces the entire population. It maintains a *single* strategy and iteratively improves it. The AI drives a main loop where each iteration calls the `run_mcts_round` tool. This tool executes a single MCTS round (selection, expansion, evaluation, backpropagation). The MCTS instance is preserved across these calls, allowing the search tree to grow. This is equivalent to one MCTS simulation in `chess-ant`, but the strategy refinement is done intelligently by the AI after each round, rather than through generational evolution. The result is a significantly more efficient search process, especially when combined with Policy Pruning."
-msgstr "**`mcts-gen`:** AIエージェントが個体群全体を置き換える。それは*単一の*戦略を維持し、それを繰り返し改善する。AIは、各イテレーションが`run_mcts_round`ツールを呼び出すメインループを駆動する。このツールはMCTSの1ラウンド（選択、展開、評価、更新）を実行する。MCTSインスタンスはこれらの呼び出しをまたいで維持され、探索木の成長を可能にする。これは`chess-ant`における1回のMCTSシミュレーションに相当するが、戦略の洗練は世代的な進化を通じてではなく、各ラウンドの後にAIによって知的に行われる。その結果、特にPolicy Pruningと組み合わせることで、著しく効率的な探索プロセスが実現される。"
+#: ../../paper.rst:64
+msgid ""
+"**`mcts-gen`:** The AI agent replaces the entire population. It maintains"
+" a *single* strategy and iteratively improves it. The AI drives a main "
+"loop where each iteration calls the `run_mcts_round` tool. This tool "
+"executes a single MCTS round (selection, expansion, evaluation, "
+"backpropagation). The MCTS instance is preserved across these calls, "
+"allowing the search tree to grow. This is equivalent to one MCTS "
+"simulation in `chess-ant`, but the strategy refinement is done "
+"intelligently by the AI after each round, rather than through "
+"generational evolution. The result is a significantly more efficient "
+"search process, especially when combined with Policy Pruning."
+msgstr ""
+"**`mcts-gen`:** "
+"AIエージェントが個体群全体を置き換える。それは*単一の*戦略を維持し、それを繰り返し改善する。AIは、各イテレーションが`run_mcts_round`ツールを呼び出すメインループを駆動する。このツールはMCTSの1ラウンド（選択、展開、評価、更新）を実行する。MCTSインスタンスはこれらの呼び出しをまたいで維持され、探索木の成長を可能にする。これは"
+"`chess-"
+"ant`における1回のMCTSシミュレーションに相当するが、戦略の洗練は世代的な進化を通じてではなく、各ラウンドの後にAIによって知的に行われる。その結果、特にPolicy"
+" Pruningと組み合わせることで、著しく効率的な探索プロセスが実現される。"
+
+#: ../../paper.rst:67
+msgid "7. References"
+msgstr ""
+
+#: ../../paper.rst:69
+msgid ""
+"**OpenSpiel (for AlphaZero Algorithm implementation details):** "
+"`https://github.com/google-deepmind/open_spiel <https://github.com"
+"/google-deepmind/open_spiel>`_"
+msgstr ""
+
+#: ../../paper.rst:72
+msgid ""
+"**Monte-Carlo Tree Search Solver (Paper):** Winands, Mark & Björnsson, "
+"Yngvi & Saito, Jahn-Takeshi. (2008). Monte-Carlo Tree Search Solver. "
+"`10.1007/978-3-540-87608-3_3 <https://www.researchgate.net/publication"
+"/220962507_Monte-Carlo_Tree_Search_Solver>`_."
+msgstr ""
+
+#: ../../paper.rst:75
+msgid ""
+"**Related Projects & Libraries:** - `pbsinclair42/MCTS "
+"<https://github.com/pbsinclair42/MCTS>`_ - `akuroiwa/mcts-solver "
+"<https://github.com/akuroiwa/mcts-solver>`_ - `akuroiwa/chess-ant "
+"<https://github.com/akuroiwa/chess-ant>`_ - `chess-ant documentation "
+"<https://chess-ant.readthedocs.io/>`_ (Contains an extensive list of "
+"references on its paper page) - `gunyarakun/python-shogi "
+"<https://github.com/gunyarakun/python-shogi>`_"
+msgstr ""
+

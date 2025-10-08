@@ -23,3 +23,6 @@ dev = [
     "sphinx",
     "sphinx-intl"
 ]
+shogi = [
+    "python-shogi"
+]

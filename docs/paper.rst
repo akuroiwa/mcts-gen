@@ -62,3 +62,19 @@ The use of a framework like `spec-kit` is highly recommended for this process. B
 
 -   **`chess-ant`:** The Genetic Programming model in `chess-ant` relies on a large-scale evolutionary simulation. The main GP loop iterates over a population for multiple generations, and *each individual evaluation* triggers a full MCTS simulation. The MCTS instance state is preserved throughout the evaluation of a single individual but is reset for the next. This is computationally massive.
 -   **`mcts-gen`:** The AI agent replaces the entire population. It maintains a *single* strategy and iteratively improves it. The AI drives a main loop where each iteration calls the `run_mcts_round` tool. This tool executes a single MCTS round (selection, expansion, evaluation, backpropagation). The MCTS instance is preserved across these calls, allowing the search tree to grow. This is equivalent to one MCTS simulation in `chess-ant`, but the strategy refinement is done intelligently by the AI after each round, rather than through generational evolution. The result is a significantly more efficient search process, especially when combined with Policy Pruning.
+
+7. References
+==============
+
+- **OpenSpiel (for AlphaZero Algorithm implementation details):**
+  `https://github.com/google-deepmind/open_spiel <https://github.com/google-deepmind/open_spiel>`_
+
+- **Monte-Carlo Tree Search Solver (Paper):**
+  Winands, Mark & Björnsson, Yngvi & Saito, Jahn-Takeshi. (2008). Monte-Carlo Tree Search Solver. `10.1007/978-3-540-87608-3_3 <https://www.researchgate.net/publication/220962507_Monte-Carlo_Tree_Search_Solver>`_.
+
+- **Related Projects & Libraries:**
+  - `pbsinclair42/MCTS <https://github.com/pbsinclair42/MCTS>`_
+  - `akuroiwa/mcts-solver <https://github.com/akuroiwa/mcts-solver>`_
+  - `akuroiwa/chess-ant <https://github.com/akuroiwa/chess-ant>`_
+  - `chess-ant documentation <https://chess-ant.readthedocs.io/>`_ (Contains an extensive list of references on its paper page)
+  - `gunyarakun/python-shogi <https://github.com/gunyarakun/python-shogi>`_

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-13 16:41+0900\n"
+"POT-Creation-Date: 2025-10-08 23:43+0900\n"
 "PO-Revision-Date: 2025-09-13 16:42+0900\n"
 "Last-Translator: Gemini <gemini@google.com>\n"
 "Language: ja\n"
@@ -18,85 +18,198 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: ../../quickstart.rst:4
 msgid "Quickstart"
 msgstr "クイックスタート"
 
-#: ../../quickstart.rst:7
+#: ../../quickstart.rst:6
+msgid ""
+"This project provides a generic Monte Carlo Tree Search (MCTS) framework."
+" Its core concept is the replacement of the Genetic Programming (GP) "
+"engine from ``chess-ant`` with a modern AI agent. While inspired by "
+"AlphaZero, it uses a simpler, decoupled approach: the standard UCT "
+"algorithm is augmented by an external AI agent that performs **Policy "
+"Pruning**—narrowing the search space by supplying a pre-filtered list of "
+"promising moves."
+msgstr ""
+
+#: ../../quickstart.rst:8
+msgid ""
+"This guide covers how to install the package and configure it for use "
+"with an AI agent like the Gemini CLI."
+msgstr ""
+
+#: ../../quickstart.rst:11
 msgid "Installation"
 msgstr "インストール"
 
-#: ../../quickstart.rst:9
-msgid "**For Users:**"
-msgstr "**利用者向け:**"
+#: ../../quickstart.rst:14
+#, fuzzy
+msgid "Standard Installation"
+msgstr "インストール"
 
-#: ../../quickstart.rst:15
-msgid "**For Developers:**"
-msgstr "**開発者向け:**"
+#: ../../quickstart.rst:16
+msgid "The core package can be installed directly using pip:"
+msgstr ""
 
-#: ../../quickstart.rst:29
-msgid "Running the Servers"
-msgstr "サーバーの起動"
+#: ../../quickstart.rst:23
+msgid "Installation with Game-Specific Dependencies"
+msgstr ""
+
+#: ../../quickstart.rst:25
+msgid ""
+"To include support for specific games, you can install optional "
+"dependencies (extras). For example, to install with support for Shogi:"
+msgstr ""
 
 #: ../../quickstart.rst:31
-msgid "**1. FastAPI Server (for web clients):**"
-msgstr "**1. FastAPIサーバー (Webクライアント向け):**"
+msgid ""
+"This will automatically install the ``python-shogi`` library alongside "
+"the core package."
+msgstr ""
 
-#: ../../quickstart.rst:37
-msgid "**2. FastMCP Server (for AI agents):**"
-msgstr "**2. FastMCPサーバー (AIエージェント向け):**"
+#: ../../quickstart.rst:34
+msgid "Server Setup for Gemini CLI"
+msgstr ""
 
-#: ../../quickstart.rst:44
-msgid "Local Execution (REPL)"
-msgstr "ローカル実行 (REPL)"
+#: ../../quickstart.rst:36
+msgid ""
+"To allow the Gemini agent to use the MCTS-Gen tools, you must register "
+"the server in your ``settings.json`` file. This allows the Gemini CLI to "
+"automatically manage the server process and provide the necessary context"
+" files."
+msgstr ""
 
-#: ../../quickstart.rst:46
-msgid "Create a ``config.json`` file in the project root:"
-msgstr "プロジェクトルートに ``config.json`` ファイルを作成します:"
+#: ../../quickstart.rst:38
+msgid ""
+"Create or update your ``settings.json`` file with the following "
+"configuration:"
+msgstr ""
 
-#: ../../quickstart.rst:55
-msgid "Run the interactive REPL:"
-msgstr "対話型REPLを実行します:"
+#: ../../quickstart.rst:60
+msgid ""
+"**Note**: The ``context`` block tells the Gemini CLI to load "
+"``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the "
+"agent to understand how to use the tools."
+msgstr ""
 
 #: ../../quickstart.rst:62
-msgid "AI Agent Integration (Gemini CLI)"
-msgstr "AIエージェント連携 (Gemini CLI)"
+msgid "You can place this ``settings.json`` file in one of two locations:"
+msgstr ""
 
 #: ../../quickstart.rst:64
 msgid ""
-"To enable an AI agent like Gemini CLI to effectively use this framework, "
-"you need to provide it with the agent instructions."
-msgstr "Gemini CLIのようなAIエージェントがこのフレームワークを効果的に使用するには、エージェントに指示を与える必要があります。"
+"**Project-Specific**: ``./.gemini/settings.json`` (inside this project "
+"directory)"
+msgstr ""
 
-#: ../../quickstart.rst:66
-msgid "**Locate ``AGENTS.md``**: This file is in the root of the project."
-msgstr "**AGENTS.mdの配置**: このファイルはプロジェクトのルートにあります。"
+#: ../../quickstart.rst:65
+msgid "**Global**: ``~/.gemini/settings.json`` (in your home directory)"
+msgstr ""
 
 #: ../../quickstart.rst:67
 msgid ""
-"**Configure Gemini CLI**: Set the ``contextFileName`` in your "
-"``~/.gemini/settings.json`` to point to the absolute path of the "
-"``AGENTS.md`` file in this project."
-msgstr "**Gemini CLIの設定**: ``~/.gemini/settings.json`` の ``contextFileName`` に、このプロジェクトの ``AGENTS.md`` ファイルへの絶対パスを設定します。"
+"For an alternative setup method using the ``fastmcp`` command-line tool, "
+"please see the official guide:"
+msgstr ""
 
-#: ../../quickstart.rst:73
+#: ../../quickstart.rst:69
+msgid "`Gemini CLI 🤝 FastMCP <https://gofastmcp.com/integrations/gemini-cli>`_"
+msgstr ""
+
+#: ../../quickstart.rst:72
+msgid "For Maintainers: How to Release a New Version"
+msgstr ""
+
+#: ../../quickstart.rst:74
+msgid "The package publication process is automated using GitHub Actions."
+msgstr ""
+
+#: ../../quickstart.rst:77
+msgid "Releasing to TestPyPI (for testing)"
+msgstr ""
+
+#: ../../quickstart.rst:79
 msgid ""
-"**Register the Tools**: Start the FastMCP server and register it with "
-"your agent:"
-msgstr "**ツールの登録**: FastMCPサーバーを起動し、エージェントに登録します:"
+"To release a version to the TestPyPI repository for verification, create "
+"and push a git tag with a ``-test`` suffix."
+msgstr ""
 
-#: ../../quickstart.rst:83
+#: ../../quickstart.rst:88
+msgid "Releasing to PyPI (Official)"
+msgstr ""
+
+#: ../../quickstart.rst:90
 msgid ""
-"**Interact**: You can now instruct the agent with natural language. For "
-"example:"
-msgstr "**対話**: これで、自然言語でエージェントに指示できます。例:"
+"To perform an official release, create and push a git tag that follows "
+"the semantic versioning format (e.g., ``vX.Y.Z``)."
+msgstr ""
 
-#: ../../quickstart.rst:85
-msgid "\"Create a game of Tic-Tac-Toe for me.\""
-msgstr "\"三目並べのゲームを作って\""
+#~ msgid "**For Users:**"
+#~ msgstr "**利用者向け:**"
 
-#: ../../quickstart.rst:86
-msgid "\"Run a search on the current Tic-Tac-Toe game for 100 steps.\""
-msgstr "\"現在の三目並べのゲームで100ステップの探索を実行して\""
+#~ msgid "**For Developers:**"
+#~ msgstr "**開発者向け:**"
+
+#~ msgid "Running the Servers"
+#~ msgstr "サーバーの起動"
+
+#~ msgid "**1. FastAPI Server (for web clients):**"
+#~ msgstr "**1. FastAPIサーバー (Webクライアント向け):**"
+
+#~ msgid "**2. FastMCP Server (for AI agents):**"
+#~ msgstr "**2. FastMCPサーバー (AIエージェント向け):**"
+
+#~ msgid "Local Execution (REPL)"
+#~ msgstr "ローカル実行 (REPL)"
+
+#~ msgid "Create a ``config.json`` file in the project root:"
+#~ msgstr "プロジェクトルートに ``config.json`` ファイルを作成します:"
+
+#~ msgid "Run the interactive REPL:"
+#~ msgstr "対話型REPLを実行します:"
+
+#~ msgid "AI Agent Integration (Gemini CLI)"
+#~ msgstr "AIエージェント連携 (Gemini CLI)"
+
+#~ msgid ""
+#~ "To enable an AI agent like Gemini"
+#~ " CLI to effectively use this "
+#~ "framework, you need to provide it "
+#~ "with the agent instructions."
+#~ msgstr "Gemini CLIのようなAIエージェントがこのフレームワークを効果的に使用するには、エージェントに指示を与える必要があります。"
+
+#~ msgid "**Locate ``AGENTS.md``**: This file is in the root of the project."
+#~ msgstr "**AGENTS.mdの配置**: このファイルはプロジェクトのルートにあります。"
+
+#~ msgid ""
+#~ "**Configure Gemini CLI**: Set the "
+#~ "``contextFileName`` in your "
+#~ "``~/.gemini/settings.json`` to point to the"
+#~ " absolute path of the ``AGENTS.md`` "
+#~ "file in this project."
+#~ msgstr ""
+#~ "**Gemini CLIの設定**: ``~/.gemini/settings.json`` の "
+#~ "``contextFileName`` に、このプロジェクトの ``AGENTS.md`` "
+#~ "ファイルへの絶対パスを設定します。"
+
+#~ msgid ""
+#~ "**Register the Tools**: Start the "
+#~ "FastMCP server and register it with "
+#~ "your agent:"
+#~ msgstr "**ツールの登録**: FastMCPサーバーを起動し、エージェントに登録します:"
+
+#~ msgid ""
+#~ "**Interact**: You can now instruct the"
+#~ " agent with natural language. For "
+#~ "example:"
+#~ msgstr "**対話**: これで、自然言語でエージェントに指示できます。例:"
+
+#~ msgid "\"Create a game of Tic-Tac-Toe for me.\""
+#~ msgstr "\"三目並べのゲームを作って\""
+
+#~ msgid "\"Run a search on the current Tic-Tac-Toe game for 100 steps.\""
+#~ msgstr "\"現在の三目並べのゲームで100ステップの探索を実行して\""
+

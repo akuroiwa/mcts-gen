@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-05 00:09+0900\n"
+"POT-Creation-Date: 2025-10-08 23:43+0900\n"
 "PO-Revision-Date: 2025-09-13 16:44+0900\n"
 "Last-Translator: Gemini <gemini@google.com>\n"
 "Language: ja\n"
@@ -18,11 +18,41 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: ../../modules.rst:2
 msgid "API Reference"
 msgstr "APIリファレンス"
+
+#: ../../modules.rst:5
+msgid "Core Services"
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator:1 of
+msgid ""
+"A stateful simulator that encapsulates an MCTS engine and provides a set "
+"of generic, game-agnostic tools for an AI agent."
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_best_move:1 of
+msgid "Retrieves the best move found so far."
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_possible_actions:1 of
+msgid "Retrieves the list of all possible actions from the current root state."
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_simulation_stats:1 of
+msgid "Returns the current state of the simulation variables."
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:1 of
+msgid "Starts a new MCTS simulation for a given game."
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_round:1 of
+msgid "Executes a single MCTS round and updates the simulation state."
+msgstr ""
 
 #: mcts_gen.services.mcts_engine.MCTSNode:1 of
 #, fuzzy
@@ -43,6 +73,10 @@ msgstr ""
 msgid ""
 "Uses a pre-filtered list of actions if provided, otherwise gets all "
 "actions."
+msgstr ""
+
+#: ../../modules.rst:14
+msgid "Base Models"
 msgstr ""
 
 #: mcts_gen.models.game_state.GameStateBase:1 of
@@ -80,6 +114,44 @@ msgstr "Return True if this state is terminal (game over)."
 #: mcts_gen.models.game_state.GameStateBase.takeAction:1 of
 msgid "Return the new GameState after applying the given action."
 msgstr "Return the new GameState after applying the given action."
+
+#: ../../modules.rst:20
+msgid "Game Modules"
+msgstr ""
+
+#: ../../modules.rst:22
+msgid ""
+"This framework can be extended with different games. Below are the "
+"provided examples."
+msgstr ""
+
+#: mcts_gen.games.dummy_game:1 of
+msgid "A dummy game implementation (Tic-Tac-Toe) for testing and demonstration."
+msgstr ""
+
+#: mcts_gen.games.dummy_game.TicTacToeDummy:1 of
+msgid "A simplified Tic-Tac-Toe game state for testing the MCTS engine."
+msgstr ""
+
+#: mcts_gen.games.dummy_game.TicTacToeDummy.getCurrentPlayer:1 of
+msgid "Returns the current player."
+msgstr ""
+
+#: mcts_gen.games.dummy_game.TicTacToeDummy.getPossibleActions:1 of
+msgid "Returns a list of possible moves (empty squares)."
+msgstr ""
+
+#: mcts_gen.games.dummy_game.TicTacToeDummy.getReward:1 of
+msgid "Returns the reward for the game outcome."
+msgstr ""
+
+#: mcts_gen.games.dummy_game.TicTacToeDummy.isTerminal:1 of
+msgid "Checks if the game is over (no more moves)."
+msgstr ""
+
+#: mcts_gen.games.dummy_game.TicTacToeDummy.takeAction:1 of
+msgid "Applies a move and returns the new game state."
+msgstr ""
 
 #~ msgid "Monte Carlo Tree Search engine inspired by AlphaZero."
 #~ msgstr "Monte Carlo Tree Search engine inspired by AlphaZero."

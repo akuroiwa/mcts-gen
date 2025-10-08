@@ -1,23 +1,28 @@
 API Reference
 =============
 
+Core Services
+-------------
+
+.. automodule:: mcts_gen.services.ai_gp_simulator
+   :members:
+
 .. automodule:: mcts_gen.services.mcts_engine
    :members:
+
+Base Models
+-----------
 
 .. automodule:: mcts_gen.models.game_state
    :members:
 
-.. automodule:: mcts_gen.models.mcts_node
+Game Modules
+------------
+
+This framework can be extended with different games. Below are the provided examples.
+
+.. automodule:: mcts_gen.games.dummy_game
    :members:
 
-.. automodule:: mcts_gen.api.main
-   :members:
-
-.. automodule:: mcts_gen.api.auth
-   :members:
-
-.. automodule:: mcts_gen.cli.repl
-   :members:
-
-.. automodule:: mcts_gen.fastmcp_server
+.. automodule:: mcts_gen.games.shogi_mcts
    :members:
