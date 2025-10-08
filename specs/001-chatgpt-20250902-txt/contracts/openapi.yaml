@@ -1,0 +1,180 @@
+openapi: 3.0.0
+info:
+  title: Generic MCTS Framework API
+  version: 1.0.0
+paths:
+  /init:
+    post:
+      summary: Initialize a new MCTS search
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitRequest'
+      responses:
+        '200':
+          description: MCTS initialized successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: initialized
+
+  /prediction:
+    post:
+      summary: Provide AI policy/value predictions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictionRequest'
+      responses:
+        '200':
+          description: Prediction updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: prediction updated
+
+  /step:
+    post:
+      summary: Run n MCTS search steps
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepRequest'
+      responses:
+        '200':
+          description: Step(s) executed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: stepped
+                  rootVisits:
+                    type: integer
+
+  /best:
+    get:
+      summary: Get the best action from the current search
+      responses:
+        '200':
+          description: The best action
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action:
+                    type: string
+
+  /stats:
+    get:
+      summary: Get search statistics
+      responses:
+        '200':
+          description: Visit counts for actions from the root
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  visits:
+                    type: object
+                    additionalProperties:
+                      type: integer
+
+  /play_step:
+    post:
+      summary: Run n MCTS steps and select the best move for self-play
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StepRequest'
+      responses:
+        '200':
+          description: Best action and policy for the step
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action:
+                    type: string
+                  policy:
+                    type: object
+                    additionalProperties:
+                      type: number
+
+  /end_game:
+    post:
+      summary: End a self-play game and save the log
+      responses:
+        '200':
+          description: Game log saved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: saved
+                  steps:
+                    type: integer
+
+components:
+  schemas:
+    InitRequest:
+      type: object
+      properties:
+        state_module:
+          type: string
+          description: The Python module containing the game state implementation (e.g., tictactoe_mcts).
+        state_class:
+          type: string
+          description: The class name of the game state implementation (e.g., TicTacToeState).
+        state_kwargs:
+          type: object
+          description: Arguments to pass to the game state constructor.
+        iterationLimit:
+          type: integer
+          default: 100
+
+    PredictionRequest:
+      type: object
+      properties:
+        policy:
+          type: object
+          additionalProperties:
+            type: number
+          description: A dictionary mapping move strings to probabilities.
+        value:
+          type: number
+          description: The predicted value of the state [-1.0, 1.0].
+
+    StepRequest:
+      type: object
+      properties:
+        n:
+          type: integer
+          default: 1
+        exploration:
+          type: number
+          default: 1.4

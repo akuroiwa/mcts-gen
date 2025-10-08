@@ -1,0 +1,17 @@
+{
+  "context": {
+    "fileName": [
+      "AGENTS.md",
+      "GEMINI.md"
+    ]
+  },
+  "mcpServers": {
+    "mcts_gen_simulator_server": {
+      "command": "python",
+      "args": [
+        "-m",
+        "mcts_gen.fastmcp_server"
+      ]
+    }
+  }
+}

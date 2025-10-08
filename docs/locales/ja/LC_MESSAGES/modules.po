@@ -1,0 +1,248 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Akihiro Kuroiwa and Gemini
+# This file is distributed under the same license as the Generic MCTS
+# Framework package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Generic MCTS Framework 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-05 00:09+0900\n"
+"PO-Revision-Date: 2025-09-13 16:44+0900\n"
+"Last-Translator: Gemini <gemini@google.com>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../modules.rst:2
+msgid "API Reference"
+msgstr "APIリファレンス"
+
+#: mcts_gen.services.mcts_engine.MCTSNode:1 of
+#, fuzzy
+msgid ""
+"Represents a node in the Monte Carlo Search Tree. Inherits from "
+"AntLionTreeNode to ensure full compatibility."
+msgstr "Represents a node in the Monte Carlo Search Tree."
+
+#: mcts_gen.services.mcts_engine.McpMcts:1 of
+msgid "An MCTS engine that uses UCT (from parent) and AI value estimation."
+msgstr ""
+
+#: mcts_gen.services.mcts_engine.McpMcts.dl_method:1 of
+msgid "Overrides parent to use the AI's value prediction."
+msgstr ""
+
+#: mcts_gen.services.mcts_engine.McpMcts.expand:1 of
+msgid ""
+"Uses a pre-filtered list of actions if provided, otherwise gets all "
+"actions."
+msgstr ""
+
+#: mcts_gen.models.game_state.GameStateBase:1 of
+msgid ""
+"Abstract base class for any game environment that can be used with "
+"McpMcts."
+msgstr ""
+"Abstract base class for any game environment that can be used with "
+"McpMcts."
+
+#: mcts_gen.models.game_state.GameStateBase.getCurrentPlayer:1 of
+#, fuzzy
+msgid "Return +1 if it's player one's turn, -1 if it's player two's turn."
+msgstr "Return +1 if it\\'s player one\\'s turn, -1 if it\\'s player two\\'s turn."
+
+#: mcts_gen.models.game_state.GameStateBase.getPossibleActions:1 of
+msgid ""
+"Return a list of all possible actions from this state. The actions MUST "
+"be serializable and preferably human-readable strings (e.g., USI for "
+"shogi) to allow AI agents to process them."
+msgstr ""
+
+#: mcts_gen.models.game_state.GameStateBase.getReward:1 of
+msgid ""
+"Return the reward for the current player if the game is terminal. "
+"Convention: +1 (win), -1 (loss), 0 (draw)."
+msgstr ""
+"Return the reward for the current player if the game is terminal. "
+"Convention: +1 (win), -1 (loss), 0 (draw)."
+
+#: mcts_gen.models.game_state.GameStateBase.isTerminal:1 of
+msgid "Return True if this state is terminal (game over)."
+msgstr "Return True if this state is terminal (game over)."
+
+#: mcts_gen.models.game_state.GameStateBase.takeAction:1 of
+msgid "Return the new GameState after applying the given action."
+msgstr "Return the new GameState after applying the given action."
+
+#~ msgid "Monte Carlo Tree Search engine inspired by AlphaZero."
+#~ msgstr "Monte Carlo Tree Search engine inspired by AlphaZero."
+
+#~ msgid ""
+#~ "This class manages the MCTS process, "
+#~ "including the four main steps: "
+#~ "selection, expansion, simulation, and "
+#~ "backpropagation. It uses the PUCT "
+#~ "algorithm for selection, which is guided"
+#~ " by a policy/value network."
+#~ msgstr ""
+#~ "This class manages the MCTS process, "
+#~ "including the four main steps: "
+#~ "selection, expansion, simulation, and "
+#~ "backpropagation. It uses the PUCT "
+#~ "algorithm for selection, which is guided"
+#~ " by a policy/value network."
+
+#~ msgid "The root node (MCTSNode) of the search tree."
+#~ msgstr "The root node (MCTSNode) of the search tree."
+
+#~ msgid "A dictionary mapping move strings to probabilities, provided by an AI."
+#~ msgstr "A dictionary mapping move strings to probabilities, provided by an AI."
+
+#~ msgid "The predicted value of a state, provided by an AI."
+#~ msgstr "The predicted value of a state, provided by an AI."
+
+#~ msgid "The constant c_puct used in the PUCT formula."
+#~ msgstr "The constant c_puct used in the PUCT formula."
+
+#~ msgid "Executes one full round of MCTS, from selection to backpropagation."
+#~ msgstr "Executes one full round of MCTS, from selection to backpropagation."
+
+#~ msgid ""
+#~ "This method traverses the tree, expands"
+#~ " a new node, simulates the outcome,"
+#~ " and updates the statistics of the"
+#~ " nodes in the traversal path."
+#~ msgstr ""
+#~ "This method traverses the tree, expands"
+#~ " a new node, simulates the outcome,"
+#~ " and updates the statistics of the"
+#~ " nodes in the traversal path."
+
+#~ msgid "Parameters"
+#~ msgstr "引数"
+
+#~ msgid "If provided, overrides the default exploration constant for this round."
+#~ msgstr "If provided, overrides the default exploration constant for this round."
+
+#~ msgid "Return a list of all possible actions from this state."
+#~ msgstr "Return a list of all possible actions from this state."
+
+#~ msgid "The game state this node represents."
+#~ msgstr "The game state this node represents."
+
+#~ msgid "type"
+#~ msgstr "type"
+
+#~ msgid "mcts_gen.models.game_state.GameStateBase"
+#~ msgstr "mcts_gen.models.game_state.GameStateBase"
+
+#~ msgid "The parent node in the tree. None for the root node."
+#~ msgstr "The parent node in the tree. None for the root node."
+
+#~ msgid "mcts_gen.models.mcts_node.MCTSNode | None"
+#~ msgstr "mcts_gen.models.mcts_node.MCTSNode | None"
+
+#~ msgid "A dictionary mapping actions to child nodes."
+#~ msgstr "A dictionary mapping actions to child nodes."
+
+#~ msgid "Dict[Any, mcts_gen.models.mcts_node.MCTSNode]"
+#~ msgstr "Dict[Any, mcts_gen.models.mcts_node.MCTSNode]"
+
+#~ msgid "The number of times this node has been visited during search."
+#~ msgstr "The number of times this node has been visited during search."
+
+#~ msgid "int"
+#~ msgstr "int"
+
+#~ msgid "The sum of rewards backpropagated through this node."
+#~ msgstr "The sum of rewards backpropagated through this node."
+
+#~ msgid "float"
+#~ msgstr "float"
+
+#~ msgid ""
+#~ "The prior probability of selecting this"
+#~ " node, as determined by the policy"
+#~ " network."
+#~ msgstr ""
+#~ "The prior probability of selecting this"
+#~ " node, as determined by the policy"
+#~ " network."
+
+#~ msgid "Creates and configures a new FastAPI application instance."
+#~ msgstr "新しいFastAPIアプリケーションインスタンスを作成し、設定します。"
+
+#~ msgid "Handles API key authentication for the FastAPI application."
+#~ msgstr "FastAPIアプリケーションのAPIキー認証を処理します。"
+
+#~ msgid ""
+#~ "This module reads configuration from "
+#~ "environment variables to determine if "
+#~ "authentication is enabled and what the"
+#~ " valid API key is. It provides "
+#~ "aFastAPI dependency (`get_api_key`) that can"
+#~ " be used to protect endpoints."
+#~ msgstr "このモジュールは環境変数から設定を読み取り、認証が有効かどうか、そして有効なAPIキーが何かを判断します。エンドポイントを保護するために使用できるFastAPI依存関係（`get_api_key`）を提供します。"
+
+#~ msgid "Dependency that can be used to protect endpoints."
+#~ msgstr "エンドポイントを保護するために使用できる依存関係。"
+
+#~ msgid "It checks for a valid X-API-Key header if authentication is enabled."
+#~ msgstr "認証が有効な場合、有効なX-API-Keyヘッダーをチェックします。"
+
+#~ msgid ""
+#~ "An interactive command-line REPL "
+#~ "(Read-Eval-Print Loop) for running "
+#~ "the MCTS engine locally."
+#~ msgstr "MCTSエンジンをローカルで実行するための対話型コマンドラインREPL（Read-Eval-Print Loop）。"
+
+#~ msgid ""
+#~ "This script loads a game and MCTS"
+#~ " configuration from a `config.json` file"
+#~ " and allows the user to interactively"
+#~ " run search rounds, get the best "
+#~ "action, and view statistics."
+#~ msgstr "このスクリプトは`config.json`ファイルからゲームとMCTSの設定を読み込み、ユーザーが対話的に検索ラウンドを実行し、最善手を取得し、統計情報を表示できるようにします。"
+
+#~ msgid "Loads the configuration file."
+#~ msgstr "設定ファイルを読み込みます。"
+
+#~ msgid "The path to the configuration file."
+#~ msgstr "設定ファイルへのパス。"
+
+#~ msgid "Returns"
+#~ msgstr "戻り値"
+
+#~ msgid "A dictionary containing the configuration."
+#~ msgstr "設定を含む辞書。"
+
+#~ msgid "Main function to run the REPL."
+#~ msgstr "REPLを実行するためのメイン関数。"
+
+#~ msgid "Initializes the MCTS engine and enters the main command loop."
+#~ msgstr "MCTSエンジンを初期化し、メインコマンドループに入ります。"
+
+#~ msgid "FastMCP Server Entrypoint."
+#~ msgstr "FastMCPサーバーエントリーポイント。"
+
+#~ msgid ""
+#~ "This module serves as the interface "
+#~ "for AI agents, using the FastMCP "
+#~ "framework. It wraps the existing FastAPI"
+#~ " application, automatically converting its "
+#~ "endpoints into MCP tools."
+#~ msgstr "このモジュールは、FastMCPフレームワークを使用してAIエージェントのインターフェースとして機能します。既存のFastAPIアプリケーションをラップし、そのエンドポイントを自動的にMCPツールに変換します。"
+
+#~ msgid "To run this server:"
+#~ msgstr "このサーバーを実行するには："
+
+#~ msgid "python -m mcts_gen.fastmcp_server"
+#~ msgstr "python -m mcts_gen.fastmcp_server"
+

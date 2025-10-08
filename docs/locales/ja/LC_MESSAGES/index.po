@@ -1,0 +1,39 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Akihiro Kuroiwa and Gemini
+# This file is distributed under the same license as the Generic MCTS
+# Framework package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Generic MCTS Framework 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-13 16:41+0900\n"
+"PO-Revision-Date: 2025-09-13 16:43+0900\n"
+"Last-Translator: Gemini <gemini@google.com>\n"
+"Language: ja\n"
+"Language-Team: ja <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../../index.rst:14
+msgid "Contents:"
+msgstr "目次:"
+
+#: ../../index.rst:7
+msgid "Generic MCTS Framework documentation"
+msgstr "汎用MCTSフレームワーク ドキュメント"
+
+#: ../../index.rst:9
+msgid ""
+"Add your content using ``reStructuredText`` syntax. See the "
+"`reStructuredText <https://www.sphinx-"
+"doc.org/en/master/usage/restructuredtext/index.html>`_ documentation for "
+"details."
+msgstr "``reStructuredText``構文を使用してコンテンツを追加してください。詳細は`reStructuredText "
+"<https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_ "
+"ドキュメントを参照してください。"
