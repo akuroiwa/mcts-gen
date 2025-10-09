@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-08 23:43+0900\n"
-"PO-Revision-Date: 2025-09-13 16:44+0900\n"
+"POT-Creation-Date: 2025-10-09 21:46+0900\n"
+"PO-Revision-Date: 2025-10-09 00:30+0900\n"
 "Last-Translator: Gemini <gemini@google.com>\n"
 "Language: ja\n"
 "Language-Team: ja <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 #: ../../modules.rst:2
 msgid "API Reference"
@@ -26,295 +26,145 @@ msgstr "APIリファレンス"
 
 #: ../../modules.rst:5
 msgid "Core Services"
-msgstr ""
+msgstr "コアサービス"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator:1 of
 msgid ""
 "A stateful simulator that encapsulates an MCTS engine and provides a set "
 "of generic, game-agnostic tools for an AI agent."
-msgstr ""
+msgstr "MCTSエンジンをカプセル化し、AIエージェント向けに汎用的でゲームに依存しないツールのセットを提供するステートフルなシミュレータ。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_best_move:1 of
 msgid "Retrieves the best move found so far."
-msgstr ""
+msgstr "これまでに見つかった最善手を取得します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_possible_actions:1 of
 msgid "Retrieves the list of all possible actions from the current root state."
-msgstr ""
+msgstr "現在のルート状態から可能なすべてのアクションのリストを取得します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_simulation_stats:1 of
 msgid "Returns the current state of the simulation variables."
-msgstr ""
+msgstr "シミュレーション変数の現在の状態を返します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:1 of
 msgid "Starts a new MCTS simulation for a given game."
-msgstr ""
+msgstr "指定されたゲームの新しいMCTSシミュレーションを開始します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_round:1 of
 msgid "Executes a single MCTS round and updates the simulation state."
-msgstr ""
+msgstr "単一のMCTSラウンドを実行し、シミュレーションの状態を更新します。"
 
 #: mcts_gen.services.mcts_engine.MCTSNode:1 of
 #, fuzzy
 msgid ""
 "Represents a node in the Monte Carlo Search Tree. Inherits from "
 "AntLionTreeNode to ensure full compatibility."
-msgstr "Represents a node in the Monte Carlo Search Tree."
+msgstr "モンテカルロ探索木内のノードを表します。"
 
 #: mcts_gen.services.mcts_engine.McpMcts:1 of
 msgid "An MCTS engine that uses UCT (from parent) and AI value estimation."
-msgstr ""
+msgstr "UCT（親から継承）とAIの価値評価を使用するMCTSエンジン。"
 
 #: mcts_gen.services.mcts_engine.McpMcts.dl_method:1 of
 msgid "Overrides parent to use the AI's value prediction."
-msgstr ""
+msgstr "親をオーバーライドしてAIの価値予測を使用します。"
 
 #: mcts_gen.services.mcts_engine.McpMcts.expand:1 of
 msgid ""
 "Uses a pre-filtered list of actions if provided, otherwise gets all "
 "actions."
-msgstr ""
+msgstr "提供されている場合は事前にフィルタリングされたアクションのリストを使用し、そうでない場合はすべてのアクションを取得します。"
 
 #: ../../modules.rst:14
 msgid "Base Models"
-msgstr ""
+msgstr "ベースモデル"
 
 #: mcts_gen.models.game_state.GameStateBase:1 of
 msgid ""
 "Abstract base class for any game environment that can be used with "
 "McpMcts."
-msgstr ""
-"Abstract base class for any game environment that can be used with "
-"McpMcts."
+msgstr "McpMctsで使用できるすべてのゲーム環境の抽象基底クラス。"
 
+#: mcts_gen.games.shogi_mcts.ShogiGameState.getCurrentPlayer:1
 #: mcts_gen.models.game_state.GameStateBase.getCurrentPlayer:1 of
 #, fuzzy
 msgid "Return +1 if it's player one's turn, -1 if it's player two's turn."
-msgstr "Return +1 if it\\'s player one\\'s turn, -1 if it\\'s player two\\'s turn."
+msgstr "プレイヤー1の手番なら+1、プレイヤー2の手番なら-1を返します。"
 
 #: mcts_gen.models.game_state.GameStateBase.getPossibleActions:1 of
 msgid ""
 "Return a list of all possible actions from this state. The actions MUST "
 "be serializable and preferably human-readable strings (e.g., USI for "
 "shogi) to allow AI agents to process them."
-msgstr ""
+msgstr "この状態から可能なすべてのアクションのリストを返します。アクションは、AIエージェントが処理できるように、シリアライズ可能で、できれば人間が読める文字列（例：将棋のUSI）でなければなりません。"
 
+#: mcts_gen.games.shogi_mcts.ShogiGameState.getReward:1
 #: mcts_gen.models.game_state.GameStateBase.getReward:1 of
 msgid ""
 "Return the reward for the current player if the game is terminal. "
 "Convention: +1 (win), -1 (loss), 0 (draw)."
-msgstr ""
-"Return the reward for the current player if the game is terminal. "
-"Convention: +1 (win), -1 (loss), 0 (draw)."
+msgstr "ゲームが終了している場合、現在のプレイヤーの報酬を返します。規約：+1（勝ち）、-1（負け）、0（引き分け）。"
 
+#: mcts_gen.games.shogi_mcts.ShogiGameState.isTerminal:1
 #: mcts_gen.models.game_state.GameStateBase.isTerminal:1 of
 msgid "Return True if this state is terminal (game over)."
-msgstr "Return True if this state is terminal (game over)."
+msgstr "この状態が終端（ゲームオーバー）であればTrueを返します。"
 
 #: mcts_gen.models.game_state.GameStateBase.takeAction:1 of
 msgid "Return the new GameState after applying the given action."
-msgstr "Return the new GameState after applying the given action."
+msgstr "指定されたアクションを適用した後の新しいGameStateを返します。"
 
 #: ../../modules.rst:20
 msgid "Game Modules"
-msgstr ""
+msgstr "ゲームモジュール"
 
 #: ../../modules.rst:22
 msgid ""
 "This framework can be extended with different games. Below are the "
 "provided examples."
-msgstr ""
+msgstr "このフレームワークは、さまざまなゲームで拡張できます。以下に提供されている例を示します。"
 
 #: mcts_gen.games.dummy_game:1 of
 msgid "A dummy game implementation (Tic-Tac-Toe) for testing and demonstration."
-msgstr ""
+msgstr "テストおよびデモンストレーション用のダミーゲーム実装（三目並べ）。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy:1 of
 msgid "A simplified Tic-Tac-Toe game state for testing the MCTS engine."
-msgstr ""
+msgstr "MCTSエンジンをテストするための単純化された三目並べのゲーム状態。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy.getCurrentPlayer:1 of
 msgid "Returns the current player."
-msgstr ""
+msgstr "現在のプレイヤーを返します。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy.getPossibleActions:1 of
 msgid "Returns a list of possible moves (empty squares)."
-msgstr ""
+msgstr "可能な手のリスト（空のマス）を返します。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy.getReward:1 of
 msgid "Returns the reward for the game outcome."
-msgstr ""
+msgstr "ゲーム結果の報酬を返します。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy.isTerminal:1 of
 msgid "Checks if the game is over (no more moves)."
-msgstr ""
+msgstr "ゲームが終了したかどうか（これ以上手がないか）をチェックします。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy.takeAction:1 of
 msgid "Applies a move and returns the new game state."
-msgstr ""
+msgstr "手を適用し、新しいゲーム状態を返します。"
 
-#~ msgid "Monte Carlo Tree Search engine inspired by AlphaZero."
-#~ msgstr "Monte Carlo Tree Search engine inspired by AlphaZero."
+#: mcts_gen.games.shogi_mcts.ShogiGameState:1 of
+msgid "Implements the game state for Shogi using the python-shogi library."
+msgstr "python-shogiライブラリを使用して将棋のゲーム状態を実装します。"
 
-#~ msgid ""
-#~ "This class manages the MCTS process, "
-#~ "including the four main steps: "
-#~ "selection, expansion, simulation, and "
-#~ "backpropagation. It uses the PUCT "
-#~ "algorithm for selection, which is guided"
-#~ " by a policy/value network."
-#~ msgstr ""
-#~ "This class manages the MCTS process, "
-#~ "including the four main steps: "
-#~ "selection, expansion, simulation, and "
-#~ "backpropagation. It uses the PUCT "
-#~ "algorithm for selection, which is guided"
-#~ " by a policy/value network."
+#: mcts_gen.games.shogi_mcts.ShogiGameState.getPossibleActions:1 of
+msgid "Returns a list of legal moves in USI string format."
+msgstr "合法な手のリストをUSI文字列形式で返します。"
 
-#~ msgid "The root node (MCTSNode) of the search tree."
-#~ msgstr "The root node (MCTSNode) of the search tree."
+#: mcts_gen.games.shogi_mcts.ShogiGameState.takeAction:1 of
+msgid "Takes a shogi.Move object and returns the new state."
+msgstr "shogi.Moveオブジェクトを受け取り、新しい状態を返します。"
 
-#~ msgid "A dictionary mapping move strings to probabilities, provided by an AI."
-#~ msgstr "A dictionary mapping move strings to probabilities, provided by an AI."
-
-#~ msgid "The predicted value of a state, provided by an AI."
-#~ msgstr "The predicted value of a state, provided by an AI."
-
-#~ msgid "The constant c_puct used in the PUCT formula."
-#~ msgstr "The constant c_puct used in the PUCT formula."
-
-#~ msgid "Executes one full round of MCTS, from selection to backpropagation."
-#~ msgstr "Executes one full round of MCTS, from selection to backpropagation."
-
-#~ msgid ""
-#~ "This method traverses the tree, expands"
-#~ " a new node, simulates the outcome,"
-#~ " and updates the statistics of the"
-#~ " nodes in the traversal path."
-#~ msgstr ""
-#~ "This method traverses the tree, expands"
-#~ " a new node, simulates the outcome,"
-#~ " and updates the statistics of the"
-#~ " nodes in the traversal path."
-
-#~ msgid "Parameters"
-#~ msgstr "引数"
-
-#~ msgid "If provided, overrides the default exploration constant for this round."
-#~ msgstr "If provided, overrides the default exploration constant for this round."
-
-#~ msgid "Return a list of all possible actions from this state."
-#~ msgstr "Return a list of all possible actions from this state."
-
-#~ msgid "The game state this node represents."
-#~ msgstr "The game state this node represents."
-
-#~ msgid "type"
-#~ msgstr "type"
-
-#~ msgid "mcts_gen.models.game_state.GameStateBase"
-#~ msgstr "mcts_gen.models.game_state.GameStateBase"
-
-#~ msgid "The parent node in the tree. None for the root node."
-#~ msgstr "The parent node in the tree. None for the root node."
-
-#~ msgid "mcts_gen.models.mcts_node.MCTSNode | None"
-#~ msgstr "mcts_gen.models.mcts_node.MCTSNode | None"
-
-#~ msgid "A dictionary mapping actions to child nodes."
-#~ msgstr "A dictionary mapping actions to child nodes."
-
-#~ msgid "Dict[Any, mcts_gen.models.mcts_node.MCTSNode]"
-#~ msgstr "Dict[Any, mcts_gen.models.mcts_node.MCTSNode]"
-
-#~ msgid "The number of times this node has been visited during search."
-#~ msgstr "The number of times this node has been visited during search."
-
-#~ msgid "int"
-#~ msgstr "int"
-
-#~ msgid "The sum of rewards backpropagated through this node."
-#~ msgstr "The sum of rewards backpropagated through this node."
-
-#~ msgid "float"
-#~ msgstr "float"
-
-#~ msgid ""
-#~ "The prior probability of selecting this"
-#~ " node, as determined by the policy"
-#~ " network."
-#~ msgstr ""
-#~ "The prior probability of selecting this"
-#~ " node, as determined by the policy"
-#~ " network."
-
-#~ msgid "Creates and configures a new FastAPI application instance."
-#~ msgstr "新しいFastAPIアプリケーションインスタンスを作成し、設定します。"
-
-#~ msgid "Handles API key authentication for the FastAPI application."
-#~ msgstr "FastAPIアプリケーションのAPIキー認証を処理します。"
-
-#~ msgid ""
-#~ "This module reads configuration from "
-#~ "environment variables to determine if "
-#~ "authentication is enabled and what the"
-#~ " valid API key is. It provides "
-#~ "aFastAPI dependency (`get_api_key`) that can"
-#~ " be used to protect endpoints."
-#~ msgstr "このモジュールは環境変数から設定を読み取り、認証が有効かどうか、そして有効なAPIキーが何かを判断します。エンドポイントを保護するために使用できるFastAPI依存関係（`get_api_key`）を提供します。"
-
-#~ msgid "Dependency that can be used to protect endpoints."
-#~ msgstr "エンドポイントを保護するために使用できる依存関係。"
-
-#~ msgid "It checks for a valid X-API-Key header if authentication is enabled."
-#~ msgstr "認証が有効な場合、有効なX-API-Keyヘッダーをチェックします。"
-
-#~ msgid ""
-#~ "An interactive command-line REPL "
-#~ "(Read-Eval-Print Loop) for running "
-#~ "the MCTS engine locally."
-#~ msgstr "MCTSエンジンをローカルで実行するための対話型コマンドラインREPL（Read-Eval-Print Loop）。"
-
-#~ msgid ""
-#~ "This script loads a game and MCTS"
-#~ " configuration from a `config.json` file"
-#~ " and allows the user to interactively"
-#~ " run search rounds, get the best "
-#~ "action, and view statistics."
-#~ msgstr "このスクリプトは`config.json`ファイルからゲームとMCTSの設定を読み込み、ユーザーが対話的に検索ラウンドを実行し、最善手を取得し、統計情報を表示できるようにします。"
-
-#~ msgid "Loads the configuration file."
-#~ msgstr "設定ファイルを読み込みます。"
-
-#~ msgid "The path to the configuration file."
-#~ msgstr "設定ファイルへのパス。"
-
-#~ msgid "Returns"
-#~ msgstr "戻り値"
-
-#~ msgid "A dictionary containing the configuration."
-#~ msgstr "設定を含む辞書。"
-
-#~ msgid "Main function to run the REPL."
-#~ msgstr "REPLを実行するためのメイン関数。"
-
-#~ msgid "Initializes the MCTS engine and enters the main command loop."
-#~ msgstr "MCTSエンジンを初期化し、メインコマンドループに入ります。"
-
-#~ msgid "FastMCP Server Entrypoint."
-#~ msgstr "FastMCPサーバーエントリーポイント。"
-
-#~ msgid ""
-#~ "This module serves as the interface "
-#~ "for AI agents, using the FastMCP "
-#~ "framework. It wraps the existing FastAPI"
-#~ " application, automatically converting its "
-#~ "endpoints into MCP tools."
-#~ msgstr "このモジュールは、FastMCPフレームワークを使用してAIエージェントのインターフェースとして機能します。既存のFastAPIアプリケーションをラップし、そのエンドポイントを自動的にMCPツールに変換します。"
-
-#~ msgid "To run this server:"
-#~ msgstr "このサーバーを実行するには："
-
-#~ msgid "python -m mcts_gen.fastmcp_server"
-#~ msgstr "python -m mcts_gen.fastmcp_server"
+#: mcts_gen.games.shogi_mcts.ShogiGameState.to_dict:1 of
+msgid "Serializes the game state to a dictionary for logging."
+msgstr "ロギングのためにゲームの状態を辞書にシリアライズします。"
 

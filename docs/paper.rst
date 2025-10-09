@@ -4,6 +4,9 @@
 Paper: AI-Augmented UCT for General Game Playing
 #################################################
 
+:author: Akihiro Kuroiwa and Gemini
+:date: 2025/10/03
+
 Abstract
 ********
 
@@ -60,7 +63,7 @@ The use of a framework like `spec-kit` is highly recommended for this process. B
 6. Comparison with `chess-ant`'s GP Model
 ============================================
 
--   **`chess-ant`:** The Genetic Programming model in `chess-ant` relies on a large-scale evolutionary simulation. The main GP loop iterates over a population for multiple generations, and *each individual evaluation* triggers a full MCTS simulation. The MCTS instance state is preserved throughout the evaluation of a single individual but is reset for the next. This is computationally massive.
+-   **`chess-ant`:** The Genetic Programming model in `chess-ant` relies on a large-scale evolutionary simulation. For the evaluation of each individual in the population, key instance variables used for statistics are reset, but the underlying MCTS search tree is maintained. This process, where a full MCTS simulation is run for each individual across many generations, is computationally massive.
 -   **`mcts-gen`:** The AI agent replaces the entire population. It maintains a *single* strategy and iteratively improves it. The AI drives a main loop where each iteration calls the `run_mcts_round` tool. This tool executes a single MCTS round (selection, expansion, evaluation, backpropagation). The MCTS instance is preserved across these calls, allowing the search tree to grow. This is equivalent to one MCTS simulation in `chess-ant`, but the strategy refinement is done intelligently by the AI after each round, rather than through generational evolution. The result is a significantly more efficient search process, especially when combined with Policy Pruning.
 
 7. References

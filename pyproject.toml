@@ -21,7 +21,8 @@ license = "GPL-3.0-or-later"
 dev = [
     "pytest",
     "sphinx",
-    "sphinx-intl"
+    "sphinx-intl",
+    "sphinx_rtd_theme"
 ]
 shogi = [
     "python-shogi"
