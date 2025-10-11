@@ -33,7 +33,7 @@ jobs:
         if: contains(github.ref_name, '-test')
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          repository_url: https://test.pypi.org/legacy/
+          repository-url: https://test.pypi.org/legacy/
           # Trusted publishing is used by default, no token needed.
           # You must configure TestPyPI to trust this workflow.
 
