@@ -56,9 +56,9 @@ Instead of PUCT, `mcts-gen` uses the standard UCT (Upper Confidence bounds for T
 
 The `mcts-gen` framework is designed to be generic. This requires the creation of game-specific logic files (`*_mcts.py`) that inherit from a `GameStateBase` abstract class. This task has proven to be complex for both humans and AI agents due to the need for a deep understanding of two separate APIs: the game library (e.g., `python-shogi`) and the `GameStateBase` interface.
 
-Our experience shows that this process is not a simple, one-shot generation. It requires iterative trial and error, debugging, and a precise understanding of concepts like object copying (`deepcopy`), return value conventions, and API-specific methods (e.g., `board.outcome()` vs. `board.is_checkmate()`).
+Our experience shows that this process is not a simple, one-shot generation. It requires iterative trial and error, debugging, and a precise understanding of concepts like object copying (`deepcopy`), return value conventions, and API-specific methods (e.g., `board.is_checkmate()` vs. `GameStateBase.takeAction(action)`).
 
-The use of a framework like `spec-kit` is highly recommended for this process. By defining the requirements in structured markdown files (`spec.md`, `plan.md`, `tasks.md`), the AI can follow a clear, test-driven development (TDD) cycle, breaking down the complex task into manageable steps and verifying each one, which has proven essential for success.
+The use of a toolkit for Spec-Driven Development like `spec-kit` is highly recommended for this process. By defining the requirements in structured markdown files (`spec.md`, `plan.md`, `tasks.md`), the AI can follow a clear, test-driven development (TDD) cycle, breaking down the complex task into manageable steps and verifying each one, which has proven essential for success.
 
 6. Comparison with `chess-ant`'s GP Model
 ============================================
@@ -76,6 +76,7 @@ The use of a framework like `spec-kit` is highly recommended for this process. B
   Winands, Mark & Björnsson, Yngvi & Saito, Jahn-Takeshi. (2008). Monte-Carlo Tree Search Solver. `10.1007/978-3-540-87608-3_3 <https://www.researchgate.net/publication/220962507_Monte-Carlo_Tree_Search_Solver>`_.
 
 - **Related Projects & Libraries:**
+
   - `pbsinclair42/MCTS <https://github.com/pbsinclair42/MCTS>`_
   - `akuroiwa/mcts-solver <https://github.com/akuroiwa/mcts-solver>`_
   - `akuroiwa/chess-ant <https://github.com/akuroiwa/chess-ant>`_

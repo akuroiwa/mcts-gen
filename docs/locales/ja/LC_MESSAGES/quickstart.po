@@ -4,16 +4,15 @@
 # Framework package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-09 21:46+0900\n"
-"PO-Revision-Date: 2025-10-09 00:30+0900\n"
-"Last-Translator: Gemini <gemini@google.com>\n"
+"PO-Revision-Date: 2025-10-10 22:04+0900\n"
+"Last-Translator: Gemini\n"
 "Language: ja\n"
-"Language-Team: ja <LL@li.org>\n"
+"Language-Team: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -25,7 +24,6 @@ msgid "Quickstart"
 msgstr "クイックスタート"
 
 #: ../../quickstart.rst:6
-#, fuzzy
 msgid ""
 "This project provides a generic Monte Carlo Tree Search (MCTS) framework."
 " Its core concept is the replacement of the Genetic Programming (GP) "
@@ -34,13 +32,9 @@ msgid ""
 "algorithm is augmented by an external AI agent that performs **Policy "
 "Pruning**—narrowing the search space by supplying a pre-filtered list of "
 "promising moves."
-msgstr ""
-"このプロジェクトは、汎用的なモンテカルロ木探索（MCTS）フレームワークを提供します。その中心的な概念は、``chess-"
-"ant``の遺伝的プログラミング（GP）エンジンを現代的なAIエージェントで置き換えることです。AlphaZeroに触発されつつも、よりシンプルで疎結合なアプローチを採用しています。標準的なUCTアルゴリズムが、有望な手のリストを事前にフィルタリングして提供することで探索空間を狭める**Policy"
-" \"\"Pruning**を実行する外部AIエージェントによって拡張されています。"
+msgstr "このプロジェクトは汎用的なモンテカルロ木探索（MCTS）フレームワークを提供します。その中核概念は、``chess-ant``の遺伝的プログラミング（GP）エンジンを現代的なAIエージェントに置き換えることです。AlphaZeroに着想を得つつ、より簡素で分離された手法を採用しています：標準的なUCTアルゴリズムを、外部AIエージェントによって拡張し、**Policy Pruning（ポリシー剪定）**を実行します。これは、事前にフィルタリングされた有望な手筋のリストを提供することで探索空間を絞り込む手法です。"
 
 #: ../../quickstart.rst:8
-#, fuzzy
 msgid ""
 "This guide covers how to install the package and configure it for use "
 "with an AI agent like the Gemini CLI."
@@ -63,14 +57,12 @@ msgid "Installation with Game-Specific Dependencies"
 msgstr "ゲーム固有の依存関係を含むインストール"
 
 #: ../../quickstart.rst:25
-#, fuzzy
 msgid ""
 "To include support for specific games, you can install optional "
 "dependencies (extras). For example, to install with support for Shogi:"
 msgstr "特定のゲームのサポートを含めるには、オプションの依存関係（extras）をインストールできます。例えば、将棋のサポートをインストールするには："
 
 #: ../../quickstart.rst:31
-#, fuzzy
 msgid ""
 "This will automatically install the ``python-shogi`` library alongside "
 "the core package."
@@ -81,7 +73,6 @@ msgid "Server Setup for Gemini CLI"
 msgstr "Gemini CLIのためのサーバー設定"
 
 #: ../../quickstart.rst:36
-#, fuzzy
 msgid ""
 "To allow the Gemini agent to use the MCTS-Gen tools, you must register "
 "the server in your ``settings.json`` file. This allows the Gemini CLI to "
@@ -93,14 +84,12 @@ msgstr ""
 "CLIがサーバープロセスを自動的に管理し、必要なコンテキストファイルを提供できるようになります。"
 
 #: ../../quickstart.rst:38
-#, fuzzy
 msgid ""
 "Create or update your ``settings.json`` file with the following "
 "configuration:"
 msgstr "以下の設定で``settings.json``ファイルを作成または更新してください："
 
 #: ../../quickstart.rst:60
-#, fuzzy
 msgid ""
 "**Note**: The ``context`` block tells the Gemini CLI to load "
 "``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the "
@@ -114,7 +103,6 @@ msgid "You can place this ``settings.json`` file in one of two locations:"
 msgstr "この``settings.json``ファイルは、次の2つの場所のいずれかに配置できます："
 
 #: ../../quickstart.rst:64
-#, fuzzy
 msgid ""
 "**Project-Specific**: ``./.gemini/settings.json`` (inside this project "
 "directory)"
@@ -125,7 +113,6 @@ msgid "**Global**: ``~/.gemini/settings.json`` (in your home directory)"
 msgstr "**グローバル**: ``~/.gemini/settings.json``（ホームディレクトリ内）"
 
 #: ../../quickstart.rst:67
-#, fuzzy
 msgid ""
 "For an alternative setup method using the ``fastmcp`` command-line tool, "
 "please see the official guide:"
@@ -148,7 +135,6 @@ msgid "Releasing to TestPyPI (for testing)"
 msgstr "TestPyPIへのリリース（テスト用）"
 
 #: ../../quickstart.rst:79
-#, fuzzy
 msgid ""
 "To release a version to the TestPyPI repository for verification, create "
 "and push a git tag with a ``-test`` suffix."
@@ -159,7 +145,6 @@ msgid "Releasing to PyPI (Official)"
 msgstr "PyPIへのリリース（公式）"
 
 #: ../../quickstart.rst:90
-#, fuzzy
 msgid ""
 "To perform an official release, create and push a git tag that follows "
 "the semantic versioning format (e.g., ``vX.Y.Z``)."

@@ -4,16 +4,15 @@
 # Framework package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-09 21:46+0900\n"
-"PO-Revision-Date: 2025-10-09 00:30+0900\n"
+"PO-Revision-Date: 2025-10-10 21:45+0900\n"
 "Last-Translator: Gemini <gemini@google.com>\n"
 "Language: ja\n"
-"Language-Team: ja <LL@li.org>\n"
+"Language-Team: ja\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -55,11 +54,10 @@ msgid "Executes a single MCTS round and updates the simulation state."
 msgstr "単一のMCTSラウンドを実行し、シミュレーションの状態を更新します。"
 
 #: mcts_gen.services.mcts_engine.MCTSNode:1 of
-#, fuzzy
 msgid ""
 "Represents a node in the Monte Carlo Search Tree. Inherits from "
 "AntLionTreeNode to ensure full compatibility."
-msgstr "モンテカルロ探索木内のノードを表します。"
+msgstr "モンテカルロ探索木におけるノードを表します。完全な互換性を確保するため、AntLionTreeNode を継承します。"
 
 #: mcts_gen.services.mcts_engine.McpMcts:1 of
 msgid "An MCTS engine that uses UCT (from parent) and AI value estimation."
@@ -87,7 +85,6 @@ msgstr "McpMctsで使用できるすべてのゲーム環境の抽象基底ク�
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.getCurrentPlayer:1
 #: mcts_gen.models.game_state.GameStateBase.getCurrentPlayer:1 of
-#, fuzzy
 msgid "Return +1 if it's player one's turn, -1 if it's player two's turn."
 msgstr "プレイヤー1の手番なら+1、プレイヤー2の手番なら-1を返します。"
 
