@@ -27,3 +27,8 @@ dev = [
 shogi = [
     "python-shogi"
 ]
+
+[project.urls]
+Homepage = "https://github.com/akuroiwa/mcts-gen"
+Documentation = "https://mcts-gen.readthedocs.io/en/latest/"
+Repository = "https://github.com/akuroiwa/mcts-gen.git"
