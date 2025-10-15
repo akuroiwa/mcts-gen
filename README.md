@@ -65,6 +65,41 @@ You can place this `settings.json` file in one of two locations:
 For an alternative setup method using the `fastmcp` command-line tool, please see the official guide:
 - [Gemini CLI 🤝 FastMCP](https://gofastmcp.com/integrations/gemini-cli)
 
+### Installation with `uv` (Recommended)
+
+For a faster and more modern package management experience, we recommend using `uv`.
+
+1.  **Install `pipx` and `uv`**:
+    ```bash
+    # Install pipx (a tool to install and run Python applications in isolated environments)
+    sudo apt install pipx
+    
+    # Install uv using pipx
+    pipx install uv
+    ```
+
+2.  **Set up the environment and install `mcts-gen`**:
+    ```bash
+    # Create a virtual environment in your project directory
+    uv venv
+    
+    # Activate the environment
+    source .venv/bin/activate
+    
+    # Install mcts-gen with Shogi support
+    uv pip install mcts-gen[shogi]
+    ```
+    To exit the virtual environment, simply run `deactivate`.
+
+3.  **Configure `gemini-cli` with `fastmcp`**:
+    Instead of manually editing `settings.json`, you can use the `fastmcp` command to automatically configure the tool server.
+    ```bash
+    fastmcp install gemini-cli .venv/lib/python3.12/site-packages/mcts_gen/fastmcp_server.py:mcp
+    ```
+    This command will automatically detect and configure the `mcts_gen` server, creating a `.gemini/settings.json` file for you.
+
+    **Note on the `:mcp` suffix**: The `:mcp` at the end is required because `fastmcp_server.py` contains multiple objects. This suffix explicitly tells `fastmcp` which object is the MCP server instance to be run.
+
 ## For Maintainers: How to Release a New Version
 
 The package publication process is automated using GitHub Actions.
