@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-10-15 22:07+0900\n"
-"PO-Revision-Date: 2025-10-10 22:04+0900\n"
+"PO-Revision-Date: 2025-10-15 23:28+0900\n"
 "Last-Translator: Gemini\n"
 "Language: ja\n"
 "Language-Team: ja\n"
@@ -72,7 +72,6 @@ msgid ""
 msgstr "これにより、``python-shogi``ライブラリがコアパッケージと共に自動的にインストールされます。"
 
 #: ../../quickstart.rst:34
-#, fuzzy
 msgid "Installation with `uv` (Recommended)"
 msgstr "`uv`によるインストール（推奨）"
 
