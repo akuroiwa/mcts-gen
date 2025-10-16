@@ -1,7 +1,7 @@
 {
   "context": {
     "fileName": [
-      "AGENTS.md",
+      "src/mcts_gen/AGENTS.md",
       "GEMINI.md"
     ]
   },

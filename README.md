@@ -39,7 +39,7 @@ Create or update your `settings.json` file with the following configuration:
 {
   "context": {
     "fileName": [
-      "AGENTS.md",
+      "src/mcts_gen/AGENTS.md",
       "GEMINI.md"
     ]
   },
@@ -65,7 +65,7 @@ You can place this `settings.json` file in one of two locations:
 For an alternative setup method using the `fastmcp` command-line tool, please see the official guide:
 - [Gemini CLI 🤝 FastMCP](https://gofastmcp.com/integrations/gemini-cli)
 
-### Installation with `uv` (Recommended)
+#### Installation with `uv` (Recommended)
 
 For a faster and more modern package management experience, we recommend using `uv`.
 
@@ -73,7 +73,7 @@ For a faster and more modern package management experience, we recommend using `
     ```bash
     # Install pipx (a tool to install and run Python applications in isolated environments)
     sudo apt install pipx
-    
+
     # Install uv using pipx
     pipx install uv
     ```
@@ -82,10 +82,10 @@ For a faster and more modern package management experience, we recommend using `
     ```bash
     # Create a virtual environment in your project directory
     uv venv
-    
+
     # Activate the environment
     source .venv/bin/activate
-    
+
     # Install mcts-gen with Shogi support
     uv pip install mcts-gen[shogi]
     ```
@@ -99,6 +99,35 @@ For a faster and more modern package management experience, we recommend using `
     This command will automatically detect and configure the `mcts_gen` server, creating a `.gemini/settings.json` file for you.
 
     **Note on the `:mcp` suffix**: The `:mcp` at the end is required because `fastmcp_server.py` contains multiple objects. This suffix explicitly tells `fastmcp` which object is the MCP server instance to be run.
+
+#### Agent Context Configuration with `uv`
+
+If you installed the package using `uv` or `pip`, the `AGENTS.md` file is included inside the package. To allow the Gemini agent to use it, you need to specify its full path in your `.gemini/settings.json` file.
+
+Add the path to the `context.fileName` list. The exact path may vary depending on your Python version and environment.
+
+**Example `.gemini/settings.json`:**
+```json
+{
+  "context": {
+    "fileName": [
+      ".venv/lib/python3.12/site-packages/mcts_gen/AGENTS.md",
+      "GEMINI.md"
+    ]
+  },
+  "mcpServers": {
+    "mcts_gen_simulator_server": {
+      "command": "uv",
+      "args": [
+        "run",
+        "fastmcp",
+        "run",
+        ".venv/lib/python3.12/site-packages/mcts_gen/fastmcp_server.py:mcp"
+      ]
+    }
+  }
+}
+```
 
 ## For Maintainers: How to Release a New Version
 
