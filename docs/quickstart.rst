@@ -22,13 +22,23 @@ The core package can be installed directly using pip:
 Installation with Game-Specific Dependencies
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To include support for specific games, you can install optional dependencies (extras). For example, to install with support for Shogi:
+To include support for specific games, you can install optional dependencies (extras).
 
-.. code-block:: bash
+- **For Shogi support**:
 
-   pip install mcts-gen[shogi]
+  .. code-block:: bash
 
-This will automatically install the ``python-shogi`` library alongside the core package.
+     pip install mcts-gen[shogi]
+
+  This installs the ``python-shogi`` library.
+
+- **For Chess support**:
+
+  .. code-block:: bash
+
+     pip install mcts-gen[chess]
+
+  This installs the ``python-chess`` library.
 
 Server Setup for Gemini CLI
 ---------------------------

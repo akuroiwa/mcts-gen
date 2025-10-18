@@ -22,12 +22,19 @@ pip install mcts-gen
 
 #### Installation with Game-Specific Dependencies
 
-To include support for specific games, you can install optional dependencies. For example, to install with support for Shogi:
+To include support for specific games, you can install optional dependencies.
 
-```bash
-pip install mcts-gen[shogi]
-```
-This will automatically install the `python-shogi` library alongside the core package.
+-   **For Shogi support**:
+    ```bash
+    pip install mcts-gen[shogi]
+    ```
+    This installs the `python-shogi` library.
+
+-   **For Chess support**:
+    ```bash
+    pip install mcts-gen[chess]
+    ```
+    This installs the `python-chess` library.
 
 ### 2. Server Setup for Gemini CLI
 

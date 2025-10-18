@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-16 22:03+0900\n"
-"PO-Revision-Date: 2025-10-15 23:28+0900\n"
+"POT-Creation-Date: 2025-10-18 13:57+0900\n"
+"PO-Revision-Date: 2025-10-18 14:45+0900\n"
 "Last-Translator: Gemini\n"
 "Language: ja\n"
 "Language-Team: ja\n"
@@ -24,15 +24,25 @@ msgid "Quickstart"
 msgstr "クイックスタート"
 
 #: ../../quickstart.rst:6
+#, fuzzy
 msgid ""
-"This project provides a generic Monte Carlo Tree Search (MCTS) framework."" Its core concept is the replacement of the Genetic Programming (GP) ""engine from ``chess-ant`` with a modern AI agent. While inspired by ""AlphaZero, it uses a simpler, decoupled approach: the standard UCT ""algorithm is augmented by an external AI agent that performs **Policy ""Pruning**—narrowing the search space by supplying a pre-filtered list of ""promising moves."
+"This project provides a generic Monte Carlo Tree Search (MCTS) framework."
+" Its core concept is the replacement of the Genetic Programming (GP) "
+"engine from ``chess-ant`` with a modern AI agent. While inspired by "
+"AlphaZero, it uses a simpler, decoupled approach: the standard UCT "
+"algorithm is augmented by an external AI agent that performs **Policy "
+"Pruning**—narrowing the search space by supplying a pre-filtered list of "
+"promising moves."
 msgstr ""
-"このプロジェクトは汎用的なモンテカルロ木探索（MCTS）フレームワークを提供します。その中核概念は、``chess-""ant``の遺伝的プログラミング（GP）エンジンを現代的なAIエージェントに置き換えることです。AlphaZeroに着想を得つつ、より簡素で分離された手法を採用しています：標準的なUCTアルゴリズムを、外部AIエージェントによって拡張し、**Policy"" Pruning（ポリシー剪定）**を実行します。これは、事前にフィルタリングされた有望な手筋のリストを提供することで探索空間を絞り込む手法です。"
+"このプロジェクトは汎用的なモンテカルロ木探索（MCTS）フレームワークを提供します。その中核概念は、``chess-"
+"ant``の遺伝的プログラミング（GP）エンジンを現代的なAIエージェントに置き換えることです。AlphaZeroに着想を得つつも、より簡素で分離された手法を採用しています。標準的なUCTアルゴリズムを外部AIエージェントで拡張し、**Policy"
+" Pruning（ポリシー剪定）**、すなわち事前にフィルタリングされた有望な手のリストを供給することで探索空間を狭めます。"
 
 #: ../../quickstart.rst:8
 msgid ""
-"This guide covers how to install the package and configure it for use ""with an AI agent like the Gemini CLI."
-msgstr "このガイドでは、パッケージのインストール方法と、Gemini CLIのようなAIエージェントで使用するための設定方法について説明します。"
+"This guide covers how to install the package and configure it for use "
+"with an AI agent like the Gemini CLI."
+msgstr "このガイドでは、パッケージのインストール方法と、Gemini CLIのようなAIエージェントで利用するための設定方法を説明します。"
 
 #: ../../quickstart.rst:11
 msgid "Installation"
@@ -44,7 +54,7 @@ msgstr "標準インストール"
 
 #: ../../quickstart.rst:16
 msgid "The core package can be installed directly using pip:"
-msgstr "コアパッケージはpipを使用して直接インストールできます："
+msgstr "コアパッケージはpipを使い直接インストールできます："
 
 #: ../../quickstart.rst:23
 msgid "Installation with Game-Specific Dependencies"
@@ -52,138 +62,174 @@ msgstr "ゲーム固有の依存関係を含むインストール"
 
 #: ../../quickstart.rst:25
 msgid ""
-"To include support for specific games, you can install optional ""dependencies (extras). For example, to install with support for Shogi:"
-msgstr "特定のゲームのサポートを含めるには、オプションの依存関係（extras）をインストールできます。例えば、将棋のサポートをインストールするには："
+"To include support for specific games, you can install optional "
+"dependencies (extras)."
+msgstr "特定のゲームのサポートを含めるには、オプションの依存関係（extras）をインストールできます。"
 
-#: ../../quickstart.rst:31
-msgid ""
-"This will automatically install the ``python-shogi`` library alongside ""the core package."
-msgstr "これにより、``python-shogi``ライブラリがコアパッケージと共に自動的にインストールされます。"
+#: ../../quickstart.rst:27
+msgid "**For Shogi support**:"
+msgstr "**将棋のサポート**:"
 
-#: ../../quickstart.rst:34
+#: ../../quickstart.rst:33
+msgid "This installs the ``python-shogi`` library."
+msgstr "これにより ``python-shogi`` ライブラリがインストールされます。"
+
+#: ../../quickstart.rst:35
+msgid "**For Chess support**:"
+msgstr "**チェスのサポート**:"
+
+#: ../../quickstart.rst:41
+msgid "This installs the ``python-chess`` library."
+msgstr "これにより ``python-chess`` ライブラリがインストールされます。"
+
+#: ../../quickstart.rst:44
 msgid "Server Setup for Gemini CLI"
 msgstr "Gemini CLIのためのサーバー設定"
 
-#: ../../quickstart.rst:36
+#: ../../quickstart.rst:46
 msgid ""
-"To allow the Gemini agent to use the MCTS-Gen tools, you must register ""the server in your ``settings.json`` file. This allows the Gemini CLI to ""automatically manage the server process and provide the necessary context"" files."
+"To allow the Gemini agent to use the MCTS-Gen tools, you must register "
+"the server in your ``settings.json`` file. This allows the Gemini CLI to "
+"automatically manage the server process and provide the necessary context"
+" files."
 msgstr ""
-"GeminiエージェントがMCTS-""Genツールを使用できるようにするには、サーバーを``settings.json``ファイルに登録する必要があります。これにより、Gemini ""CLIがサーバープロセスを自動的に管理し、必要なコンテキストファイルを提供できるようになります。"
+"GeminiエージェントがMCTS-"
+"Genツールを使用できるようにするには、サーバーを``settings.json``ファイルに登録する必要があります。これにより、Gemini "
+"CLIがサーバープロセスを自動的に管理し、必要なコンテキストファイルを提供できるようになります。"
 
-#: ../../quickstart.rst:38
+#: ../../quickstart.rst:48
 msgid ""
-"Create or update your ``settings.json`` file with the following ""configuration:"
+"Create or update your ``settings.json`` file with the following "
+"configuration:"
 msgstr "以下の設定で``settings.json``ファイルを作成または更新してください："
 
-#: ../../quickstart.rst:60
+#: ../../quickstart.rst:70
 msgid ""
-"**Note**: The ``context`` block tells the Gemini CLI to load ""``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the ""agent to understand how to use the tools."
+"**Note**: The ``context`` block tells the Gemini CLI to load "
+"``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the "
+"agent to understand how to use the tools."
 msgstr ""
-"**注**: ``context``ブロックは、Gemini ""CLIに``AGENTS.md``（および存在する場合は``GEMINI.md``）を読み込むよう指示します。これはエージェントがツールの使い方を理解するために不可欠です。"
+"**注**: ``context``ブロックは、Gemini "
+"CLIに``AGENTS.md``（および存在する場合は``GEMINI.md``）を読み込むよう指示します。これはエージェントがツールの使い方を理解するために不可欠です。"
 
-#: ../../quickstart.rst:62
+#: ../../quickstart.rst:72
 msgid "You can place this ``settings.json`` file in one of two locations:"
 msgstr "この``settings.json``ファイルは、次の2つの場所のいずれかに配置できます："
 
-#: ../../quickstart.rst:64
+#: ../../quickstart.rst:74
 msgid ""
-"**Project-Specific**: ``./.gemini/settings.json`` (inside this project ""directory)"
+"**Project-Specific**: ``./.gemini/settings.json`` (inside this project "
+"directory)"
 msgstr "**プロジェクト固有**: ``./.gemini/settings.json``（このプロジェクトディレクトリ内）"
 
-#: ../../quickstart.rst:65
+#: ../../quickstart.rst:75
 msgid "**Global**: ``~/.gemini/settings.json`` (in your home directory)"
 msgstr "**グローバル**: ``~/.gemini/settings.json``（ホームディレクトリ内）"
 
-#: ../../quickstart.rst:67
+#: ../../quickstart.rst:77
 msgid ""
-"For an alternative setup method using the ``fastmcp`` command-line tool, ""please see the official guide:"
+"For an alternative setup method using the ``fastmcp`` command-line tool, "
+"please see the official guide:"
 msgstr "``fastmcp``コマンドラインツールを使用した別の設定方法については、公式ガイドを参照してください："
 
-#: ../../quickstart.rst:69
+#: ../../quickstart.rst:79
 msgid "`Gemini CLI 🤝 FastMCP <https://gofastmcp.com/integrations/gemini-cli>`_"
 msgstr "`Gemini CLI 🤝 FastMCP <https://gofastmcp.com/integrations/gemini-cli>`_"
 
-#: ../../quickstart.rst:72
+#: ../../quickstart.rst:82
 msgid "Installation with `uv` (Recommended)"
 msgstr "`uv`によるインストール（推奨）"
 
-#: ../../quickstart.rst:74
+#: ../../quickstart.rst:84
 msgid ""
-"For a faster and more modern package management experience, we recommend ""using `uv`."
-msgstr "より高速でモダンなパッケージ管理を行うために、`uv`の使用を推奨します。"
+"For a faster and more modern package management experience, we recommend "
+"using `uv`."
+msgstr "より高速でモダンなパッケージ管理を体験するために、`uv`の使用を推奨します。"
 
-#: ../../quickstart.rst:76
+#: ../../quickstart.rst:86
 msgid "**Install `pipx` and `uv`**:"
 msgstr "**pipxとuvのインストール**："
 
-#: ../../quickstart.rst:86
+#: ../../quickstart.rst:96
 msgid "**Set up the environment and install `mcts-gen`**:"
 msgstr "**環境のセットアップと`mcts-gen`のインストール**："
 
-#: ../../quickstart.rst:99
+#: ../../quickstart.rst:109
 msgid "To exit the virtual environment, simply run ``deactivate``."
-msgstr "仮想環境を終了するには ``deactivate`` コマンドを使います。"
+msgstr "仮想環境を終了するには、単に ``deactivate`` を実行します。"
 
-#: ../../quickstart.rst:101
+#: ../../quickstart.rst:111
 msgid "**Configure `gemini-cli` with `fastmcp`**:"
 msgstr "**`fastmcp`による`gemini-cli`の設定**："
 
-#: ../../quickstart.rst:103
+#: ../../quickstart.rst:113
 msgid ""
-"Instead of manually editing ``settings.json``, you can use the ""``fastmcp`` command to automatically configure the tool server."
+"Instead of manually editing ``settings.json``, you can use the "
+"``fastmcp`` command to automatically configure the tool server."
 msgstr "``settings.json``を手動で編集する代わりに、``fastmcp``コマンドを使用してツールサーバーを自動的に設定できます。"
 
-#: ../../quickstart.rst:109
+#: ../../quickstart.rst:119
 msgid ""
-"This command will automatically detect and configure the `mcts_gen` ""server, creating a ``.gemini/settings.json`` file for you."
-msgstr "このコマンドは`mcts_gen`サーバーを自動的に検出・設定し、``.gemini/settings.json``ファイルを生成します。"
+"This command will automatically detect and configure the `mcts_gen` "
+"server, creating a ``.gemini/settings.json`` file for you."
+msgstr "このコマンドは`mcts_gen`サーバーを自動的に検出し設定を行い、あなたのための``.gemini/settings.json``ファイルを生成します。"
 
-#: ../../quickstart.rst:111
+#: ../../quickstart.rst:121
 msgid ""
-"**Note on the ``:mcp`` suffix**: The ``:mcp`` at the end is required ""because ``fastmcp_server.py`` contains multiple objects. This suffix ""explicitly tells ``fastmcp`` which object is the MCP server instance to ""be run."
+"**Note on the ``:mcp`` suffix**: The ``:mcp`` at the end is required "
+"because ``fastmcp_server.py`` contains multiple objects. This suffix "
+"explicitly tells ``fastmcp`` which object is the MCP server instance to "
+"be run."
 msgstr ""
-"**``:mcp``接尾辞に関する注意**: ""末尾の``:mcp``は、``fastmcp_server.py``に複数のオブジェクトが含まれているため必要です。この接尾辞は、実行すべきMCPサーバーインスタンスがどのオブジェクトであるかを``fastmcp``に明示的に伝えます。"
+"**``:mcp``接尾辞に関する注**: "
+"末尾の``:mcp``は、``fastmcp_server.py``に複数のオブジェクトが含まれているため必要です。この接尾辞は、実行すべきMCPサーバーインスタンスがどのオブジェクトであるかを``fastmcp``に明示的に伝えます。"
 
-#: ../../quickstart.rst:114
+#: ../../quickstart.rst:124
 msgid "Agent Context Configuration with `uv`"
 msgstr "`uv`でのエージェントコンテキスト設定"
 
-#: ../../quickstart.rst:116
+#: ../../quickstart.rst:126
 msgid ""
-"If you installed the package using `uv` or `pip`, the `AGENTS.md` file is"" included inside the package. To allow the Gemini agent to use it, you ""need to specify its full path in your `.gemini/settings.json` file."
+"If you installed the package using `uv` or `pip`, the `AGENTS.md` file is"
+" included inside the package. To allow the Gemini agent to use it, you "
+"need to specify its full path in your `.gemini/settings.json` file."
 msgstr "`uv`または`pip`を使用してパッケージをインストールした場合、`AGENTS.md`ファイルがパッケージ内に含まれます。Geminiエージェントがそれを使用できるようにするには、`.gemini/settings.json`ファイルでそのフルパスを指定する必要があります。"
 
-#: ../../quickstart.rst:118
+#: ../../quickstart.rst:128
 msgid ""
-"Add the path to the `context.fileName` list. The exact path may vary ""depending on your Python version and environment."
+"Add the path to the `context.fileName` list. The exact path may vary "
+"depending on your Python version and environment."
 msgstr "`context.fileName`リストにパスを追加します。正確なパスは、お使いのPythonのバージョンや環境によって異なる場合があります。"
 
-#: ../../quickstart.rst:120
+#: ../../quickstart.rst:130
 msgid "**Example `.gemini/settings.json`:**"
 msgstr "**`.gemini/settings.json`の例：**"
 
-#: ../../quickstart.rst:145
+#: ../../quickstart.rst:155
 msgid "For Maintainers: How to Release a New Version"
 msgstr "メンテナー向け：新しいバージョンのリリース方法"
 
-#: ../../quickstart.rst:147
+#: ../../quickstart.rst:157
 msgid "The package publication process is automated using GitHub Actions."
 msgstr "パッケージの公開プロセスはGitHub Actionsを使用して自動化されています。"
 
-#: ../../quickstart.rst:150
+#: ../../quickstart.rst:160
 msgid "Releasing to TestPyPI (for testing)"
 msgstr "TestPyPIへのリリース（テスト用）"
 
-#: ../../quickstart.rst:152
+#: ../../quickstart.rst:162
 msgid ""
-"To release a version to the TestPyPI repository for verification, create ""and push a git tag with a ``-test`` suffix."
+"To release a version to the TestPyPI repository for verification, create "
+"and push a git tag with a ``-test`` suffix."
 msgstr "TestPyPIリポジトリにバージョンをリリースして検証するには、``-test``接尾辞を付けてgitタグを作成し、プッシュします。"
 
-#: ../../quickstart.rst:161
+#: ../../quickstart.rst:171
 msgid "Releasing to PyPI (Official)"
 msgstr "PyPIへのリリース（公式）"
 
-#: ../../quickstart.rst:163
+#: ../../quickstart.rst:173
 msgid ""
-"To perform an official release, create and push a git tag that follows ""the semantic versioning format (e.g., ``vX.Y.Z``)."
+"To perform an official release, create and push a git tag that follows "
+"the semantic versioning format (e.g., ``vX.Y.Z``)."
 msgstr "公式リリースを実行するには、セマンティックバージョニング形式（例：``vX.Y.Z``）に従ったgitタグを作成してプッシュします。"
+
