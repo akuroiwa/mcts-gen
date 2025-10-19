@@ -45,6 +45,10 @@ Server Setup for Gemini CLI
 
 To allow the Gemini agent to use the MCTS-Gen tools, you must register the server in your ``settings.json`` file. This allows the Gemini CLI to automatically manage the server process and provide the necessary context files.
 
+.. note::
+
+   **v0.0.2+ Change**: As of version 0.0.2, the core agent instructions are built-in. Specifying a context file is no longer required for standard operation. Only configure the ``context`` block if you wish to provide *additional* instructions to the agent.
+
 Create or update your ``settings.json`` file with the following configuration:
 
 .. code-block:: json
@@ -122,6 +126,10 @@ For a faster and more modern package management experience, we recommend using `
 
 Agent Context Configuration with `uv`
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   **v0.0.2+ Change**: The instructions below are for older versions or for cases where you need to add custom, additional context. As of v0.0.2, specifying ``AGENTS.md`` is not required for the agent to function correctly.
 
 If you installed the package using `uv` or `pip`, the `AGENTS.md` file is included inside the package. To allow the Gemini agent to use it, you need to specify its full path in your `.gemini/settings.json` file.
 

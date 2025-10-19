@@ -1,6 +1,6 @@
 
 import shogi
-from src.mcts_gen.games.shogi_mcts import ShogiGameState
+from mcts_gen.games.shogi_mcts import ShogiGameState
 
 def test_shogi_take_action():
     """Tests that ShogiGameState.takeAction can execute without errors."""
@@ -10,8 +10,7 @@ def test_shogi_take_action():
     # 2. Get a legal move object
     legal_moves = initial_state.getPossibleActions()
     assert len(legal_moves) > 0
-    action_to_take = shogi.Move.from_usi(legal_moves[0]) # Convert USI string to Move object
-
+    action_to_take = legal_moves[0] # Pass the USI string directly
     # 3. Call takeAction
     try:
         new_state = initial_state.takeAction(action_to_take)
