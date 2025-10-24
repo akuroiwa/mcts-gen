@@ -1,5 +1,4 @@
 *~
-.gemini/
 *.orig
 python-shogi/
 chess-ant/
@@ -7,6 +6,10 @@ mcts-solver/
 MCTS/
 chatgpt-20250902.txt
 chatgpt-20250903.txt
+
+# Agent Folder Security
+.gemini/
+.specify/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
