@@ -1,4 +1,5 @@
 *~
+.gemini/
 *.orig
 python-shogi/
 chess-ant/
