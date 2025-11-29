@@ -40,6 +40,17 @@ To include support for specific games, you can install optional dependencies (ex
 
   This installs the ``python-chess`` library.
 
+- **For Ligand Generation**:
+
+  .. note::
+
+     The ligand generation feature is an advanced module that requires manual installation of several heavy external dependencies.
+
+     - **Required Python libraries**: ``rdkit-pypi``, ``scipy``, ``numpy``
+     - **Required external software**: ``fpocket``
+
+     These packages must be installed by the user in their environment. This feature allows for MCTS-based de novo molecule generation guided by a protein pocket. Please refer to the specific documentation for this feature for detailed setup and usage instructions.
+
 Server Setup for Gemini CLI
 ---------------------------
 
