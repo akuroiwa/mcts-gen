@@ -124,7 +124,7 @@ class LigandState:
             # two disconnected components. A production-level implementation
             # would use RDKit's reaction system to form a proper covalent bond
             # between the existing molecule and the new fragment.
-            combo = Chem.combineMols(new_state.mol, frag)
+            combo = Chem.CombineMols(new_state.mol, frag)
             new_state.mol = combo
         
         new_state.history.append(action)
