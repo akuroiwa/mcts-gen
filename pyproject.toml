@@ -2,7 +2,7 @@
 name = "mcts-gen"
 version = "0.0.2"
 description = "A generic MCTS framework driven by an external AI agent."
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "fastmcp",
     "mcts",
