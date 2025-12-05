@@ -23,11 +23,20 @@ def mcts_autonomous_search(goal: str, ctx: Context) -> list[PromptMessage]:
     """
     intro = f"You are an autonomous MCTS strategist. Your goal is to find the optimal move. Task: {goal}"
     workflow = [
-        "1. Call `reinitialize_mcts` with the game details.",
-        "2. Implement a loop in your reasoning process for a fixed number of iterations.",
-        "3. In each iteration, call `get_possible_actions` and then `run_mcts_round`.",
-        "4. Analyze the `simulation_stats` from the output to refine your strategy for the next iteration.",
-        "5. After your loop terminates, call `get_best_move` to get the final result."
+        "**Phase 1: Investigation**",
+        "1. **Identify the Game Module**: Based on the user's request (e.g., 'ligand', 'chess'), determine the target game module file path (e.g., `src/mcts_gen/games/ligand_mcts.py`).",
+        "2. **Analyze the Game Module**: Read the contents of the identified file.",
+        "3. **Find the GameState Class**: Scan the file to find the class that inherits from `GameStateBase`.",
+        "4. **Analyze the Constructor**: Examine the `__init__` method signature and docstring of the `GameStateBase` subclass to identify all required constructor arguments, their types, and descriptions.",
+
+        "\n**Phase 2: Initialization**",
+        "5. **Gather Arguments**: If the constructor requires arguments (like `pocket_path` for `ligand_mcts`), ask the user to provide the necessary information. If no arguments are needed, proceed directly.",
+        "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module` (e.g., 'mcts_gen.games.ligand_mcts') and `state_class` (e.g., 'LigandMCTSGameState'). If the game requires constructor arguments, pass them in the `state_kwargs` dictionary (e.g., `{'pocket_path': '/path/to/file.pdb'}`).",
+
+        "\n**Phase 3: Execution**",
+        "7. **Implement a Search Loop**: After successful initialization, implement a loop in your reasoning process for a fixed number of iterations (e.g., 5-10 rounds).",
+        "8. **Execute MCTS Rounds**: In each iteration of your loop, call `run_mcts_round` to advance the search. You can analyze `get_possible_actions` if you need to guide the search, but it is not required for a basic run.",
+        "9. **Analyze Results**: After the loop terminates, call `get_simulation_stats` to review the final state and `get_best_move` to retrieve the optimal move found.",
     ]
     detail = "\n".join(workflow)
     return [

@@ -30,8 +30,12 @@ async def test_mcts_autonomous_search_prompt_content():
     )
 
     # Assert that key workflow steps are in the prompt content
+    assert "**Phase 1: Investigation**" in full_content
+    assert "Analyze the Game Module" in full_content
+    assert "Find the GameState Class" in full_content
+    assert "**Phase 2: Initialization**" in full_content
+    assert "Gather Arguments" in full_content
     assert "reinitialize_mcts" in full_content
-    assert "get_possible_actions" in full_content
-    assert "run_mcts_round" in full_content
+    assert "**Phase 3: Execution**" in full_content
+    assert "Implement a Search Loop" in full_content
     assert "get_best_move" in full_content
-    assert "You are an autonomous MCTS strategist" in full_content
