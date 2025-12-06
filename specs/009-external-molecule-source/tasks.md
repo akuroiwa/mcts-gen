@@ -23,7 +23,7 @@ description: "Task list for implementing the external molecule source feature"
 
 **Purpose**: Configure project dependencies.
 
-- [ ] T001 Add `rdkit` as a dependency in `pyproject.toml`.
+- [x] T001 Add `rdkit` as a dependency in `pyproject.toml`.
 
 ---
 
@@ -37,21 +37,21 @@ description: "Task list for implementing the external molecule source feature"
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T002 [US1] Create a test data directory `tests/unit/test_data/` and a test SMILES file `tests/unit/test_data/molecules.smi`.
-- [ ] T003 [P] [US1] Add a unit test to `tests/unit/test_ligand_mcts.py` to verify successful initialization when a valid `source_molecule_path` is provided.
-- [ ] T004 [P] [US1] Add unit tests to `tests/unit/test_ligand_mcts.py` to verify correct molecule parsing from different file formats (.smi, .sdf, .csv).
-- [ ] T005 [P] [US1] Add a unit test to `tests/unit/test_ligand_mcts.py` for error handling when the provided `source_molecule_path` is invalid or the file is malformed.
-- [ ] T006 [P] [US1] Add a unit test to `tests/unit/test_ligand_mcts.py` to confirm that the BRICS fragmentation logic produces a non-empty set of fragments from valid source molecules.
+- [x] T002 [US1] Create a test data directory `tests/unit/test_data/` and a test SMILES file `tests/unit/test_data/molecules.smi`.
+- [x] T003 [P] [US1] Add a unit test to `tests/unit/test_ligand_mcts.py` to verify successful initialization when a valid `source_molecule_path` is provided.
+- [x] T004 [P] [US1] Add unit tests to `tests/unit/test_ligand_mcts.py` to verify correct molecule parsing from different file formats (.smi, .sdf, .csv).
+- [x] T005 [P] [US1] Add a unit test to `tests/unit/test_ligand_mcts.py` for error handling when the provided `source_molecule_path` is invalid or the file is malformed.
+- [x] T006 [P] [US1] Add a unit test to `tests/unit/test_ligand_mcts.py` to confirm that the BRICS fragmentation logic produces a non-empty set of fragments from valid source molecules.
 
 ### Implementation for User Story 1
 
-- [ ] T007 [US1] Modify `LigandMCTSGameState.__init__` in `src/mcts_gen/games/ligand_mcts.py` to accept an optional `source_molecule_path` argument.
-- [ ] T008 [P] [US1] Implement a private helper function `_load_molecules_from_file` in `src/mcts_gen/games/ligand_mcts.py` to handle file reading and format detection for `.smi`, `.sdf`, and `.csv` files.
-- [ ] T009 [P] [US1] Implement a private helper function `_generate_fragments_from_molecules` in `src/mcts_gen/games/ligand_mcts.py` that uses RDKit's BRICS algorithm to fragment molecules.
-- [ ] T010 [US1] In `LigandMCTSGameState.__init__`, call the new helper functions to load molecules and generate fragments when `source_molecule_path` is provided in `src/mcts_gen/games/ligand_mcts.py`.
-- [ ] T011 [US1] Modify the logic in `LigandMCTSGameState` to use the dynamically generated fragment library instead of any hard-coded list in `src/mcts_gen/games/ligand_mcts.py`.
-- [ ] T012 [US1] Remove the old hard-coded fragment list and associated logic from `src/mcts_gen/games/ligand_mcts.py`.
-- [ ] T013 [US1] Implement clear error handling (e.g., raising `ValueError` or `FileNotFoundError`) within the initialization process in `src/mcts_gen/games/ligand_mcts.py`.
+- [x] T007 [US1] Modify `LigandMCTSGameState.__init__` in `src/mcts_gen/games/ligand_mcts.py` to accept an optional `source_molecule_path` argument.
+- [x] T008 [P] [US1] Implement a private helper function `_load_molecules_from_file` in `src/mcts_gen/games/ligand_mcts.py` to handle file reading and format detection for `.smi`, `.sdf`, and `.csv` files.
+- [x] T009 [P] [US1] Implement a private helper function `_generate_fragments_from_molecules` in `src/mcts_gen/games/ligand_mcts.py` that uses RDKit's BRICS algorithm to fragment molecules.
+- [x] T010 [US1] In `LigandMCTSGameState.__init__`, call the new helper functions to load molecules and generate fragments when `source_molecule_path` is provided in `src/mcts_gen/games/ligand_mcts.py`.
+- [x] T011 [US1] Modify the logic in `LigandMCTSGameState` to use the dynamically generated fragment library instead of any hard-coded list in `src/mcts_gen/games/ligand_mcts.py`.
+- [x] T012 [US1] Remove the old hard-coded fragment list and associated logic from `src/mcts_gen/games/ligand_mcts.py`.
+- [x] T013 [US1] Implement clear error handling (e.g., raising `ValueError` or `FileNotFoundError`) within the initialization process in `src/mcts_gen/games/ligand_mcts.py`.
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently.
 
@@ -61,8 +61,8 @@ description: "Task list for implementing the external molecule source feature"
 
 **Purpose**: Final documentation and validation.
 
-- [ ] T014 [P] Update documentation (e.g., `README.md` or `docs/quickstart.rst`) with instructions on how to use the new `source_molecule_path` feature.
-- [ ] T015 Validate the feature by following the steps outlined in `specs/009-external-molecule-source/quickstart.md`.
+- [x] T014 [P] Update documentation (e.g., `README.md` or `docs/quickstart.rst`) with instructions on how to use the new `source_molecule_path` feature.
+- [x] T015 Validate the feature by following the steps outlined in `specs/009-external-molecule-source/quickstart.md`.
 
 ---
 

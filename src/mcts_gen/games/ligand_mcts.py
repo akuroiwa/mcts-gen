@@ -8,8 +8,9 @@ It requires the user to have RDKit, SciPy, and NumPy installed.
 
 from dataclasses import dataclass, field
 from typing import List, Optional, Any, Dict
-
+import os
 import numpy as np
+import pandas as pd
 
 from mcts_gen.models.game_state import GameStateBase
 
@@ -17,7 +18,7 @@ from mcts_gen.models.game_state import GameStateBase
 # A runtime check in the GameState constructor will handle their absence.
 try:
     from rdkit import Chem
-    from rdkit.Chem import AllChem, Descriptors, QED
+    from rdkit.Chem import AllChem, Descriptors, QED, BRICS
 except ImportError:
     Chem = None
 
@@ -25,6 +26,59 @@ try:
     from scipy.spatial import cKDTree
 except ImportError:
     cKDTree = None
+
+
+# --- Helper Functions for Molecule and Fragment Handling ---
+
+def _load_molecules_from_file(file_path: str) -> List[Any]:
+    """
+    (T008) Loads molecules from a file, supporting .smi, .sdf, and .csv formats.
+    """
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Source molecule file not found at: {file_path}")
+
+    ext = os.path.splitext(file_path)[1]
+    molecules = []
+
+    try:
+        if ext in ['.smi', '.smiles']:
+            suppl = Chem.SmilesMolSupplier(file_path, titleLine=False)
+            molecules = [mol for mol in suppl if mol is not None]
+        elif ext == '.sdf':
+            suppl = Chem.SDMolSupplier(file_path)
+            molecules = [mol for mol in suppl if mol is not None]
+        elif ext == '.csv':
+            df = pd.read_csv(file_path)
+            smiles_col = next((col for col in df.columns if col.lower() == 'smiles'), None)
+            if not smiles_col:
+                raise ValueError("CSV file must have a 'smiles' column.")
+            molecules = [Chem.MolFromSmiles(smi) for smi in df[smiles_col] if isinstance(smi, str)]
+            molecules = [mol for mol in molecules if mol is not None]
+        else:
+            raise ValueError(f"Unsupported file extension: {ext}")
+        
+        if not molecules:
+            raise ValueError(f"No valid molecules could be loaded from {file_path}.")
+
+    except Exception as e:
+        raise ValueError(f"Failed to process file {file_path}: {e}") from e
+
+    return molecules
+
+def _generate_fragments_from_molecules(molecules: List[Any]) -> List[str]:
+    """
+    (T009) Generates a unique set of chemical fragments from a list of molecules using the BRICS algorithm.
+    """
+    if not Chem:
+        raise ImportError("RDKit is required for fragmentation.")
+    
+    all_fragments = set()
+    for mol in molecules:
+        fragments = BRICS.BRICSDecompose(mol)
+        all_fragments.update(fragments)
+    
+    # Return as a list of unique fragment SMILES
+    return sorted(list(all_fragments))
 
 
 # --- Data Classes ---
@@ -57,10 +111,12 @@ class LigandState:
         mol: The RDKit molecule object. Can be None for the initial empty state.
         history: A list of LigandActions taken to reach this state.
         max_atoms: The number of heavy atoms at which the state is considered terminal.
+        fragment_library: A list of SMILES strings for allowed fragments.
     """
     mol: Optional[Any] = None
     history: List[LigandAction] = field(default_factory=list)
     max_atoms: int = 50
+    fragment_library: List[str] = field(default_factory=lambda: ["C", "N", "O", "c1ccccc1", "C(=O)O"])
 
     def to_smiles(self) -> str:
         """Returns the SMILES representation of the current molecule."""
@@ -71,7 +127,12 @@ class LigandState:
     def clone(self) -> "LigandState":
         """Creates a deep copy of the current state for exploration."""
         new_mol = Chem.Mol(self.mol) if self.mol and Chem else None
-        return LigandState(mol=new_mol, history=list(self.history), max_atoms=self.max_atoms)
+        return LigandState(
+            mol=new_mol, 
+            history=list(self.history), 
+            max_atoms=self.max_atoms,
+            fragment_library=self.fragment_library
+        )
 
     def is_terminal(self) -> bool:
         """Checks if the state is terminal (molecule has reached max size)."""
@@ -81,23 +142,21 @@ class LigandState:
 
     def legal_actions(self) -> List[LigandAction]:
         """
-        Returns a list of possible actions (fragment additions) from the current state.
-        In a production system, this would come from a curated fragment library.
+        (T011, T012) Returns a list of possible actions (fragment additions) from the fragment library.
         """
-        frags = ["C", "N", "O", "c1ccccc1", "C(=O)O"]  # Basic fragments for prototype
+        if not self.fragment_library:
+            return []
+            
         actions = []
-        
         if not self.mol or not Chem:
             # If there's no molecule, actions create one from a fragment.
-            for frag in frags:
+            for frag in self.fragment_library:
                 actions.append(LigandAction(frag_smiles=frag))
         else:
             # This prototype attaches to the first few atoms for simplicity.
-            # A more advanced implementation would use SMARTS patterns or other
-            # chemistry-aware rules for determining valid attachment points.
             num_attach_points = min(4, self.mol.GetNumAtoms())
             for i in range(num_attach_points):
-                for frag in frags:
+                for frag in self.fragment_library:
                     actions.append(LigandAction(frag_smiles=frag, attach_idx=i))
         return actions
 
@@ -354,7 +413,13 @@ class LigandMCTSGameState(GameStateBase):
         evaluator: An Evaluator instance used for scoring.
         internal_state: The LigandState object holding the current molecule.
     """
-    def __init__(self, pocket_path: Optional[str] = None, internal_state: Optional[LigandState] = None, evaluator: Optional[Evaluator] = None):
+    def __init__(
+        self, 
+        pocket_path: Optional[str] = None, 
+        source_molecule_path: Optional[str] = None, # (T007)
+        internal_state: Optional[LigandState] = None, 
+        evaluator: Optional[Evaluator] = None
+    ):
         if not Chem:
             raise ImportError("RDKit is required for ligand generation but is not installed. Please run 'pip install rdkit-pypi'.")
 
@@ -365,7 +430,22 @@ class LigandMCTSGameState(GameStateBase):
                 raise ValueError("A pocket_path must be provided if an evaluator is not given.")
             self.evaluator = Evaluator(pocket_path)
         
-        self.internal_state = internal_state if internal_state is not None else LigandState()
+        # (T010) Initialize fragment library and internal state
+        if internal_state:
+            self.internal_state = internal_state
+        else:
+            fragment_library = None
+            if source_molecule_path:
+                # (T013) Error handling is inside the helper functions
+                molecules = _load_molecules_from_file(source_molecule_path)
+                fragment_library = _generate_fragments_from_molecules(molecules)
+            
+            if fragment_library:
+                self.internal_state = LigandState(fragment_library=fragment_library)
+            else:
+                # Fallback to default empty state if no source is provided
+                self.internal_state = LigandState()
+
 
     def getCurrentPlayer(self) -> int:
         """Returns the current player. Always 1 for this single-player 'game'."""

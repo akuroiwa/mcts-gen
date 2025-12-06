@@ -31,13 +31,18 @@ dev = [
     "sphinx-intl",
     "sphinx_rtd_theme",
     "trio",
-    "trio-typing"
+    "trio-typing",
+    "pandas"
 ]
 shogi = [
     "python-shogi"
 ]
 chess = [
     "python-chess"
+]
+ligand = [
+    "rdkit",
+    "pandas"
 ]
 
 [project.urls]

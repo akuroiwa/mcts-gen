@@ -36,6 +36,12 @@ To include support for specific games, you can install optional dependencies.
     ```
     This installs the `python-chess` library.
 
+-   **For Ligand Generation support**:
+    ```bash
+    pip install mcts-gen[ligand]
+    ```
+    This installs `rdkit` and `pandas` for *de novo* ligand design capabilities.
+
 ### 2. Server Setup for Gemini CLI
 
 To allow the Gemini agent to use the MCTS-Gen tools, you must register the server in your `settings.json` file. This allows the Gemini CLI to automatically manage the server process and provide the necessary context files.

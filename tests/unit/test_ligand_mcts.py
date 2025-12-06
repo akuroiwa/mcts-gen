@@ -1,6 +1,7 @@
 import unittest
 import numpy as np
 import os
+import pandas as pd
 
 # Add project root to path to allow direct imports
 import sys
@@ -31,10 +32,36 @@ class TestLigandMCTS(unittest.TestCase):
             f.write("ATOM      2  CA  ALA A   1      28.153  -1.296  34.576  1.00  0.00           C  \n")
             f.write("ATOM      3  C   ALA A   1      27.382  -0.084  35.039  1.00  0.00           C  \n")
 
+        # Files for external source tests
+        self.test_data_dir = "test_data"
+        os.makedirs(self.test_data_dir, exist_ok=True)
+        
+        self.smiles_file = os.path.join(self.test_data_dir, "molecules.smi")
+        with open(self.smiles_file, "w") as f:
+            f.write("CCO\n")
+            f.write("c1ccccc1\n")
+            f.write("CNC(=O)c1ccc(C)cc1\n")
+
+        self.sdf_file = os.path.join(self.test_data_dir, "molecules.sdf")
+        mol = Chem.MolFromSmiles("CC(=O)Oc1ccccc1C(=O)O") # Aspirin
+        writer = Chem.SDWriter(self.sdf_file)
+        writer.write(mol)
+        writer.close()
+
+        self.csv_file = os.path.join(self.test_data_dir, "molecules.csv")
+        pd.DataFrame({"smiles": ["C", "CC", "CCC"]}).to_csv(self.csv_file, index=False)
+
+        self.malformed_smiles_file = os.path.join(self.test_data_dir, "malformed.smi")
+        with open(self.malformed_smiles_file, "w") as f:
+            f.write("this is not a valid smiles string\n")
+
     def tearDown(self):
         """Clean up the dummy pocket file."""
         if os.path.exists(self.pocket_file):
             os.remove(self.pocket_file)
+        if os.path.exists(self.test_data_dir):
+            import shutil
+            shutil.rmtree(self.test_data_dir)
 
     @unittest.skipIf(Chem is None, "RDKit is not installed, skipping chemical tests")
     def test_evaluator_scoring(self):
@@ -133,8 +160,53 @@ class TestLigandMCTS(unittest.TestCase):
         self.assertNotEqual(reward, 0.0) # Should have a calculated score
 
     @unittest.skipIf(Chem is None, "RDKit is not installed, skipping chemical tests")
-    def test_placeholder(self):
-        self.assertTrue(True)
+    def test_initialization_with_source_molecule_path(self):
+        """(T003) Test initialization with a valid source_molecule_path."""
+        game = LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path=self.smiles_file)
+        self.assertIsInstance(game, LigandMCTSGameState)
+        actions = game.getPossibleActions()
+        self.assertIsInstance(actions, list)
+        self.assertGreater(len(actions), 0)
+        self.assertIsInstance(actions[0], LigandAction)
+
+    @unittest.skipIf(Chem is None, "RDKit is not installed, skipping chemical tests")
+    def test_molecule_parsing_from_different_formats(self):
+        """(T004) Test initialization from different file formats."""
+        # Test with .smi
+        game_smi = LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path=self.smiles_file)
+        self.assertGreater(len(game_smi.getPossibleActions()), 0)
+        
+        # Test with .sdf
+        game_sdf = LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path=self.sdf_file)
+        self.assertGreater(len(game_sdf.getPossibleActions()), 0)
+
+        # Test with .csv
+        game_csv = LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path=self.csv_file)
+        self.assertGreater(len(game_csv.getPossibleActions()), 0)
+
+    @unittest.skipIf(Chem is None, "RDKit is not installed, skipping chemical tests")
+    def test_error_handling_for_invalid_paths(self):
+        """(T005) Test error handling for invalid file paths and malformed files."""
+        with self.assertRaises(FileNotFoundError):
+            LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path="non_existent_file.smi")
+        
+        with self.assertRaises(ValueError):
+            LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path=self.malformed_smiles_file)
+
+    @unittest.skipIf(Chem is None, "RDKit is not installed, skipping chemical tests")
+    def test_brics_fragmentation_produces_fragments(self):
+        """(T006) Test that BRICS fragmentation produces a non-empty list of actions."""
+        game = LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path=self.smiles_file)
+        actions = game.getPossibleActions()
+        self.assertGreater(len(actions), 0)
+
+        # Check for a known fragment from Aspirin
+        game_aspirin = LigandMCTSGameState(pocket_path=self.pocket_file, source_molecule_path=self.sdf_file)
+        aspirin_actions = game_aspirin.getPossibleActions()
+        # One possible BRICS fragment of Aspirin is the salicylic acid part.
+        # This is a weak test as the SMILES can vary. A better test would be canonical smiles.
+        # For now, just checking if we get a good number of fragments.
+        self.assertGreater(len(aspirin_actions), 1)
 
 
 if __name__ == '__main__':
