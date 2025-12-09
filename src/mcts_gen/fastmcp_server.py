@@ -34,9 +34,9 @@ def mcts_autonomous_search(goal: str, ctx: Context) -> list[PromptMessage]:
         "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module` (e.g., 'mcts_gen.games.ligand_mcts') and `state_class` (e.g., 'LigandMCTSGameState'). If the game requires constructor arguments, pass them in the `state_kwargs` dictionary (e.g., `{'pocket_path': '/path/to/file.pdb'}`).",
 
         "\n**Phase 3: Execution**",
-        "7. **Implement a Search Loop**: After successful initialization, implement a loop in your reasoning process for a fixed number of iterations (e.g., 5-10 rounds).",
-        "8. **Execute MCTS Rounds**: In each iteration of your loop, call `run_mcts_round` to advance the search. You can analyze `get_possible_actions` if you need to guide the search, but it is not required for a basic run.",
-        "9. **Analyze Results**: After the loop terminates, call `get_simulation_stats` to review the final state and `get_best_move` to retrieve the optimal move found.",
+        "7. **Execute Search Rounds**: After successful initialization, repeatedly call the `run_mcts_round` tool **one round at a time**. Your goal is to explore the search space effectively.",
+        "8. **Analyze and Repeat**: After each round, examine the `simulation_stats` output. Continue calling `run_mcts_round` until the `improvement` value in the stats is consistently low or zero, or until you have run a sufficient number of rounds (e.g., 10-20). **Do not call the tool multiple times in a single turn.**",
+        "9. **Get Final Result**: Once you have finished the search rounds, call `get_best_move` to retrieve the optimal move found.",
     ]
     detail = "\n".join(workflow)
     return [

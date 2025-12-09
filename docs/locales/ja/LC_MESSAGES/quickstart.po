@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-06 23:37+0900\n"
+"POT-Creation-Date: 2025-12-09 22:29+0900\n"
 "PO-Revision-Date: 2025-10-18 14:45+0900\n"
 "Last-Translator: Gemini\n"
 "Language: ja\n"
@@ -93,13 +93,23 @@ msgid ""
 "generation guided by a protein pocket and a user-provided file of source "
 "molecules."
 msgstr ""
-"これにより、新規リガンド設計機能のために ``rdkit`` と ``pandas`` がインストールされます。この機能は、タンパク質ポケットとユーザー提供のソース分子ファイルに基づいて、MCTSによる新規分子生成も可能にします。"
+"これにより、新規リガンド設計機能のために ``rdkit`` と ``pandas`` "
+"がインストールされます。この機能は、タンパク質ポケットとユーザー提供のソース分子ファイルに基づいて、MCTSによる新規分子生成も可能にします。"
 
-#: ../../quickstart.rst:52
+#: ../../quickstart.rst:53
+msgid ""
+"This feature also requires the external tool ``fpocket`` for identifying "
+"protein binding pockets. It can be installed on Debian/Ubuntu systems "
+"using snap:"
+msgstr ""
+"この機能は、タンパク質の結合ポケットを特定するために、外部ツール ``fpocket`` も必要とします。これは、"
+"Debian/Ubuntuシステムではsnapを使用してインストールできます:"
+
+#: ../../quickstart.rst:60
 msgid "Server Setup for Gemini CLI"
 msgstr "Gemini CLIのためのサーバー設定"
 
-#: ../../quickstart.rst:54
+#: ../../quickstart.rst:62
 msgid ""
 "To allow the Gemini agent to use the MCTS-Gen tools, you must register "
 "the server in your ``settings.json`` file. This allows the Gemini CLI to "
@@ -110,7 +120,7 @@ msgstr ""
 "Genツールを使用できるようにするには、サーバーを``settings.json``ファイルに登録する必要があります。これにより、Gemini "
 "CLIがサーバープロセスを自動的に管理し、必要なコンテキストファイルを提供できるようになります。"
 
-#: ../../quickstart.rst:58
+#: ../../quickstart.rst:66
 msgid ""
 "**v0.0.2+ Change**: As of version 0.0.2, the core agent instructions are "
 "built-in. Specifying a context file is no longer required for standard "
@@ -118,13 +128,13 @@ msgid ""
 "*additional* instructions to the agent."
 msgstr ""
 
-#: ../../quickstart.rst:60
+#: ../../quickstart.rst:68
 msgid ""
 "Create or update your ``settings.json`` file with the following "
 "configuration:"
 msgstr "以下の設定で``settings.json``ファイルを作成または更新してください："
 
-#: ../../quickstart.rst:82
+#: ../../quickstart.rst:90
 msgid ""
 "**Note**: The ``context`` block tells the Gemini CLI to load "
 "``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the "
@@ -133,69 +143,69 @@ msgstr ""
 "**注**: ``context``ブロックは、Gemini "
 "CLIに``AGENTS.md``（および存在する場合は``GEMINI.md``）を読み込むよう指示します。これはエージェントがツールの使い方を理解するために不可欠です。"
 
-#: ../../quickstart.rst:84
+#: ../../quickstart.rst:92
 msgid "You can place this ``settings.json`` file in one of two locations:"
 msgstr "この``settings.json``ファイルは、次の2つの場所のいずれかに配置できます："
 
-#: ../../quickstart.rst:86
+#: ../../quickstart.rst:94
 msgid ""
 "**Project-Specific**: ``./.gemini/settings.json`` (inside this project "
 "directory)"
 msgstr "**プロジェクト固有**: ``./.gemini/settings.json``（このプロジェクトディレクトリ内）"
 
-#: ../../quickstart.rst:87
+#: ../../quickstart.rst:95
 msgid "**Global**: ``~/.gemini/settings.json`` (in your home directory)"
 msgstr "**グローバル**: ``~/.gemini/settings.json``（ホームディレクトリ内）"
 
-#: ../../quickstart.rst:89
+#: ../../quickstart.rst:97
 msgid ""
 "For an alternative setup method using the ``fastmcp`` command-line tool, "
 "please see the official guide:"
 msgstr "``fastmcp``コマンドラインツールを使用した別の設定方法については、公式ガイドを参照してください："
 
-#: ../../quickstart.rst:91
+#: ../../quickstart.rst:99
 msgid "`Gemini CLI 🤝 FastMCP <https://gofastmcp.com/integrations/gemini-cli>`_"
 msgstr "`Gemini CLI 🤝 FastMCP <https://gofastmcp.com/integrations/gemini-cli>`_"
 
-#: ../../quickstart.rst:94
+#: ../../quickstart.rst:102
 msgid "Installation with `uv` (Recommended)"
 msgstr "`uv`によるインストール（推奨）"
 
-#: ../../quickstart.rst:96
+#: ../../quickstart.rst:104
 msgid ""
 "For a faster and more modern package management experience, we recommend "
 "using `uv`."
 msgstr "より高速でモダンなパッケージ管理を体験するために、`uv`の使用を推奨します。"
 
-#: ../../quickstart.rst:98
+#: ../../quickstart.rst:106
 msgid "**Install `pipx` and `uv`**:"
 msgstr "**pipxとuvのインストール**："
 
-#: ../../quickstart.rst:108
+#: ../../quickstart.rst:116
 msgid "**Set up the environment and install `mcts-gen`**:"
 msgstr "**環境のセットアップと`mcts-gen`のインストール**："
 
-#: ../../quickstart.rst:121
+#: ../../quickstart.rst:129
 msgid "To exit the virtual environment, simply run ``deactivate``."
 msgstr "仮想環境を終了するには、単に ``deactivate`` を実行します。"
 
-#: ../../quickstart.rst:123
+#: ../../quickstart.rst:131
 msgid "**Configure `gemini-cli` with `fastmcp`**:"
 msgstr "**`fastmcp`による`gemini-cli`の設定**："
 
-#: ../../quickstart.rst:125
+#: ../../quickstart.rst:133
 msgid ""
 "Instead of manually editing ``settings.json``, you can use the "
 "``fastmcp`` command to automatically configure the tool server."
 msgstr "``settings.json``を手動で編集する代わりに、``fastmcp``コマンドを使用してツールサーバーを自動的に設定できます。"
 
-#: ../../quickstart.rst:131
+#: ../../quickstart.rst:139
 msgid ""
 "This command will automatically detect and configure the `mcts_gen` "
 "server, creating a ``.gemini/settings.json`` file for you."
 msgstr "このコマンドは`mcts_gen`サーバーを自動的に検出し設定を行い、あなたのための``.gemini/settings.json``ファイルを生成します。"
 
-#: ../../quickstart.rst:133
+#: ../../quickstart.rst:141
 msgid ""
 "**Note on the ``:mcp`` suffix**: The ``:mcp`` at the end is required "
 "because ``fastmcp_server.py`` contains multiple objects. This suffix "
@@ -205,11 +215,11 @@ msgstr ""
 "**``:mcp``接尾辞に関する注**: "
 "末尾の``:mcp``は、``fastmcp_server.py``に複数のオブジェクトが含まれているため必要です。この接尾辞は、実行すべきMCPサーバーインスタンスがどのオブジェクトであるかを``fastmcp``に明示的に伝えます。"
 
-#: ../../quickstart.rst:136
+#: ../../quickstart.rst:144
 msgid "Agent Context Configuration with `uv`"
 msgstr "`uv`でのエージェントコンテキスト設定"
 
-#: ../../quickstart.rst:140
+#: ../../quickstart.rst:148
 msgid ""
 "**v0.0.2+ Change**: The instructions below are for older versions or for "
 "cases where you need to add custom, additional context. As of v0.0.2, "
@@ -217,46 +227,46 @@ msgid ""
 "correctly."
 msgstr ""
 
-#: ../../quickstart.rst:142
+#: ../../quickstart.rst:150
 msgid ""
 "If you installed the package using `uv` or `pip`, the `AGENTS.md` file is"
 " included inside the package. To allow the Gemini agent to use it, you "
 "need to specify its full path in your `.gemini/settings.json` file."
 msgstr "`uv`または`pip`を使用してパッケージをインストールした場合、`AGENTS.md`ファイルがパッケージ内に含まれます。Geminiエージェントがそれを使用できるようにするには、`.gemini/settings.json`ファイルでそのフルパスを指定する必要があります。"
 
-#: ../../quickstart.rst:144
+#: ../../quickstart.rst:152
 msgid ""
 "Add the path to the `context.fileName` list. The exact path may vary "
 "depending on your Python version and environment."
 msgstr "`context.fileName`リストにパスを追加します。正確なパスは、お使いのPythonのバージョンや環境によって異なる場合があります。"
 
-#: ../../quickstart.rst:146
+#: ../../quickstart.rst:154
 msgid "**Example `.gemini/settings.json`:**"
 msgstr "**`.gemini/settings.json`の例：**"
 
-#: ../../quickstart.rst:171
+#: ../../quickstart.rst:179
 msgid "For Maintainers: How to Release a New Version"
 msgstr "メンテナー向け：新しいバージョンのリリース方法"
 
-#: ../../quickstart.rst:173
+#: ../../quickstart.rst:181
 msgid "The package publication process is automated using GitHub Actions."
 msgstr "パッケージの公開プロセスはGitHub Actionsを使用して自動化されています。"
 
-#: ../../quickstart.rst:176
+#: ../../quickstart.rst:184
 msgid "Releasing to TestPyPI (for testing)"
 msgstr "TestPyPIへのリリース（テスト用）"
 
-#: ../../quickstart.rst:178
+#: ../../quickstart.rst:186
 msgid ""
 "To release a version to the TestPyPI repository for verification, create "
 "and push a git tag with a ``-test`` suffix."
 msgstr "TestPyPIリポジトリにバージョンをリリースして検証するには、``-test``接尾辞を付けてgitタグを作成し、プッシュします。"
 
-#: ../../quickstart.rst:187
+#: ../../quickstart.rst:195
 msgid "Releasing to PyPI (Official)"
 msgstr "PyPIへのリリース（公式）"
 
-#: ../../quickstart.rst:189
+#: ../../quickstart.rst:197
 msgid ""
 "To perform an official release, create and push a git tag that follows "
 "the semantic versioning format (e.g., ``vX.Y.Z``)."

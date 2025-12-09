@@ -42,6 +42,11 @@ To include support for specific games, you can install optional dependencies.
     ```
     This installs `rdkit` and `pandas` for *de novo* ligand design capabilities.
 
+    Additionally, this feature requires the external tool `fpocket` for identifying protein binding pockets. It can be installed on Debian/Ubuntu systems using snap:
+    ```bash
+    sudo snap install fpocket
+    ```
+
 ### 2. Server Setup for Gemini CLI
 
 To allow the Gemini agent to use the MCTS-Gen tools, you must register the server in your `settings.json` file. This allows the Gemini CLI to automatically manage the server process and provide the necessary context files.

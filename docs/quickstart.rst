@@ -48,6 +48,14 @@ To include support for specific games, you can install optional dependencies (ex
 
   This installs ``rdkit`` and ``pandas`` for *de novo* ligand design capabilities. This feature also allows for MCTS-based de novo molecule generation guided by a protein pocket and a user-provided file of source molecules.
 
+  .. note::
+
+     This feature also requires the external tool ``fpocket`` for identifying protein binding pockets. It can be installed on Debian/Ubuntu systems using snap:
+
+     .. code-block:: bash
+
+        sudo snap install fpocket
+
 Server Setup for Gemini CLI
 ---------------------------
 

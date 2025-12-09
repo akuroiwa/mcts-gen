@@ -1,9 +1,39 @@
 """
 This module implements the GameState for de novo ligand generation, guided
-by a protein pocket point cloud.
+by a protein pocket point cloud. It is designed to be dynamically loaded by the
+mcts-gen framework.
 
-This module is designed to be dynamically loaded by the mcts-gen framework.
-It requires the user to have RDKit, SciPy, and NumPy installed.
+**Dependencies:**
+
+*   **Python Libraries:** RDKit, SciPy, NumPy
+    -   `uv pip install rdkit scipy numpy` (or `pip install ...`)
+
+*   **External Tool: fpocket:** This program is required to identify the binding
+    pocket from a protein structure file (e.g., PDB). The output of fpocket
+    (a PDB file of the pocket) is used as the `pocket_path` input for this module.
+
+    **Installation (Ubuntu/Debian):**
+    ```bash
+    sudo snap install fpocket
+    ```
+
+    **Usage Example:**
+    1.  Run fpocket on your protein: `fpocket -f your_protein.pdb`
+    2.  This creates a results directory, e.g., `your_protein_out/pockets/`.
+    3.  Use the largest pocket's PDB file as input for the `pocket_path` argument.
+       (e.g., `pocket_path='your_protein_out/pockets/pocket1_atm.pdb'`)
+
+**Fragment Generation:**
+
+This module generates chemical fragments dynamically from a user-provided source
+molecule file. Use the `source_molecule_path` argument to specify the path to your
+file. Supported formats are:
+-   `.smi` / `.smiles`: SMILES format
+-   `.sdf`: Structure-Data File format
+-   `.csv`: A CSV file with a 'smiles' column
+
+If `source_molecule_path` is not provided, a small default library of fragments
+will be used.
 """
 
 from dataclasses import dataclass, field
