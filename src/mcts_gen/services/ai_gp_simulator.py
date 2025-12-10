@@ -45,19 +45,20 @@ class AiGpSimulator:
         except Exception as e:
             return {"error": f"Failed to re-initialize MCTS: {e}"}
 
-    def run_mcts_round(self, exploration_constant: float, actions_to_expand: List[str] | None = None) -> Dict[str, Any]:
-        """Executes a single MCTS round and updates the simulation state."""
+    def run_mcts_round(self, exploration_constant: float, num_rounds: int = 1, actions_to_expand: List[str] | None = None) -> Dict[str, Any]:
+        """Executes a specified number of MCTS rounds and updates the simulation state."""
         if not self.engine:
             return {"error": "MCTS engine not initialized."}
 
         self.simulation_state['previous_eaten'] = self.simulation_state['eaten']
         self.engine.pruned_actions = actions_to_expand
 
-        # --- MCTS 1-Round Logic ---
-        node = self.engine.selectNode_num(self.engine.root, exploration_constant)
-        reward = self.engine.mctsSolver(node)
-        self.engine.backpropogate(node, reward)
-        # --- End of 1-Round Logic ---
+        for _ in range(num_rounds):
+            # --- MCTS 1-Round Logic ---
+            node = self.engine.selectNode_num(self.engine.root, exploration_constant)
+            reward = self.engine.mctsSolver(node)
+            self.engine.backpropogate(node, reward)
+            # --- End of 1-Round Logic ---
 
         # --- State Update Logic ---
         if self.engine.root.children:
@@ -77,7 +78,7 @@ class AiGpSimulator:
             self.simulation_state['improvement'] = 0
 
         return {
-            "status": "1 round executed.",
+            "status": f"{num_rounds} rounds executed.",
             "root_visits": self.engine.root.numVisits,
             "simulation_stats": self.simulation_state
         }
