@@ -97,18 +97,36 @@ def _load_molecules_from_file(file_path: str) -> List[Any]:
 
 def _generate_fragments_from_molecules(molecules: List[Any]) -> List[str]:
     """
-    (T009) Generates a unique set of chemical fragments from a list of molecules using the BRICS algorithm.
+    (T009) Generates a unique set of chemical fragments from a list of molecules using the BRICS algorithm,
+    and pre-validates that each fragment can form a 3D conformation.
     """
     if not Chem:
         raise ImportError("RDKit is required for fragmentation.")
     
-    all_fragments = set()
+    all_fragments_smiles = set()
     for mol in molecules:
         fragments = BRICS.BRICSDecompose(mol)
-        all_fragments.update(fragments)
+        all_fragments_smiles.update(fragments)
     
-    # Return as a list of unique fragment SMILES
-    return sorted(list(all_fragments))
+    validated_fragments = []
+    for smiles in sorted(list(all_fragments_smiles)):
+        try:
+            frag_mol = Chem.MolFromSmiles(smiles)
+            if frag_mol is None:
+                continue
+            
+            # Pre-validate that a 3D conformation can be generated
+            frag_mol_with_hs = Chem.AddHs(frag_mol)
+            if AllChem.EmbedMolecule(frag_mol_with_hs, AllChem.ETKDGv3()) == -1:
+                # EmbedMolecule returns -1 on failure
+                continue
+            
+            validated_fragments.append(smiles)
+        except Exception:
+            # Ignore fragments that cause any error during validation
+            continue
+            
+    return validated_fragments
 
 
 # --- Data Classes ---
