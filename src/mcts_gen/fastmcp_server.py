@@ -33,10 +33,23 @@ def mcts_autonomous_search(goal: str, ctx: Context) -> list[PromptMessage]:
         "5. **Gather Arguments**: If the constructor requires arguments (like `pocket_path` for `ligand_mcts`), ask the user to provide the necessary information. If no arguments are needed, proceed directly.",
         "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module` (e.g., 'mcts_gen.games.ligand_mcts') and `state_class` (e.g., 'LigandMCTSGameState'). If the game requires constructor arguments, pass them in the `state_kwargs` dictionary (e.g., `{'pocket_path': '/path/to/file.pdb'}`).",
 
-        "\n**Phase 3: Execution**",
-        "7. **Execute Search Rounds**: After successful initialization, repeatedly call the `run_mcts_round` tool **one round at a time**. Your goal is to explore the search space effectively.",
-        "8. **Analyze and Repeat**: After each round, examine the `simulation_stats` output. Continue calling `run_mcts_round` until the `improvement` value in the stats is consistently low or zero, or until you have run a sufficient number of rounds (e.g., 10-20). **Do not call the tool multiple times in a single turn.**",
-        "9. **Get Final Result**: Once you have finished the search rounds, call `get_best_move` to retrieve the optimal move found.",
+        "\n**Phase 3: Execution (The MCTS/GP Cycle)**",
+        "Your goal is to find the best move by intelligently guiding the MCTS search. You will act like a Genetic Programming (GP) algorithm, making decisions after each round.",
+        "Follow this cycle **strictly**:",
+        "",
+        "1. **EXECUTE Round**: Call `run_mcts_round(exploration_constant=..., actions_to_expand=...)`.",
+        "   - On the first round, you can omit `actions_to_expand`.",
+        "   - On subsequent rounds, use `actions_to_expand` to focus the search on promising branches. You can get a list of all possible branches by calling `get_possible_actions`.",
+        "",
+        "2. **ANALYZE Results**: Call `get_simulation_stats()` to see the result of the last round. Pay close attention to the `improvement` value.",
+        "",
+        "3. **DECIDE Next Step**: Based on the stats, decide your next move:",
+        "   - **If `improvement` is low or zero** for several rounds, the search has likely converged. Proceed to Step 4.",
+        "   - **If `improvement` is good**, decide on the parameters for the next `run_mcts_round` call. Should you change the `exploration_constant`? Should you prune the search space using `actions_to_expand`? Then, go back to Step 1.",
+        "",
+        "4. **FINALIZE**: Once the search is complete, call `get_best_move()` to retrieve the final, optimal result.",
+        "",
+        "**CRITICAL RULE: You MUST alternate between `run_mcts_round` and another tool (like `get_simulation_stats` or `get_possible_actions`). NEVER call the same tool twice in a row.**",
     ]
     detail = "\n".join(workflow)
     return [
