@@ -24,6 +24,7 @@ class AiGpSimulator:
         self.mcp.tool(self.get_best_move)
         self.mcp.tool(self.get_simulation_stats)
         self.mcp.tool(self.get_possible_actions)
+        self.mcp.tool(self.get_principal_variation)
 
     def _reset_simulation_state(self):
         """Resets the state variables for a single evaluation run."""
@@ -51,7 +52,19 @@ class AiGpSimulator:
             return {"error": "MCTS engine not initialized."}
 
         self.simulation_state['previous_eaten'] = self.simulation_state['eaten']
-        self.engine.pruned_actions = actions_to_expand
+        
+        if actions_to_expand:
+            # Perform string-based lookup to find the actual action objects
+            try:
+                real_actions = self.engine.root.state.getPossibleActions()
+                action_map = {str(action): action for action in real_actions}
+                actions_to_pass_to_engine = [action_map[s] for s in actions_to_expand if s in action_map]
+                self.engine.pruned_actions = actions_to_pass_to_engine
+            except Exception as e:
+                return {"error": f"Failed to process actions_to_expand: {e}"}
+        else:
+            self.engine.pruned_actions = None
+
 
         # --- MCTS 1-Round Logic ---
         node = self.engine.selectNode_num(self.engine.root, exploration_constant)
@@ -62,7 +75,7 @@ class AiGpSimulator:
         # --- State Update Logic ---
         if self.engine.root.children:
             best_child = self.engine.getBestChild(self.engine.root, 0) # Use 0 exploration for pure exploitation
-            if best_child.numVisits > 0:
+            if best_child and best_child.numVisits > 0:
                 self.simulation_state['eaten'] = best_child.totalReward / best_child.numVisits
             else:
                 self.simulation_state['eaten'] = 0.0
@@ -102,6 +115,43 @@ class AiGpSimulator:
             return {"error": "MCTS engine not initialized."}
         try:
             actions = self.engine.root.state.getPossibleActions()
-            return {"possible_actions": actions}
+            # Return string representations to the AI agent
+            return {"possible_actions": [str(a) for a in actions]}
         except Exception as e:
             return {"error": f"Failed to get possible actions: {e}"}
+
+    def get_principal_variation(self) -> Dict[str, Any]:
+        """
+        Retrieves the principal variation (best sequence of moves) from the root.
+        """
+        if not self.engine or not self.engine.root:
+            return {"error": "MCTS engine not initialized."}
+
+        path = []
+        node = self.engine.root
+        while node.children:
+            best_child = self.engine.getBestChild(node, 0)
+            if not best_child:
+                break
+            
+            found_action = None
+            for action, child_node in node.children.items():
+                if child_node is best_child:
+                    found_action = action
+                    break
+            
+            if found_action:
+                path.append(str(found_action))
+                node = best_child
+            else:
+                # Should not happen if best_child is found
+                break
+        
+        final_state = node.state
+        final_score = node.totalReward / node.numVisits if node.numVisits > 0 else 0
+        
+        return {
+            "principal_variation": path,
+            "final_score": final_score,
+            "final_state_summary": final_state.get_state_summary()
+        }

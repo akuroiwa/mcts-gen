@@ -34,6 +34,12 @@ file. Supported formats are:
 
 If `source_molecule_path` is not provided, a small default library of fragments
 will be used.
+
+**Tool-Specific Behavior:**
+
+*   When used with the `get_principal_variation` tool, the `final_state_summary`
+    in the tool's output will contain the SMILES string of the best molecule
+    and a `pdb_path` key pointing to a saved PDB file of its 3D structure.
 """
 
 from dataclasses import dataclass, field
@@ -98,7 +104,7 @@ def _load_molecules_from_file(file_path: str) -> List[Any]:
 def _generate_fragments_from_molecules(molecules: List[Any]) -> List[str]:
     """
     (T009) Generates a unique set of chemical fragments from a list of molecules using the BRICS algorithm,
-    and pre-validates that each fragment can form a 3D conformation.
+    filters by size, and pre-validates that each fragment can form a 3D conformation.
     """
     if not Chem:
         raise ImportError("RDKit is required for fragmentation.")
@@ -109,12 +115,17 @@ def _generate_fragments_from_molecules(molecules: List[Any]) -> List[str]:
         all_fragments_smiles.update(fragments)
     
     validated_fragments = []
+    max_heavy_atoms = 20  # Define a threshold for fragment size
     for smiles in sorted(list(all_fragments_smiles)):
         try:
             frag_mol = Chem.MolFromSmiles(smiles)
             if frag_mol is None:
                 continue
             
+            # Filter out fragments that are too large
+            if frag_mol.GetNumHeavyAtoms() > max_heavy_atoms:
+                continue
+
             # Pre-validate that a 3D conformation can be generated
             frag_mol_with_hs = Chem.AddHs(frag_mol)
             if AllChem.EmbedMolecule(frag_mol_with_hs, AllChem.ETKDGv3()) == -1:
@@ -540,6 +551,22 @@ class LigandMCTSGameState(GameStateBase):
             return 0.0
         
         return self.evaluator.total_score(self.internal_state.mol)
+
+    def get_state_summary(self) -> Dict[str, Any]:
+        """
+        Saves the current molecule to a PDB file and returns a summary.
+        """
+        summary = {"smiles": self.internal_state.to_smiles()}
+        if self.internal_state.mol:
+            try:
+                # Ensure output directory exists
+                os.makedirs("mcts_output", exist_ok=True)
+                pdb_path = "mcts_output/best_molecule.pdb"
+                Chem.MolToPDBFile(self.internal_state.mol, pdb_path)
+                summary["pdb_path"] = pdb_path
+            except Exception as e:
+                summary["error"] = f"Failed to save PDB file: {e}"
+        return summary
 
     def __repr__(self) -> str:
         """Provides a developer-friendly representation of the game state."""

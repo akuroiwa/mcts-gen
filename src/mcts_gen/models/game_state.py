@@ -43,3 +43,10 @@ class GameStateBase(ABC):
         Convention: +1 (win), -1 (loss), 0 (draw).
         """
         pass
+
+    def get_state_summary(self) -> Any:
+        """
+        Returns a summary of the current state.
+        This can be overridden by subclasses to provide richer, game-specific information.
+        """
+        return str(self)
