@@ -466,14 +466,20 @@ class LigandMCTSGameState(GameStateBase):
         else:
             fragment_library = None
             if source_molecule_path:
-                # (T013) Error handling is inside the helper functions
-                molecules = _load_molecules_from_file(source_molecule_path)
-                fragment_library = _generate_fragments_from_molecules(molecules)
+                try:
+                    print(f"Attempting to generate fragments from source: {source_molecule_path}")
+                    molecules = _load_molecules_from_file(source_molecule_path)
+                    fragment_library = _generate_fragments_from_molecules(molecules)
+                    print(f"Successfully generated {len(fragment_library)} unique fragments.")
+                except Exception as e:
+                    print(f"\n[Warning] Failed to generate fragments from '{source_molecule_path}': {e}")
+                    print("[Info] Falling back to the default fragment library.\n")
+                    fragment_library = None  # Ensure fallback is triggered
             
             if fragment_library:
                 self.internal_state = LigandState(fragment_library=fragment_library)
             else:
-                # Fallback to default empty state if no source is provided
+                # Fallback to default empty state
                 self.internal_state = LigandState()
 
 
