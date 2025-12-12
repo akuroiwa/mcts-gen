@@ -288,13 +288,15 @@ def mol_to_points(mol: Any) -> np.ndarray:
         return np.array([])
 
     if mol.GetNumConformers() == 0:
-        mol_with_hs = Chem.AddHs(mol)
-        AllChem.EmbedMolecule(mol_with_hs, AllChem.ETKDGv3())
         try:
+            mol_with_hs = Chem.AddHs(mol)
+            if AllChem.EmbedMolecule(mol_with_hs, AllChem.ETKDGv3()) == -1:
+                return np.array([]) # Failed to embed
             AllChem.UFFOptimizeMolecule(mol_with_hs)
+            mol = Chem.RemoveHs(mol_with_hs)
         except Exception:
-            pass  # Optimization can fail on some complex structures
-        mol = Chem.RemoveHs(mol_with_hs)
+            # RDKit can throw a variety of errors here, including Invariant Violation
+            return np.array([])
 
     conformer = mol.GetConformer()
     points = [
