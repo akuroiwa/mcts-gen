@@ -24,7 +24,6 @@ msgid "Quickstart"
 msgstr "クイックスタート"
 
 #: ../../quickstart.rst:6
-#, fuzzy
 msgid ""
 "This project provides a generic Monte Carlo Tree Search (MCTS) framework."
 " Its core concept is the replacement of the Genetic Programming (GP) "
@@ -127,6 +126,7 @@ msgid ""
 "operation. Only configure the ``context`` block if you wish to provide "
 "*additional* instructions to the agent."
 msgstr ""
+"**v0.0.2+での変更**: バージョン0.0.2より、コアエージェントの指示は組み込みになりました。標準的な操作ではコンテキストファイルの指定は不要です。エージェントに*追加の*指示を提供したい場合にのみ``context``ブロックを設定してください。"
 
 #: ../../quickstart.rst:68
 msgid ""
@@ -226,6 +226,7 @@ msgid ""
 "specifying ``AGENTS.md`` is not required for the agent to function "
 "correctly."
 msgstr ""
+"**v0.0.2+での変更**: 以下の手順は古いバージョン、またはカスタムの追加コンテキストが必要な場合向けです。v0.0.2以降、エージェントが正しく機能するために``AGENTS.md``の指定は不要です。"
 
 #: ../../quickstart.rst:150
 msgid ""

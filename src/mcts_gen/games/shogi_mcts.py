@@ -1,5 +1,6 @@
 from copy import deepcopy
 import shogi
+import shogi.KIF
 from typing import List, Any, Dict
 
 from mcts_gen.models.game_state import GameStateBase
@@ -18,21 +19,14 @@ class ShogiGameState(GameStateBase):
     def getCurrentPlayer(self) -> int:
         return 1 if self.board.turn == shogi.BLACK else -1
 
-    # def getPossibleActions(self) -> List[shogi.Move]:
-    #     possibleActions = list(self.board.legal_moves)
-    #     return possibleActions
-
     def getPossibleActions(self) -> List[str]:
         """Returns a list of legal moves in USI string format."""
         return [move.usi() for move in self.board.legal_moves]
 
-    # def takeAction(self, action: shogi.Move) -> "ShogiGameState":
     def takeAction(self, action) -> "ShogiGameState":
         """Takes a shogi.Move object and returns the new state."""
         newState = deepcopy(self)
-        # newState.board.push(action)
         newState.board.push_usi(action)
-        # print(f"[DEBUG] Type of newState in takeAction: {type(newState)}")
         return newState
 
     def isTerminal(self) -> bool:
@@ -40,19 +34,31 @@ class ShogiGameState(GameStateBase):
 
     def getReward(self) -> float:
         if not self.isTerminal():
-            # return None   # Falseや0でも良いがMCTSフレームワークと要相談
-            # return False
             return 0.0
 
-        # 勝者判定ロジック例
         if self.board.is_checkmate():
-            # 手番が負けたなら
             return -1.0 if self.board.turn == shogi.BLACK else 1.0
         elif self.board.is_stalemate() or self.board.is_fourfold_repetition():
-            return 0.0  # 引き分け
-        else:
-            # それ以外は要件次第（持将棋・その他エッジケース）
             return 0.0
+        else:
+            return 0.0
+
+    def get_state_summary(self) -> Dict[str, str]:
+        """
+        Returns a summary of the current game state, including a KIF string with move history.
+        """
+        # python-shogi's kif_str() only gives the position, not the full move history.
+        # We need to build the move list manually.
+        kif_moves = []
+        # We need a temporary board to correctly generate KIF move strings from the start
+        temp_board = shogi.Board()
+        for i, move in enumerate(self.board.move_stack):
+            move_num = i + 1
+            kif_move_str = shogi.KIF.Exporter.kif_move_from(move.usi(), temp_board)
+            kif_moves.append(f"{move_num} {kif_move_str}")
+            temp_board.push(move)
+
+        return {"kif": "\n".join(kif_moves)}
 
     def to_dict(self) -> Dict[str, Any]:
         """Serializes the game state to a dictionary for logging."""

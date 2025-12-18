@@ -1,6 +1,6 @@
 [project]
 name = "mcts-gen"
-version = "0.0.2"
+version = "0.0.3"
 description = "A generic MCTS framework driven by an external AI agent."
 requires-python = ">=3.10"
 dependencies = [
@@ -32,7 +32,8 @@ dev = [
     "sphinx_rtd_theme",
     "trio",
     "trio-typing",
-    "pandas"
+    "pandas",
+    "mock"
 ]
 shogi = [
     "python-shogi"

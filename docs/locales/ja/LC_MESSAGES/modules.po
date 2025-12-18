@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-10-09 21:46+0900\n"
+"POT-Creation-Date: 2025-12-18 23:16+0900\n"
 "PO-Revision-Date: 2025-10-10 21:45+0900\n"
 "Last-Translator: Gemini <gemini@google.com>\n"
 "Language: ja\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: ../../modules.rst:2
 msgid "API Reference"
@@ -40,6 +40,10 @@ msgstr "これまでに見つかった最善手を取得します。"
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_possible_actions:1 of
 msgid "Retrieves the list of all possible actions from the current root state."
 msgstr "現在のルート状態から可能なすべてのアクションのリストを取得します。"
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_principal_variation:1 of
+msgid "Retrieves the principal variation (best sequence of moves) from the root."
+msgstr ""
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_simulation_stats:1 of
 msgid "Returns the current state of the simulation variables."
@@ -102,6 +106,12 @@ msgid ""
 "Convention: +1 (win), -1 (loss), 0 (draw)."
 msgstr "ゲームが終了している場合、現在のプレイヤーの報酬を返します。規約：+1（勝ち）、-1（負け）、0（引き分け）。"
 
+#: mcts_gen.models.game_state.GameStateBase.get_state_summary:1 of
+msgid ""
+"Returns a summary of the current state. This can be overridden by "
+"subclasses to provide richer, game-specific information."
+msgstr ""
+
 #: mcts_gen.games.shogi_mcts.ShogiGameState.isTerminal:1
 #: mcts_gen.models.game_state.GameStateBase.isTerminal:1 of
 msgid "Return True if this state is terminal (game over)."
@@ -156,6 +166,12 @@ msgstr "python-shogiライブラリを使用して将棋のゲーム状態を実
 #: mcts_gen.games.shogi_mcts.ShogiGameState.getPossibleActions:1 of
 msgid "Returns a list of legal moves in USI string format."
 msgstr "合法な手のリストをUSI文字列形式で返します。"
+
+#: mcts_gen.games.shogi_mcts.ShogiGameState.get_state_summary:1 of
+msgid ""
+"Returns a summary of the current game state, including a KIF string with "
+"move history."
+msgstr ""
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.takeAction:1 of
 msgid "Takes a shogi.Move object and returns the new state."

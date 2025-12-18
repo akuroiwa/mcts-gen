@@ -2,6 +2,7 @@
 
 from copy import deepcopy
 import chess
+import chess.pgn
 from typing import List, Any, Dict
 
 from mcts_gen.models.game_state import GameStateBase
@@ -63,6 +64,14 @@ class ChessGameState(GameStateBase):
                 return 1.0
             else: # Draw
                 return 0.0
+
+    def get_state_summary(self) -> Dict[str, str]:
+        """
+        Returns a summary of the current game state, including a PGN string.
+        """
+        game = chess.pgn.Game.from_board(self.board)
+        pgn_string = str(game)
+        return {"pgn": pgn_string}
 
     def to_dict(self) -> Dict[str, Any]:
         """Serializes the game state to a dictionary."""
