@@ -53,6 +53,7 @@ will be used.
 from dataclasses import dataclass, field
 from typing import List, Optional, Any, Dict
 import os
+import sys
 import numpy as np
 import pandas as pd
 
@@ -86,8 +87,14 @@ def _load_molecules_from_file(file_path: str) -> List[Any]:
 
     try:
         if ext in ['.smi', '.smiles']:
+            # Try with titleLine=False first (default RDKit behavior for plain SMILES)
             suppl = Chem.SmilesMolSupplier(file_path, titleLine=False)
             molecules = [mol for mol in suppl if mol is not None]
+            
+            # If no molecules loaded, try with titleLine=True (SMILES with header/names)
+            if not molecules:
+                suppl = Chem.SmilesMolSupplier(file_path, titleLine=True)
+                molecules = [mol for mol in suppl if mol is not None]
         elif ext == '.sdf':
             suppl = Chem.SDMolSupplier(file_path)
             molecules = [mol for mol in suppl if mol is not None]
@@ -490,7 +497,7 @@ class LigandMCTSGameState(GameStateBase):
         evaluator: Optional[Evaluator] = None
     ):
         if not Chem:
-            raise ImportError("RDKit is required for ligand generation but is not installed. Please run 'pip install rdkit-pypi'.")
+            raise ImportError("RDKit is required for ligand generation but is not installed. Please run 'uv pip install rdkit'.")
 
         if evaluator:
             self.evaluator = evaluator
@@ -506,13 +513,13 @@ class LigandMCTSGameState(GameStateBase):
             fragment_library = None
             if source_molecule_path:
                 try:
-                    print(f"Attempting to generate fragments from source: {source_molecule_path}")
+                    sys.stderr.write(f"Attempting to generate fragments from source: {source_molecule_path}\n")
                     molecules = _load_molecules_from_file(source_molecule_path)
                     fragment_library = _generate_fragments_from_molecules(molecules)
-                    print(f"Successfully generated {len(fragment_library)} unique fragments.")
+                    sys.stderr.write(f"Successfully generated {len(fragment_library)} unique fragments.\n")
                 except Exception as e:
-                    print(f"\n[Warning] Failed to generate fragments from '{source_molecule_path}': {e}")
-                    print("[Info] Falling back to the default fragment library.\n")
+                    sys.stderr.write(f"\n[Warning] Failed to generate fragments from '{source_molecule_path}': {e}\n")
+                    sys.stderr.write("[Info] Falling back to the default fragment library.\n\n")
                     fragment_library = None  # Ensure fallback is triggered
             
             if fragment_library:
