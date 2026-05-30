@@ -551,8 +551,9 @@ class LigandMCTSGameState(GameStateBase):
         Returns:
             A new LigandMCTSGameState instance representing the subsequent state.
         """
-        if not isinstance(action, LigandAction):
-            raise TypeError("Action must be an instance of LigandAction.")
+        # Use duck typing to check for LigandAction to handle potential class reload issues
+        if not hasattr(action, 'frag_smiles'):
+            raise TypeError(f"Action must be an instance of LigandAction, but got {type(action)}")
 
         new_internal_state = self.internal_state.apply_action(action)
         return LigandMCTSGameState(internal_state=new_internal_state, evaluator=self.evaluator)

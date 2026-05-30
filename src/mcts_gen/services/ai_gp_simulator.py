@@ -1,5 +1,6 @@
 
 import importlib
+import sys
 # import math
 from typing import Dict, Any, List
 
@@ -60,7 +61,15 @@ class AiGpSimulator:
                 real_actions = self.engine.root.state.getPossibleActions()
                 action_map = {str(action): action for action in real_actions}
                 actions_to_pass_to_engine = [action_map[s] for s in actions_to_expand if s in action_map]
-                self.engine.pruned_actions = actions_to_pass_to_engine
+                
+                # Check for unmatched action strings to provide feedback to the AI
+                unmatched = [s for s in actions_to_expand if s not in action_map]
+                if unmatched:
+                    sys.stderr.write(f"\n[Warning] The following actions in `actions_to_expand` were not recognized: {unmatched}\n")
+                    sys.stderr.write(f"[Info] Legal action strings are: {[str(a) for a in real_actions]}\n\n")
+
+                # If no actions matched, fallback to None to allow search to proceed (though not pruned)
+                self.engine.pruned_actions = actions_to_pass_to_engine if actions_to_pass_to_engine else None
             except Exception as e:
                 return {"error": f"Failed to process actions_to_expand: {e}"}
         else:
