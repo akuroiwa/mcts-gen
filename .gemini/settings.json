@@ -12,6 +12,10 @@
         "-m",
         "mcts_gen.fastmcp_server"
       ]
+    },
+    "spec-craft": {
+      "command": "uv",
+      "args": ["run", "spec-craft", "serve"]
     }
   }
 }

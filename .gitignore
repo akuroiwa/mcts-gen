@@ -227,3 +227,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Research and Reference files
+gemini-*.txt
+spec-kit-*.txt
+/chess-ant/
+/chem-ant/
+/.antigravitycli/

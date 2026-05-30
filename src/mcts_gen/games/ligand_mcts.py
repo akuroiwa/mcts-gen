@@ -32,6 +32,14 @@ file. Supported formats are:
 -   `.sdf`: Structure-Data File format
 -   `.csv`: A CSV file with a 'smiles' column
 
+**AI Agent Guidance:**
+If you are an AI agent, you can proactively improve the quality of generated
+ligands by providing a high-quality source molecule file. For a given protein (PDB ID),
+you should search for known inhibitors or ligands (e.g., using your internal knowledge
+or web search tools). You can then save these SMILES strings into a local file
+and pass that file's path as the `source_molecule_path` argument. This allows the
+MCTS search to leverage existing chemical wisdom.
+
 If `source_molecule_path` is not provided, a small default library of fragments
 will be used.
 

@@ -25,6 +25,7 @@ class AiGpSimulator:
         self.mcp.tool(self.get_simulation_stats)
         self.mcp.tool(self.get_possible_actions)
         self.mcp.tool(self.get_principal_variation)
+        self.mcp.tool(self.run_mcts_analysis)
 
     def _reset_simulation_state(self):
         """Resets the state variables for a single evaluation run."""
@@ -92,6 +93,28 @@ class AiGpSimulator:
         return {
             "status": "1 round executed.",
             "root_visits": self.engine.root.numVisits,
+            "simulation_stats": self.simulation_state
+        }
+
+    def run_mcts_analysis(self, exploration_constant: float, num_rounds: int = 10, actions_to_expand: List[str] | None = None) -> Dict[str, Any]:
+        """
+        Executes a batch of MCTS rounds to improve search precision.
+        This provides a 'searchLimit' functionality within a single tool call.
+        
+        Args:
+            exploration_constant: MCTS exploration factor.
+            num_rounds: Number of rounds to execute in this batch.
+            actions_to_expand: Optional list of actions to focus the search on.
+        """
+        if not self.engine:
+            return {"error": "MCTS engine not initialized."}
+
+        for _ in range(num_rounds):
+            self.run_mcts_round(exploration_constant, actions_to_expand)
+        
+        return {
+            "status": f"Successfully executed a batch of {num_rounds} rounds.",
+            "total_root_visits": self.engine.root.numVisits,
             "simulation_stats": self.simulation_state
         }
 
