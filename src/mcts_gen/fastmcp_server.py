@@ -30,8 +30,8 @@ def mcts_autonomous_search(goal: str, ctx: Context) -> list[PromptMessage]:
         "4. **Analyze the Constructor**: Examine the `__init__` method signature and docstring of the `GameStateBase` subclass to identify all required constructor arguments, their types, and descriptions.",
 
         "\n**Phase 2: Initialization**",
-        "5. **Gather Arguments**: If the constructor requires arguments (like `pocket_path` for `ligand_mcts`), ask the user to provide the necessary information. If no arguments are needed, proceed directly.",
-        "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module` (e.g., 'mcts_gen.games.ligand_mcts') and `state_class` (e.g., 'LigandMCTSGameState'). If the game requires constructor arguments, pass them in the `state_kwargs` dictionary (e.g., `{'pocket_path': '/path/to/file.pdb'}`).",
+        "5. **Gather Arguments**: If the constructor requires arguments (like `pocket_path` for `ligand_mcts`), ask the user to provide the necessary information. For `ligand_mcts`, you should proactively estimate the `target_size` (number of heavy atoms) by analyzing the protein pocket volume (e.g., using coordinates from the pocket PDB file). A typical drug-like ligand is 20-50 atoms.",
+        "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module` (e.g., 'mcts_gen.games.ligand_mcts') and `state_class` (e.g., 'LigandMCTSGameState'). If the game requires constructor arguments, pass them in the `state_kwargs` dictionary (e.g., `{'pocket_path': '/path/to/file.pdb', 'target_size': 35}`).",
 
         "\n**Phase 3: Execution (The MCTS/GP Cycle)**",
         "Your goal is to find the best move by intelligently guiding the MCTS search. You will act like a Genetic Programming (GP) algorithm, deciding the 'Search Limit' for each stage.",

@@ -99,10 +99,19 @@ def _load_molecules_from_file(file_path: str) -> List[Any]:
             suppl = Chem.SDMolSupplier(file_path)
             molecules = [mol for mol in suppl if mol is not None]
         elif ext == '.csv':
-            df = pd.read_csv(file_path)
-            smiles_col = next((col for col in df.columns if col.lower() == 'smiles'), None)
-            if not smiles_col:
-                raise ValueError("CSV file must have a 'smiles' column.")
+            df = pd.read_csv(file_path, header=None)
+            # Try to find a column containing valid SMILES
+            smiles_col = None
+            for col in df.columns:
+                # Check first row for valid SMILES
+                test_smi = df[col].iloc[0]
+                if isinstance(test_smi, str) and Chem.MolFromSmiles(test_smi):
+                    smiles_col = col
+                    break
+            
+            if smiles_col is None:
+                raise ValueError("Could not identify a SMILES column in the CSV file.")
+            
             molecules = [Chem.MolFromSmiles(smi) for smi in df[smiles_col] if isinstance(smi, str)]
             molecules = [mol for mol in molecules if mol is not None]
         else:
@@ -166,13 +175,15 @@ class LigandAction:
     Attributes:
         frag_smiles: The SMILES string of the fragment to add.
         attach_idx: The index of the atom on the existing molecule to connect to.
+        orientation_idx: The index for a specific conformation (orientation).
     """
     frag_smiles: str
     attach_idx: Optional[int] = None
+    orientation_idx: int = 0
 
     def __repr__(self) -> str:
         """Provides a clear string representation of the action."""
-        return f"LigandAction(frag='{self.frag_smiles}', attach_at={self.attach_idx})"
+        return f"LigandAction(frag='{self.frag_smiles}', attach_at={self.attach_idx}, ori={self.orientation_idx})"
 
 
 @dataclass
@@ -216,27 +227,32 @@ class LigandState:
 
     def legal_actions(self) -> List[LigandAction]:
         """
-        (T011, T012) Returns a list of possible actions (fragment additions) from the fragment library.
+        (T011, T012, Spec-013) Returns a list of possible actions (fragment additions with orientation).
         """
         if not self.fragment_library:
             return []
             
         actions = []
+        num_orientations = 3 # Explore 3 diverse orientations per attachment
+        
         if not self.mol or not Chem:
             # If there's no molecule, actions create one from a fragment.
             for frag in self.fragment_library:
-                actions.append(LigandAction(frag_smiles=frag))
+                for ori in range(num_orientations):
+                    actions.append(LigandAction(frag_smiles=frag, orientation_idx=ori))
         else:
-            # This prototype attaches to the first few atoms for simplicity.
-            num_attach_points = min(4, self.mol.GetNumAtoms())
+            # Allow attachment to all heavy atoms for better coverage
+            num_attach_points = self.mol.GetNumAtoms()
             for i in range(num_attach_points):
                 for frag in self.fragment_library:
-                    actions.append(LigandAction(frag_smiles=frag, attach_idx=i))
+                    for ori in range(num_orientations):
+                        actions.append(LigandAction(frag_smiles=frag, attach_idx=i, orientation_idx=ori))
         return actions
 
     def apply_action(self, action: LigandAction) -> "LigandState":
         """
-        Applies an action to create a new molecular state.
+        Applies an action to create a new molecular state with a specific conformation,
+        including side chain orientations.
 
         Returns:
             A new LigandState instance representing the state after the action.
@@ -247,18 +263,58 @@ class LigandState:
         new_state = self.clone()
         frag = Chem.MolFromSmiles(action.frag_smiles)
         if not frag:
-            return new_state  # Invalid fragment SMILES, return original state
+            return new_state
 
         if not new_state.mol:
             # First action: the new state's molecule is just the fragment.
             new_state.mol = frag
         else:
-            # NOTE: This is a simplified combination that creates a molecule with
-            # two disconnected components. A production-level implementation
-            # would use RDKit's reaction system to form a proper covalent bond
-            # between the existing molecule and the new fragment.
-            combo = Chem.CombineMols(new_state.mol, frag)
-            new_state.mol = combo
+            # Create a combined molecule with a proper covalent bond (Spec-013)
+            try:
+                # Combine disconnected components first
+                combo = Chem.CombineMols(new_state.mol, frag)
+                rw_mol = Chem.RWMol(combo)
+                
+                # Atom index in the combined molecule for the existing attachment point
+                atom1_idx = action.attach_idx
+                # Atom index for the first atom of the newly added fragment
+                # (It's offset by the number of atoms in the original molecule)
+                atom2_idx = new_state.mol.GetNumAtoms()
+                
+                # Form a single bond between the two atoms
+                rw_mol.AddBond(atom1_idx, atom2_idx, Chem.rdchem.BondType.SINGLE)
+                new_state.mol = rw_mol.GetMol()
+                Chem.SanitizeMol(new_state.mol)
+            except Exception as e:
+                sys.stderr.write(f"Bond formation failed: {e}. Falling back to disconnected combine.\n")
+                new_state.mol = Chem.CombineMols(new_state.mol, frag)
+
+        # Handle Orientation / Conformation Diversity (Spec-013)
+        # This includes side chain rotations.
+        try:
+            mol_with_hs = Chem.AddHs(new_state.mol)
+            # Generate multiple conformers to reflect orientation and side-chain diversity
+            num_confs = 10 
+            # Use pruneRmsThresh to ensure diversity among conformers
+            AllChem.EmbedMultipleConfs(mol_with_hs, numConfs=num_confs, pruneRmsThresh=0.5, randomSeed=42)
+            
+            if mol_with_hs.GetNumConformers() > 0:
+                # Select the conformer based on orientation_idx (wrap around if needed)
+                conf_id = action.orientation_idx % mol_with_hs.GetNumConformers()
+                
+                # Create a new molecule with only the selected conformer
+                new_mol = Chem.Mol(mol_with_hs)
+                # Keep only the target conformer
+                for c in list(new_mol.GetConformers()):
+                    if c.GetId() != conf_id:
+                        new_mol.RemoveConformer(c.GetId())
+                
+                # Optimize to refine side chain orientation
+                AllChem.UFFOptimizeMolecule(new_mol, confId=conf_id)
+                new_state.mol = Chem.RemoveHs(new_mol)
+        except Exception as e:
+            sys.stderr.write(f"Conformer/Side-chain generation failed: {e}\n")
+            # Fallback handled by mol_to_points
         
         new_state.history.append(action)
         return new_state
@@ -402,7 +458,7 @@ class Evaluator:
         weights: A dictionary of weights for combining different score components.
     """
 
-    def __init__(self, pocket_path: str, sigma: float = 1.0):
+    def __init__(self, pocket_path: str, sigma: float = 1.0, target_size: int = 30):
         if not pocket_path or not isinstance(pocket_path, str):
             raise ValueError("A valid pocket_path string must be provided.")
         
@@ -412,14 +468,31 @@ class Evaluator:
 
         self.pocket_usr = usr_descriptor(self.pocket_points)
         self.sigma = sigma
+        self.target_size = target_size
 
         self.weights = {
             "shape": 1.0,
             "gaussian": 1.0,
             "logp": -0.2,
             "qed": 2.0,
+            "size": 1.5, # Weight for reaching target size
             "penalty": -1.0,
         }
+
+    def size_score(self, mol: Any) -> float:
+        """Calculates a score based on how close the molecule is to the target size."""
+        if not mol:
+            return 0.0
+        current_size = mol.GetNumHeavyAtoms()
+        
+        # Reward approaching target size
+        score = 1.0 - abs(current_size - self.target_size) / self.target_size
+        
+        # Severe penalty for exceeding target size significantly
+        if current_size > self.target_size * 1.2:
+            return self.weights.get("penalty", -1.0)
+            
+        return max(0.0, score)
 
     def shape_score(self, mol: Any) -> float:
         """Calculates a shape similarity score based on USR descriptors."""
@@ -465,7 +538,7 @@ class Evaluator:
     def total_score(self, mol: Any) -> float:
         """
         Calculates the final weighted score for a molecule, combining shape,
-        Gaussian overlap, and chemical property scores.
+        Gaussian overlap, chemical property scores, and size control.
         """
         chem_score = self._chemical_penalties(mol)
         if chem_score < 0:
@@ -473,9 +546,11 @@ class Evaluator:
 
         shape = self.shape_score(mol)
         gaussian = self.gaussian_score(mol)
+        size = self.size_score(mol)
 
         return (self.weights.get("shape", 1.0) * shape +
                 self.weights.get("gaussian", 1.0) * gaussian +
+                self.weights.get("size", 1.5) * size +
                 chem_score)
 
 
@@ -493,6 +568,7 @@ class LigandMCTSGameState(GameStateBase):
         self, 
         pocket_path: Optional[str] = None, 
         source_molecule_path: Optional[str] = None, # (T007)
+        target_size: int = 30, # (Spec-013) Target heavy atom count
         internal_state: Optional[LigandState] = None, 
         evaluator: Optional[Evaluator] = None
     ):
@@ -504,7 +580,7 @@ class LigandMCTSGameState(GameStateBase):
         else:
             if not pocket_path:
                 raise ValueError("A pocket_path must be provided if an evaluator is not given.")
-            self.evaluator = Evaluator(pocket_path)
+            self.evaluator = Evaluator(pocket_path, target_size=target_size)
         
         # (T010) Initialize fragment library and internal state
         if internal_state:
@@ -518,15 +594,17 @@ class LigandMCTSGameState(GameStateBase):
                     fragment_library = _generate_fragments_from_molecules(molecules)
                     sys.stderr.write(f"Successfully generated {len(fragment_library)} unique fragments.\n")
                 except Exception as e:
-                    sys.stderr.write(f"\n[Warning] Failed to generate fragments from '{source_molecule_path}': {e}\n")
-                    sys.stderr.write("[Info] Falling back to the default fragment library.\n\n")
-                    fragment_library = None  # Ensure fallback is triggered
+                    sys.stderr.write(f"\n[Error] Failed to generate fragments from '{source_molecule_path}': {e}\n")
+                    raise  # Re-raise to inform the AI/User of the failure
+            
+            # Set max_atoms slightly above target_size to allow for better fitting
+            max_atoms = int(target_size * 1.2)
             
             if fragment_library:
-                self.internal_state = LigandState(fragment_library=fragment_library)
+                self.internal_state = LigandState(fragment_library=fragment_library, max_atoms=max_atoms)
             else:
                 # Fallback to default empty state
-                self.internal_state = LigandState()
+                self.internal_state = LigandState(max_atoms=max_atoms)
 
 
     def getCurrentPlayer(self) -> int:
