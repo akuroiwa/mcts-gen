@@ -4,28 +4,31 @@
 A generic MCTS framework driven by an external AI agent, supporting games like Chess, Shogi, and Ligand Generation.
 
 ## Current Status
-- **Phase**: Implementing fragment-based growth and enhancing conformational diversity.
-- **Last Milestone**: Successfully implemented `run_mcts_analysis` and resolved `LigandAction` duck typing issues. Verified 8c7y simulation.
-- **Active Context**: Transitioning to fragment-based ligand growth and updating documentation.
+- **Phase**: Post-release documentation and planning for spatial pocket partitioning.
+- **Last Milestone**: Successfully completed Task 014 (Documentation & Translation). v0.0.4+ features (Search Limit, Fragment Growth) are fully documented.
+- **Active Context**: Transitioning to Task 015 (Spatial Pocket Partitioning) to handle large-scale simulations.
 
 ## Active Specs & Tasks
 - [x] **Spec-011: High-Level Analysis Tool**
     - Status: Completed
-    - Goal: Implemented `run_mcts_analysis` to encapsulate MCTS loops.
-- [x] **Spec-012: Ligand MCTS Docstring Enhancement**
+- [x] **Spec-012: Ligand MCTS Robustness**
     - Status: Completed
-    - Goal: Documented `source_molecule_path` and duck typing improvements.
-- [ ] **Spec-013: Fragment-based Growth and Size Control**
+- [x] **Spec-013: Fragment-based Growth & Size Control**
+    - Status: Completed
+    - Goal: Multi-atom fragment growth and conformational diversity implemented.
+- [x] **Spec-014: Documentation and Translation Update**
+    - Status: Completed
+    - Goal: Updated Sphinx docs and Japanese translations for v0.0.4+ features.
+- [ ] **Spec-015: Spatial Pocket Partitioning**
     - Status: Planned
-    - Goal: Enable adding fragments (from materials) in addition to single atoms. Handle conformation diversity and size estimation.
-- [ ] **Spec-014: Documentation and Translation Update**
-    - Status: Planned
-    - Goal: Update manuals and translate to Japanese to reflect the new features.
+    - Goal: Divide large binding pockets into spatial zones for parallel/efficient MCTS exploration.
 
 ## Specification Index
-- [[Specifications/011-HighLevelAnalysis|011: High-Level Analysis Tool (run_mcts_analysis)]]
-- [[Specifications/012-LigandMCTS_Robustness|012: Ligand MCTS Robustness & Duck Typing]]
+- [[Specifications/011-HighLevelAnalysis|011: High-Level Analysis Tool]]
+- [[Specifications/012-LigandMCTS_Robustness|012: Ligand MCTS Robustness]]
 - [[Specifications/013-FragmentGrowth|013: Fragment-based Growth & Size Control]]
+- [[Specifications/014-UpdateDocs|014: Documentation & Translation Update]]
+- [[Specifications/015-SpatialPartitioning|015: Spatial Pocket Partitioning]]
 ...
 ## Session Logs
 - [[Session_Summary_20251210|Latest Session: 2025-12-10 (Transition to Obsidian)]]

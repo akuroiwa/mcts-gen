@@ -19,7 +19,7 @@ In previous works like `chess-ant`, Genetic Programming was used to evolve a str
 
 `mcts-gen` replaces this entire evolutionary loop with a single, intelligent AI agent. The agent maintains a single strategic model (e.g., a Python function) and iteratively refines it based on direct feedback from the search process. This AI-driven, single-strategy evolution is significantly more efficient, allowing for rapid strategy adaptation without the overhead of managing a genetic population.
 
-The core of this interaction is a stateful simulator (`AiGpSimulator`) whose methods are exposed as MCP tools. The AI agent calls these tools iteratively, managing the simulation loop externally and enabling a tight feedback cycle of execution, analysis, and self-correction.
+The core of this interaction is a stateful simulator (`AiGpSimulator`) whose methods are exposed as MCP tools. The AI agent calls these tools strategically, managing the simulation loop externally. In particular, the introduction of the **Search Limit** mechanism (via `run_mcts_analysis`) allows the agent to execute multiple MCTS rounds in a single batch. This mimics the GP `routine()` cycle in `chess-ant` but with AI-driven budget allocation, ensuring a tight feedback cycle of execution, analysis, and self-correction while avoiding API-level bottlenecks.
 
 2. Policy Pruning: An Alternative to PUCT
 ==========================================
@@ -64,7 +64,7 @@ The use of a toolkit for Spec-Driven Development like `spec-kit` is highly recom
 ============================================
 
 -   **`chess-ant`:** The Genetic Programming model in `chess-ant` relies on a large-scale evolutionary simulation. For the evaluation of each individual in the population, key instance variables used for statistics are reset, but the underlying MCTS search tree is maintained. This process, where a full MCTS simulation is run for each individual across many generations, is computationally massive.
--   **`mcts-gen`:** The AI agent replaces the entire population. It maintains a *single* strategy and iteratively improves it. The AI drives a main loop where each iteration calls the `run_mcts_round` tool. This tool executes a single MCTS round (selection, expansion, evaluation, backpropagation). The MCTS instance is preserved across these calls, allowing the search tree to grow. This is equivalent to one MCTS simulation in `chess-ant`, but the strategy refinement is done intelligently by the AI after each round, rather than through generational evolution. The result is a significantly more efficient search process, especially when combined with Policy Pruning.
+-   **`mcts-gen`:** The AI agent replaces the entire population. It maintains a *single* strategy and iteratively improves it. The AI drives a main loop where it decides the **Search Limit**—the number of MCTS rounds to execute in a single batch. This is equivalent to one GP `routine()` in `chess-ant`, but the strategy refinement is done intelligently by the AI after each batch, rather than through generational evolution. Furthermore, for complex domains like ligand generation, the agent now manages **Conformational Diversity**, exploring various 3D orientations as distinct actions in the MCTS tree. The result is a significantly more efficient and realistic search process.
 
 7. References
 ==============

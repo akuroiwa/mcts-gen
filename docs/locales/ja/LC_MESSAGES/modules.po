@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-18 23:16+0900\n"
+"POT-Creation-Date: 2026-05-31 23:04+0900\n"
 "PO-Revision-Date: 2025-10-10 21:45+0900\n"
 "Last-Translator: Gemini <gemini@google.com>\n"
 "Language: ja\n"
@@ -29,7 +29,7 @@ msgstr "コアサービス"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator:1 of
 msgid ""
-"A stateful simulator that encapsulates an MCTS engine and provides a set "
+"A stateful simulator that encapsulates an MCTS engine and provides a set"
 "of generic, game-agnostic tools for an AI agent."
 msgstr "MCTSエンジンをカプセル化し、AIエージェント向けに汎用的でゲームに依存しないツールのセットを提供するステートフルなシミュレータ。"
 
@@ -53,13 +53,35 @@ msgstr "シミュレーション変数の現在の状態を返します。"
 msgid "Starts a new MCTS simulation for a given game."
 msgstr "指定されたゲームの新しいMCTSシミュレーションを開始します。"
 
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:1 of
+msgid ""
+"Executes a batch of MCTS rounds to improve search precision. This"
+"provides a 'searchLimit' functionality within a single tool call."
+msgstr ""
+
+#: ../../modules.rst
+msgid "Parameters"
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:4 of
+msgid "MCTS exploration factor."
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:5 of
+msgid "Number of rounds to execute in this batch."
+msgstr ""
+
+#: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:6 of
+msgid "Optional list of actions to focus the search on."
+msgstr ""
+
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_round:1 of
 msgid "Executes a single MCTS round and updates the simulation state."
 msgstr "単一のMCTSラウンドを実行し、シミュレーションの状態を更新します。"
 
 #: mcts_gen.services.mcts_engine.MCTSNode:1 of
 msgid ""
-"Represents a node in the Monte Carlo Search Tree. Inherits from "
+"Represents a node in the Monte Carlo Search Tree. Inherits from"
 "AntLionTreeNode to ensure full compatibility."
 msgstr "モンテカルロ探索木におけるノードを表します。完全な互換性を確保するため、AntLionTreeNode を継承します。"
 
@@ -73,7 +95,7 @@ msgstr "親をオーバーライドしてAIの価値予測を使用します。"
 
 #: mcts_gen.services.mcts_engine.McpMcts.expand:1 of
 msgid ""
-"Uses a pre-filtered list of actions if provided, otherwise gets all "
+"Uses a pre-filtered list of actions if provided, otherwise gets all"
 "actions."
 msgstr "提供されている場合は事前にフィルタリングされたアクションのリストを使用し、そうでない場合はすべてのアクションを取得します。"
 
@@ -83,7 +105,7 @@ msgstr "ベースモデル"
 
 #: mcts_gen.models.game_state.GameStateBase:1 of
 msgid ""
-"Abstract base class for any game environment that can be used with "
+"Abstract base class for any game environment that can be used with"
 "McpMcts."
 msgstr "McpMctsで使用できるすべてのゲーム環境の抽象基底クラス。"
 
@@ -94,21 +116,21 @@ msgstr "プレイヤー1の手番なら+1、プレイヤー2の手番なら-1を
 
 #: mcts_gen.models.game_state.GameStateBase.getPossibleActions:1 of
 msgid ""
-"Return a list of all possible actions from this state. The actions MUST "
-"be serializable and preferably human-readable strings (e.g., USI for "
+"Return a list of all possible actions from this state. The actions MUST"
+"be serializable and preferably human-readable strings (e.g., USI for"
 "shogi) to allow AI agents to process them."
 msgstr "この状態から可能なすべてのアクションのリストを返します。アクションは、AIエージェントが処理できるように、シリアライズ可能で、できれば人間が読める文字列（例：将棋のUSI）でなければなりません。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.getReward:1
 #: mcts_gen.models.game_state.GameStateBase.getReward:1 of
 msgid ""
-"Return the reward for the current player if the game is terminal. "
+"Return the reward for the current player if the game is terminal."
 "Convention: +1 (win), -1 (loss), 0 (draw)."
 msgstr "ゲームが終了している場合、現在のプレイヤーの報酬を返します。規約：+1（勝ち）、-1（負け）、0（引き分け）。"
 
 #: mcts_gen.models.game_state.GameStateBase.get_state_summary:1 of
 msgid ""
-"Returns a summary of the current state. This can be overridden by "
+"Returns a summary of the current state. This can be overridden by"
 "subclasses to provide richer, game-specific information."
 msgstr ""
 
@@ -127,7 +149,7 @@ msgstr "ゲームモジュール"
 
 #: ../../modules.rst:22
 msgid ""
-"This framework can be extended with different games. Below are the "
+"This framework can be extended with different games. Below are the"
 "provided examples."
 msgstr "このフレームワークは、さまざまなゲームで拡張できます。以下に提供されている例を示します。"
 
@@ -169,7 +191,7 @@ msgstr "合法な手のリストをUSI文字列形式で返します。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.get_state_summary:1 of
 msgid ""
-"Returns a summary of the current game state, including a KIF string with "
+"Returns a summary of the current game state, including a KIF string with"
 "move history."
 msgstr ""
 

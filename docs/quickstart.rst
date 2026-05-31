@@ -46,7 +46,11 @@ To include support for specific games, you can install optional dependencies (ex
 
      pip install mcts-gen[ligand]
 
-  This installs ``rdkit`` and ``pandas`` for *de novo* ligand design capabilities. This feature also allows for MCTS-based de novo molecule generation guided by a protein pocket and a user-provided file of source molecules.
+  This installs ``rdkit`` and ``pandas`` for *de novo* ligand design capabilities. This feature allows for MCTS-based molecule generation guided by a protein pocket. It supports building ligands from single atoms or multi-atom fragments generated from a user-provided file of source molecules (e.g., SMILES, SDF, or CSV).
+
+  .. note::
+
+     **v0.0.4+ Change**: The ligand generator now supports conformational diversity (including side-chain orientations) and AI-guided size control via the ``target_size`` parameter.
 
   .. note::
 
@@ -89,14 +93,14 @@ Create or update your ``settings.json`` file with the following configuration:
 
 **Note**: The ``context`` block tells the Gemini CLI to load ``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the agent to understand how to use the tools.
 
-You can place this ``settings.json`` file in one of two locations:
+Advanced Search and Search Limit
+--------------------------------
 
-1.  **Project-Specific**: ``./.gemini/settings.json`` (inside this project directory)
-2.  **Global**: ``~/.gemini/settings.json`` (in your home directory)
 
-For an alternative setup method using the ``fastmcp`` command-line tool, please see the official guide:
+MCTS-Gen provides high-level tools to manage search precision and efficiency, avoiding API throttling and repetitive tool call errors.
 
-- `Gemini CLI 🤝 FastMCP <https://gofastmcp.com/integrations/gemini-cli>`_
+- **`run_mcts_analysis(exploration_constant, num_rounds, ...)`**: This tool serves as the "Search Limit" (similar to the ``routine()`` loop in ``chess-ant``). It executes a specified number of MCTS rounds in a single batch. AI agents use this tool to strategically allocate their search budget based on the complexity of the current state.
+- **Conformational Diversity**: For ligand generation, the engine now explores diverse 3D orientations (conformations) and side-chain rotations. These are represented as distinct actions in the MCTS tree, allowing for a more granular and realistic search.
 
 Installation with `uv` (Recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
