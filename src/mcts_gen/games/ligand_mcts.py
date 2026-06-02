@@ -100,15 +100,32 @@ def _load_molecules_from_file(file_path: str) -> List[Any]:
             suppl = Chem.SDMolSupplier(file_path)
             molecules = [mol for mol in suppl if mol is not None]
         elif ext == '.csv':
-            df = pd.read_csv(file_path, header=None)
-            # Try to find a column containing valid SMILES
-            smiles_col = None
-            for col in df.columns:
-                # Check first row for valid SMILES
-                test_smi = df[col].iloc[0]
-                if isinstance(test_smi, str) and Chem.MolFromSmiles(test_smi):
-                    smiles_col = col
-                    break
+            # Try to handle both headered and headerless CSVs
+            try:
+                df = pd.read_csv(file_path)
+                # Check for explicit 'smiles' column first
+                smiles_col = next((col for col in df.columns if str(col).lower() == 'smiles'), None)
+                
+                if smiles_col is None:
+                    # Search for any column containing SMILES in the first 2 rows
+                    for col in df.columns:
+                        for row_idx in range(min(2, len(df))):
+                            val = df[col].iloc[row_idx]
+                            if isinstance(val, str) and Chem.MolFromSmiles(val):
+                                smiles_col = col
+                                break
+                        if smiles_col is not None: break
+
+                if smiles_col is None:
+                    # If still not found, try reading without header (for pure headerless)
+                    df = pd.read_csv(file_path, header=None)
+                    for col in df.columns:
+                        val = df[col].iloc[0]
+                        if isinstance(val, str) and Chem.MolFromSmiles(val):
+                            smiles_col = col
+                            break
+            except Exception as e:
+                raise ValueError(f"Error reading CSV file: {e}")
             
             if smiles_col is None:
                 raise ValueError("Could not identify a SMILES column in the CSV file.")
