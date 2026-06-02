@@ -96,11 +96,19 @@ Create or update your ``settings.json`` file with the following configuration:
 Advanced Search and Search Limit
 --------------------------------
 
-
 MCTS-Gen provides high-level tools to manage search precision and efficiency, avoiding API throttling and repetitive tool call errors.
 
 - **`run_mcts_analysis(exploration_constant, num_rounds, ...)`**: This tool serves as the "Search Limit" (similar to the ``routine()`` loop in ``chess-ant``). It executes a specified number of MCTS rounds in a single batch. AI agents use this tool to strategically allocate their search budget based on the complexity of the current state.
 - **Conformational Diversity**: For ligand generation, the engine now explores diverse 3D orientations (conformations) and side-chain rotations. These are represented as distinct actions in the MCTS tree, allowing for a more granular and realistic search.
+
+Spatial Partitioning and Predictive Search (v0.0.5+)
+----------------------------------------------------
+
+To handle large search spaces or pre-calculate future states, MCTS-Gen introduces spatial zones and search slots.
+
+- **Spatial Partitioning**: For ligand generation in large binding pockets, you can restrict the search to a specific coordinate box using the ``spatial_filter`` argument in ``reinitialize_mcts``. This reduces the branching factor and allows for focused exploration of specific pocket regions.
+- **Predictive Search (Slots)**: You can initialize multiple independent search trees in parallel using the ``slot_id`` argument. This is particularly useful for pre-calculating the best response to an opponent's predicted moves in games like Shogi or Chess. Use ``activate_mcts_slot`` to instantly switch to a pre-calculated tree when a predicted state occurs.
+
 
 Installation with `uv` (Recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

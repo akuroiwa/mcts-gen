@@ -58,6 +58,7 @@ import numpy as np
 import pandas as pd
 
 from mcts_gen.models.game_state import GameStateBase
+from mcts_gen.models.spatial import SpatialZone
 
 # Attempt to import RDKit and SciPy, but do not fail if they are not present.
 # A runtime check in the GameState constructor will handle their absence.
@@ -225,9 +226,10 @@ class LigandState:
             return False
         return self.mol.GetNumAtoms() >= self.max_atoms
 
-    def legal_actions(self) -> List[LigandAction]:
+    def legal_actions(self, spatial_zone: Optional[SpatialZone] = None) -> List[LigandAction]:
         """
-        (T011, T012, Spec-013) Returns a list of possible actions (fragment additions with orientation).
+        (T011, T012, Spec-013, Task-015) Returns a list of possible actions (fragment additions with orientation).
+        If a spatial_zone is provided, only attachments to atoms within that zone are allowed.
         """
         if not self.fragment_library:
             return []
@@ -241,9 +243,20 @@ class LigandState:
                 for ori in range(num_orientations):
                     actions.append(LigandAction(frag_smiles=frag, orientation_idx=ori))
         else:
-            # Allow attachment to all heavy atoms for better coverage
+            # Allow attachment to heavy atoms within the spatial zone
+            try:
+                conformer = self.mol.GetConformer()
+            except Exception:
+                conformer = None
+
             num_attach_points = self.mol.GetNumAtoms()
             for i in range(num_attach_points):
+                # Filter by spatial zone if provided
+                if spatial_zone and conformer:
+                    pos = conformer.GetAtomPosition(i)
+                    if not spatial_zone.contains(pos.x, pos.y, pos.z):
+                        continue
+
                 for frag in self.fragment_library:
                     for ori in range(num_orientations):
                         actions.append(LigandAction(frag_smiles=frag, attach_idx=i, orientation_idx=ori))
@@ -458,7 +471,7 @@ class Evaluator:
         weights: A dictionary of weights for combining different score components.
     """
 
-    def __init__(self, pocket_path: str, sigma: float = 1.0, target_size: int = 30):
+    def __init__(self, pocket_path: str, sigma: float = 1.0, target_size: int = 30, spatial_zone: Optional[SpatialZone] = None):
         if not pocket_path or not isinstance(pocket_path, str):
             raise ValueError("A valid pocket_path string must be provided.")
         
@@ -469,6 +482,7 @@ class Evaluator:
         self.pocket_usr = usr_descriptor(self.pocket_points)
         self.sigma = sigma
         self.target_size = target_size
+        self.spatial_zone = spatial_zone
 
         self.weights = {
             "shape": 1.0,
@@ -478,6 +492,18 @@ class Evaluator:
             "size": 1.5, # Weight for reaching target size
             "penalty": -1.0,
         }
+
+    def is_in_zone(self, mol: Any, atom_idx: int) -> bool:
+        """Checks if a specific atom in the molecule is within the spatial zone."""
+        if not self.spatial_zone:
+            return True
+        
+        try:
+            conformer = mol.GetConformer()
+            pos = conformer.GetAtomPosition(atom_idx)
+            return self.spatial_zone.contains(pos.x, pos.y, pos.z)
+        except Exception:
+            return False
 
     def size_score(self, mol: Any) -> float:
         """Calculates a score based on how close the molecule is to the target size."""
@@ -616,8 +642,8 @@ class LigandMCTSGameState(GameStateBase):
         return self.internal_state.is_terminal()
 
     def getPossibleActions(self) -> List[LigandAction]:
-        """Delegates action generation to the internal LigandState."""
-        return self.internal_state.legal_actions()
+        """Delegates action generation to the internal LigandState, passing the spatial zone."""
+        return self.internal_state.legal_actions(spatial_zone=self.evaluator.spatial_zone)
 
     def takeAction(self, action: LigandAction) -> "LigandMCTSGameState":
         """

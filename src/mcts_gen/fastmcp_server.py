@@ -30,27 +30,27 @@ def mcts_autonomous_search(goal: str, ctx: Context) -> list[PromptMessage]:
         "4. **Analyze the Constructor**: Examine the `__init__` method signature and docstring of the `GameStateBase` subclass to identify all required constructor arguments, their types, and descriptions.",
 
         "\n**Phase 2: Initialization**",
-        "5. **Gather Arguments**: If the constructor requires arguments (like `pocket_path` for `ligand_mcts`), ask the user to provide the necessary information. For `ligand_mcts`, you should proactively estimate the `target_size` (number of heavy atoms) by analyzing the protein pocket volume (e.g., using coordinates from the pocket PDB file). A typical drug-like ligand is 20-50 atoms.",
-        "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module` (e.g., 'mcts_gen.games.ligand_mcts') and `state_class` (e.g., 'LigandMCTSGameState'). If the game requires constructor arguments, pass them in the `state_kwargs` dictionary (e.g., `{'pocket_path': '/path/to/file.pdb', 'target_size': 35}`).",
+        "5. **Gather Arguments**: If the constructor requires arguments (like `pocket_path` for `ligand_mcts`), ask the user to provide the necessary information. For `ligand_mcts`, you should proactively estimate the `target_size` (number of heavy atoms) by analyzing the protein pocket volume. A typical drug-like ligand is 20-50 atoms.",
+        "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module`, `state_class`, and `state_kwargs`.
+           - **Spatial Partitioning (Task-015):** For large protein pockets, use the `spatial_filter` argument (dict with `x_min`, `x_max`, etc.) to restrict fragment growth to a specific sub-region.
+           - **Predictive Search (Task-015):** Use the `slot_id` argument to initialize multiple searches in parallel (e.g., predicted opponent responses in Shogi/Chess).",
 
         "\n**Phase 3: Execution (The MCTS/GP Cycle)**",
         "Your goal is to find the best move by intelligently guiding the MCTS search. You will act like a Genetic Programming (GP) algorithm, deciding the 'Search Limit' for each stage.",
         "Follow this cycle **strictly**:",
         "",
         "1. **EXECUTE Batch**: Call `run_mcts_analysis(exploration_constant=..., num_rounds=..., actions_to_expand=...)`.",
-        "   - Use `num_rounds` (e.g., 10-50) to set your 'Search Limit' based on the complexity of the task.",
-        "   - On subsequent rounds, use `actions_to_expand` to focus the search on promising branches. You can get a list of all possible branches by calling `get_possible_actions`.",
+        "   - Use `num_rounds` (e.g., 10-50) to set your 'Search Limit'.",
+        "   - On subsequent rounds, use `actions_to_expand` to focus the search. You can get all possible branches via `get_possible_actions`.",
         "",
-        "2. **ANALYZE Results**: The tool returns the latest `simulation_stats`. Pay close attention to the `improvement` value.",
+        "2. **ANALYZE Results**: The tool returns the latest `simulation_stats`.
+           - If using multiple slots, call `get_multi_slot_summary()` to compare progress.",
         "",
-        "3. **DECIDE Next Step**: Based on the stats, decide your next move:",
-        "   - **If `improvement` is low or zero**, the search has likely converged for this strategy. You can either proceed to Step 4, or try a different `exploration_constant` and go back to Step 1.",
-        "   - **If `improvement` is good**, continue the search cycle with another batch (go back to Step 1).",
+        "3. **DECIDE Next Step**:
+           - **Predictive Branching:** If you are confident about a future state, initialize a new `slot_id` with that state and run background analysis.
+           - **Slot Activation:** If a predicted state occurs, call `activate_mcts_slot(slot_id)` to swap contexts immediately.",
         "",
-        "4. **FINALIZE**: Once the search has converged, you have two options to get the result:",
-        "   - **Option A (simple):** Call `get_best_move()` to get only the best immediate next action.",
-        "   - **Option B (complete):** Call `get_principal_variation()` to get the entire best sequence of moves and a detailed summary of the final state (which may include a path to a PDB file for certain games).",
-        "   Choose the option that best fits the request. For a full analysis, Option B is preferred.",
+        "4. **FINALIZE**: Once the search has converged, call `get_best_move()` or `get_principal_variation()`.",
         "",
         "**CRITICAL RULE: NEVER call the same tool twice in a row in a single turn. Always analyze the output before making the next call.**",
     ]

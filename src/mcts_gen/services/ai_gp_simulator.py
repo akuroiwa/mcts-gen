@@ -7,6 +7,8 @@ from typing import Dict, Any, List
 from fastmcp import FastMCP
 
 from ..services.mcts_engine import McpMcts
+from ..services.slot_manager import SlotManager
+from ..models.spatial import SpatialZone
 # from ..models.game_state import GameStateBase
 
 class AiGpSimulator:
@@ -16,7 +18,7 @@ class AiGpSimulator:
     """
     def __init__(self, mcp_instance: FastMCP):
         self.mcp = mcp_instance
-        self.engine: McpMcts | None = None
+        self.slots = SlotManager()
         self.simulation_state: Dict[str, Any] = {}
         self._reset_simulation_state()
 
@@ -27,6 +29,19 @@ class AiGpSimulator:
         self.mcp.tool(self.get_possible_actions)
         self.mcp.tool(self.get_principal_variation)
         self.mcp.tool(self.run_mcts_analysis)
+        self.mcp.tool(self.activate_mcts_slot)
+        self.mcp.tool(self.list_mcts_slots)
+        self.mcp.tool(self.get_multi_slot_summary)
+
+    @property
+    def engine(self) -> McpMcts | None:
+        """Dynamically retrieves the engine from the active slot."""
+        return self.slots.get_slot(self.slots.active_slot)
+
+    @engine.setter
+    def engine(self, value: McpMcts):
+        """Updates the engine for the active slot."""
+        self.slots.set_slot(self.slots.active_slot, value)
 
     def _reset_simulation_state(self):
         """Resets the state variables for a single evaluation run."""
@@ -36,17 +51,46 @@ class AiGpSimulator:
             'improvement': 0,
         }
 
-    def reinitialize_mcts(self, state_module: str, state_class: str, state_kwargs: Dict[str, Any] = {}, iteration_limit: int = 100) -> Dict[str, Any]:
-        """Starts a new MCTS simulation for a given game."""
+    def reinitialize_mcts(self, state_module: str, state_class: str, state_kwargs: Dict[str, Any] = {}, iteration_limit: int = 100, slot_id: str = "main", spatial_filter: Dict[str, float] | None = None) -> Dict[str, Any]:
+        """
+        Starts a new MCTS simulation for a given game.
+        
+        Args:
+            state_module: The python module containing the GameState class.
+            state_class: The name of the GameState class.
+            state_kwargs: Keyword arguments for the GameState constructor.
+            iteration_limit: Search budget for the engine.
+            slot_id: Identifier for the search context (defaults to "main").
+            spatial_filter: Optional coordinate range (x_min, x_max, etc.) for ligand games.
+        """
         try:
+            # Handle Spatial Filtering (Task-015)
+            if spatial_filter:
+                zone = SpatialZone(**spatial_filter)
+                state_kwargs['spatial_zone'] = zone
+
             module = importlib.import_module(state_module)
             game_class = getattr(module, state_class)
             initial_state = game_class(**state_kwargs)
-            self.engine = McpMcts(initial_state=initial_state, iterationLimit=iteration_limit)
+            
+            new_engine = McpMcts(initial_state=initial_state, iterationLimit=iteration_limit)
+            self.slots.set_slot(slot_id, new_engine)
+            self.slots.active_slot = slot_id
+            
             self._reset_simulation_state()
-            return {"status": "MCTS re-initialized successfully."}
+            return {"status": f"MCTS re-initialized successfully in slot '{slot_id}'."}
         except Exception as e:
             return {"error": f"Failed to re-initialize MCTS: {e}"}
+
+    def activate_mcts_slot(self, slot_id: str) -> Dict[str, Any]:
+        """Swaps the active search context to a previously initialized slot."""
+        if self.slots.activate_slot(slot_id):
+            return {"status": f"Active slot changed to '{slot_id}'."}
+        return {"error": f"Slot '{slot_id}' not found."}
+
+    def list_mcts_slots(self) -> Dict[str, Any]:
+        """Returns a list of all initialized search contexts."""
+        return {"slots": self.slots.list_slots(), "active_slot": self.slots.active_slot}
 
     def run_mcts_round(self, exploration_constant: float, actions_to_expand: List[str] | None = None) -> Dict[str, Any]:
         """Executes a single MCTS round and updates the simulation state."""
@@ -182,8 +226,38 @@ class AiGpSimulator:
         final_state = node.state
         final_score = node.totalReward / node.numVisits if node.numVisits > 0 else 0
         
+        summary = final_state.get_state_summary()
+        
+        # Include spatial zone metadata if it's a ligand game (Task-015)
+        if hasattr(final_state, 'evaluator') and final_state.evaluator.spatial_zone:
+            zone = final_state.evaluator.spatial_zone
+            summary["spatial_zone"] = {
+                "x_min": zone.x_min, "x_max": zone.x_max,
+                "y_min": zone.y_min, "y_max": zone.y_max,
+                "z_min": zone.z_min, "z_max": zone.z_max
+            }
+
         return {
             "principal_variation": path,
             "final_score": final_score,
-            "final_state_summary": final_state.get_state_summary()
+            "final_state_summary": summary
         }
+
+    def get_multi_slot_summary(self) -> Dict[str, Any]:
+        """Summarizes the best results from all search slots."""
+        summary = {}
+        original_slot = self.slots.active_slot
+        
+        for slot_id in self.slots.list_slots():
+            self.slots.activate_slot(slot_id)
+            res = self.get_principal_variation()
+            if "error" not in res:
+                summary[slot_id] = {
+                    "score": res["final_score"],
+                    "smiles": res["final_state_summary"].get("smiles"),
+                    "pv_length": len(res["principal_variation"])
+                }
+        
+        self.slots.activate_slot(original_slot)
+        return {"slot_summaries": summary}
+

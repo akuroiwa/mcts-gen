@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-31 23:04+0900\n"
+"POT-Creation-Date: 2026-06-02 21:36+0900\n"
 "PO-Revision-Date: 2025-10-18 14:45+0900\n"
 "Last-Translator: Gemini\n"
 "Language: ja\n"
@@ -24,22 +24,24 @@ msgid "Quickstart"
 msgstr "クイックスタート"
 
 #: ../../quickstart.rst:6
+#, fuzzy
 msgid ""
 "This project provides a generic Monte Carlo Tree Search (MCTS) framework."
-" Its core concept is the replacement of the Genetic Programming (GP)"
-"engine from  `` chess-ant ``  with a modern AI agent. While inspired by"
-"AlphaZero, it uses a simpler, decoupled approach: the standard UCT"
-"algorithm is augmented by an external AI agent that performs **Policy"
-"Pruning**—narrowing the search space by supplying a pre-filtered list of"
+" Its core concept is the replacement of the Genetic Programming (GP) "
+"engine from ``chess-ant`` with a modern AI agent. While inspired by "
+"AlphaZero, it uses a simpler, decoupled approach: the standard UCT "
+"algorithm is augmented by an external AI agent that performs **Policy "
+"Pruning**—narrowing the search space by supplying a pre-filtered list of "
 "promising moves."
 msgstr ""
-"このプロジェクトは汎用的なモンテカルロ木探索（MCTS）フレームワークを提供します。その中核概念は、 `` chess-"
-"ant `` の遺伝的プログラミング（GP）エンジンを現代的なAIエージェントに置き換えることです。AlphaZeroに着想を得つつも、より簡素で分離された手法を採用しています。標準的なUCTアルゴリズムを外部AIエージェントで拡張し、 **Policy"
-" Pruning（ポリシー剪定）** 、すなわち事前にフィルタリングされた有望な手のリストを供給することで探索空間を狭めます。"
+"このプロジェクトは汎用的なモンテカルロ木探索（MCTS）フレームワークを提供します。その中核概念は、 `` chess-ant `` "
+"の遺伝的プログラミング（GP）エンジンを現代的なAIエージェントに置き換えることです。AlphaZeroに着想を得つつも、より簡素で分離された手法を採用しています。標準的なUCTアルゴリズムを外部AIエージェントで拡張し、"
+" **Policy Pruning（ポリシー剪定）** 、すなわち事前にフィルタリングされた有望な手のリストを供給することで探索空間を狭めます。"
 
 #: ../../quickstart.rst:8
+#, fuzzy
 msgid ""
-"This guide covers how to install the package and configure it for use"
+"This guide covers how to install the package and configure it for use "
 "with an AI agent like the Gemini CLI."
 msgstr "このガイドでは、パッケージのインストール方法と、Gemini CLIのようなAIエージェントで利用するための設定方法を説明します。"
 
@@ -60,55 +62,66 @@ msgid "Installation with Game-Specific Dependencies"
 msgstr "ゲーム固有の依存関係を含むインストール"
 
 #: ../../quickstart.rst:25
+#, fuzzy
 msgid ""
-"To include support for specific games, you can install optional"
+"To include support for specific games, you can install optional "
 "dependencies (extras)."
 msgstr "特定のゲームのサポートを含めるには、オプションの依存関係（extras）をインストールできます。"
 
 #: ../../quickstart.rst:27
-msgid "**For Shogi support** :"
+#, fuzzy
+msgid "**For Shogi support**:"
 msgstr "**将棋のサポート** :"
 
 #: ../../quickstart.rst:33
-msgid "This installs the  `` python-shogi ``  library."
+#, fuzzy
+msgid "This installs the ``python-shogi`` library."
 msgstr "これにより  `` python-shogi ``  ライブラリがインストールされます。"
 
 #: ../../quickstart.rst:35
-msgid "**For Chess support** :"
+#, fuzzy
+msgid "**For Chess support**:"
 msgstr "**チェスのサポート** :"
 
 #: ../../quickstart.rst:41
-msgid "This installs the  `` python-chess ``  library."
+#, fuzzy
+msgid "This installs the ``python-chess`` library."
 msgstr "これにより  `` python-chess ``  ライブラリがインストールされます。"
 
 #: ../../quickstart.rst:43
-msgid "**For Ligand Generation** :"
+#, fuzzy
+msgid "**For Ligand Generation**:"
 msgstr "**リガンド生成のサポート** :"
 
 #: ../../quickstart.rst:49
+#, fuzzy
 msgid ""
-"This installs  `` rdkit ``  and  `` pandas ``  for *de novo* ligand design"
-"capabilities. This feature allows for MCTS-based molecule generation"
-"guided by a protein pocket. It supports building ligands from single"
-"atoms or multi-atom fragments generated from a user-provided file of"
+"This installs ``rdkit`` and ``pandas`` for *de novo* ligand design "
+"capabilities. This feature allows for MCTS-based molecule generation "
+"guided by a protein pocket. It supports building ligands from single "
+"atoms or multi-atom fragments generated from a user-provided file of "
 "source molecules (e.g., SMILES, SDF, or CSV)."
 msgstr ""
-"これにより、 *de novo* （新規）リガンド設計機能に必要な  `` rdkit ``  と  `` pandas ``  がインストールされます。"
-"この機能は、タンパク質のポケットに誘導された MCTS ベースの分子生成を可能にします。"
-"ユーザーが提供するソース分子ファイル（SMILES、SDF、または CSV）から生成された単一原子または多原子フラグメントからのリガンド構築をサポートします。"
+"これにより、 *de novo* （新規）リガンド設計機能に必要な  `` rdkit ``  と  `` pandas ``  "
+"がインストールされます。この機能は、タンパク質のポケットに誘導された MCTS "
+"ベースの分子生成を可能にします。ユーザーが提供するソース分子ファイル（SMILES、SDF、または "
+"CSV）から生成された単一原子または多原子フラグメントからのリガンド構築をサポートします。"
 
-#: ../../quickstart.rst:54
+#: ../../quickstart.rst:53
+#, fuzzy
 msgid ""
-" **v0.0.4+ Change** : The ligand generator now supports conformational"
-"diversity (including side-chain orientations) and AI-guided size control"
-" via the  `` target_size ``  parameter."
+"**v0.0.4+ Change**: The ligand generator now supports conformational "
+"diversity (including side-chain orientations) and AI-guided size control "
+"via the ``target_size`` parameter."
 msgstr ""
-" **v0.0.4+ の変更点** : リガンド生成エンジンが立体配座（コンフォメーション）の多様性（側鎖の向きを含む）と、  `` target_size ``  パラメータによる AI 誘導型のサイズ制御をサポートしました。"
+" **v0.0.4+ の変更点** : リガンド生成エンジンが立体配座（コンフォメーション）の多様性（側鎖の向きを含む）と、  `` "
+"target_size ``  パラメータによる AI 誘導型のサイズ制御をサポートしました。"
 
 #: ../../quickstart.rst:57
+#, fuzzy
 msgid ""
-"This feature also requires the external tool  `` fpocket ``  for identifying"
-"protein binding pockets. It can be installed on Debian/Ubuntu systems"
+"This feature also requires the external tool ``fpocket`` for identifying "
+"protein binding pockets. It can be installed on Debian/Ubuntu systems "
 "using snap:"
 msgstr ""
 "この機能は、タンパク質の結合ポケットを特定するために、外部ツール  `` fpocket `` "
@@ -119,174 +132,241 @@ msgid "Server Setup for Gemini CLI"
 msgstr "Gemini CLIのためのサーバー設定"
 
 #: ../../quickstart.rst:66
+#, fuzzy
 msgid ""
-"To allow the Gemini agent to use the MCTS-Gen tools, you must register"
-"the server in your  `` settings.json ``  file. This allows the Gemini CLI to"
+"To allow the Gemini agent to use the MCTS-Gen tools, you must register "
+"the server in your ``settings.json`` file. This allows the Gemini CLI to "
 "automatically manage the server process and provide the necessary context"
 " files."
 msgstr ""
-"GeminiエージェントがMCTS-"
-"Genツールを使用できるようにするには、サーバーを `` settings.json `` ファイルに登録する必要があります。これにより、Gemini"
-"CLIがサーバープロセスを自動的に管理し、必要なコンテキストファイルを提供できるようになります。"
+"GeminiエージェントがMCTS-Genツールを使用できるようにするには、サーバーを `` settings.json `` "
+"ファイルに登録する必要があります。これにより、GeminiCLIがサーバープロセスを自動的に管理し、必要なコンテキストファイルを提供できるようになります。"
 
 #: ../../quickstart.rst:70
+#, fuzzy
 msgid ""
-" **v0.0.2+ Change** : As of version 0.0.2, the core agent instructions are"
-"built-in. Specifying a context file is no longer required for standard"
-"operation. Only configure the  `` context ``  block if you wish to provide"
+"**v0.0.2+ Change**: As of version 0.0.2, the core agent instructions are "
+"built-in. Specifying a context file is no longer required for standard "
+"operation. Only configure the ``context`` block if you wish to provide "
 "*additional* instructions to the agent."
 msgstr ""
-" **v0.0.2+での変更** :"
-"バージョン0.0.2より、コアエージェントの指示は組み込みになりました。標準的な操作ではコンテキストファイルの指定は不要です。エージェントに*追加の*指示を提供したい場合にのみ `` context `` ブロックを設定してください。"
+" **v0.0.2+での変更** "
+":バージョン0.0.2より、コアエージェントの指示は組み込みになりました。標準的な操作ではコンテキストファイルの指定は不要です。エージェントに*追加の*指示を提供したい場合にのみ"
+" `` context `` ブロックを設定してください。"
 
 #: ../../quickstart.rst:72
+#, fuzzy
 msgid ""
-"Create or update your  `` settings.json ``  file with the following"
+"Create or update your ``settings.json`` file with the following "
 "configuration:"
 msgstr "以下の設定で `` settings.json `` ファイルを作成または更新してください："
 
 #: ../../quickstart.rst:94
+#, fuzzy
 msgid ""
-" **Note** : The  `` context ``  block tells the Gemini CLI to load"
-" `` AGENTS.md ``  (and  `` GEMINI.md ``  if it exists), which is crucial for the"
+"**Note**: The ``context`` block tells the Gemini CLI to load "
+"``AGENTS.md`` (and ``GEMINI.md`` if it exists), which is crucial for the "
 "agent to understand how to use the tools."
 msgstr ""
-" **注** :  `` context `` ブロックは、Gemini"
-"CLIに `` AGENTS.md `` （および存在する場合は `` GEMINI.md `` ）を読み込むよう指示します。これはエージェントがツールの使い方を理解するために不可欠です。"
+" **注** :  `` context `` ブロックは、GeminiCLIに `` AGENTS.md `` （および存在する場合は `` "
+"GEMINI.md `` ）を読み込むよう指示します。これはエージェントがツールの使い方を理解するために不可欠です。"
 
 #: ../../quickstart.rst:97
 msgid "Advanced Search and Search Limit"
 msgstr "高度な探索と探索予算（Search Limit）"
 
 #: ../../quickstart.rst:99
+#, fuzzy
 msgid ""
-"MCTS-Gen provides high-level tools to manage search precision and"
+"MCTS-Gen provides high-level tools to manage search precision and "
 "efficiency, avoiding API throttling and repetitive tool call errors."
-msgstr ""
-"MCTS-Gen は、探索の精度と効率を管理し、API の制限や繰り返しのツール呼び出しエラーを回避するための高レベルツールを提供します。"
+msgstr "MCTS-Gen は、探索の精度と効率を管理し、API の制限や繰り返しのツール呼び出しエラーを回避するための高レベルツールを提供します。"
 
 #: ../../quickstart.rst:101
+#, fuzzy
 msgid ""
-" ** `run_mcts_analysis(exploration_constant, num_rounds, ...)` ** : This tool"
-" serves as the \"Search Limit\" (similar to the  `` routine() ``  loop in"
-" `` chess-ant `` ). It executes a specified number of MCTS rounds in a single"
-" batch. AI agents use this tool to strategically allocate their search"
+"**`run_mcts_analysis(exploration_constant, num_rounds, ...)`**: This tool"
+" serves as the \"Search Limit\" (similar to the ``routine()`` loop in "
+"``chess-ant``). It executes a specified number of MCTS rounds in a single"
+" batch. AI agents use this tool to strategically allocate their search "
 "budget based on the complexity of the current state."
 msgstr ""
-" ** `run_mcts_analysis(exploration_constant, num_rounds, ...)` ** : このツールは「探索予算（Search Limit）」（  `` chess-ant ``  の  `` routine() ``  ループに相当）として機能します。指定された回数の MCTS ラウンドを一括で実行します。 AI エージェントはこのツールを使用して、現在の状態の複雑さに応じて探索予算を戦略的に割り当てます。"
+" ** `run_mcts_analysis(exploration_constant, num_rounds, ...)` ** : "
+"このツールは「探索予算（Search Limit）」（  `` chess-ant ``  の  `` routine() ``  "
+"ループに相当）として機能します。指定された回数の MCTS ラウンドを一括で実行します。 AI "
+"エージェントはこのツールを使用して、現在の状態の複雑さに応じて探索予算を戦略的に割り当てます。"
 
 #: ../../quickstart.rst:102
+#, fuzzy
 msgid ""
-" **Conformational Diversity** : For ligand generation, the engine now"
-"explores diverse 3D orientations (conformations) and side-chain"
-"rotations. These are represented as distinct actions in the MCTS tree,"
+"**Conformational Diversity**: For ligand generation, the engine now "
+"explores diverse 3D orientations (conformations) and side-chain "
+"rotations. These are represented as distinct actions in the MCTS tree, "
 "allowing for a more granular and realistic search."
 msgstr ""
-" **立体配座（コンフォメーション）の多様性** : リガンド生成において、エンジンは多様な 3D の向き（配座）と側鎖の回転を探索するようになりました。これらは MCTS ツリー内で別個のアクションとして表現され、より詳細で現実的な探索を可能にします。"
+" **立体配座（コンフォメーション）の多様性** : リガンド生成において、エンジンは多様な 3D "
+"の向き（配座）と側鎖の回転を探索するようになりました。これらは MCTS "
+"ツリー内で別個のアクションとして表現され、より詳細で現実的な探索を可能にします。"
 
 #: ../../quickstart.rst:105
-msgid "Installation with `uv` (Recommended)"
-msgstr "`uv` によるインストール（推奨）"
+msgid "Spatial Partitioning and Predictive Search (v0.0.5+)"
+msgstr "空間分割と予測探索 (v0.0.5+)"
 
 #: ../../quickstart.rst:107
 msgid ""
-"For a faster and more modern package management experience, we recommend"
-"using `uv` ."
-msgstr "より高速でモダンなパッケージ管理を体験するために、 `uv` の使用を推奨します。"
+"To handle large search spaces or pre-calculate future states, MCTS-Gen "
+"introduces spatial zones and search slots."
+msgstr ""
+"巨大な探索空間への対処や、未来の状態の事前計算を可能にするため、 MCTS-Gen は空間ゾーン（Spatial Zone）と探索スロット（Search Slot）を導入しました。"
 
 #: ../../quickstart.rst:109
-msgid "**Install `pipx` and `uv` ** :"
+msgid ""
+"**Spatial Partitioning**: For ligand generation in large binding pockets,"
+" you can restrict the search to a specific coordinate box using the "
+"``spatial_filter`` argument in ``reinitialize_mcts``. This reduces the "
+"branching factor and allows for focused exploration of specific pocket "
+"regions."
+msgstr ""
+" **空間分割** : 大規模な結合ポケットでのリガンド生成において、 ``reinitialize_mcts`` の ``spatial_filter`` 引数を使用して、探索を特定の座標範囲（バウンディングボックス）に制限できます。これにより、探索木の分岐因子が削減され、ポケットの特定領域に集中した探索が可能になります。"
+
+#: ../../quickstart.rst:110
+msgid ""
+"**Predictive Search (Slots)**: You can initialize multiple independent "
+"search trees in parallel using the ``slot_id`` argument. This is "
+"particularly useful for pre-calculating the best response to an "
+"opponent's predicted moves in games like Shogi or Chess. Use "
+"``activate_mcts_slot`` to instantly switch to a pre-calculated tree when "
+"a predicted state occurs."
+msgstr ""
+" **予測探索（スロット）** : ``slot_id`` 引数を使用することで、複数の独立した探索木を並行して初期化できます。これは、将棋やチェスなどのゲームにおいて、相手の予測手に対する最善の応手を事前に計算しておくのに特に有効です。予測した状態が実際に発生した際、 ``activate_mcts_slot`` を呼び出すことで、事前計算済みの探索木に即座に切り替えることができます。"
+
+#: ../../quickstart.rst:114
+msgid "Installation with `uv` (Recommended)"
+msgstr "`uv` によるインストール（推奨）"
+
+#: ../../quickstart.rst:116
+#, fuzzy
+msgid ""
+"For a faster and more modern package management experience, we recommend "
+"using `uv`."
+msgstr "より高速でモダンなパッケージ管理を体験するために、 `uv` の使用を推奨します。"
+
+#: ../../quickstart.rst:118
+#, fuzzy
+msgid "**Install `pipx` and `uv`**:"
 msgstr "**pipxとuvのインストール** ："
 
-#: ../../quickstart.rst:119
-msgid "**Set up the environment and install `mcts-gen` ** :"
+#: ../../quickstart.rst:128
+#, fuzzy
+msgid "**Set up the environment and install `mcts-gen`**:"
 msgstr "**環境のセットアップと `mcts-gen` のインストール** ："
 
-#: ../../quickstart.rst:132
-msgid "To exit the virtual environment, simply run  `` deactivate `` ."
+#: ../../quickstart.rst:141
+#, fuzzy
+msgid "To exit the virtual environment, simply run ``deactivate``."
 msgstr "仮想環境を終了するには、単に  `` deactivate ``  を実行します。"
 
-#: ../../quickstart.rst:134
-msgid "**Configure `gemini-cli` with `fastmcp` ** :"
+#: ../../quickstart.rst:143
+#, fuzzy
+msgid "**Configure `gemini-cli` with `fastmcp`**:"
 msgstr "** `fastmcp` による `gemini-cli` の設定** ："
 
-#: ../../quickstart.rst:136
+#: ../../quickstart.rst:145
+#, fuzzy
 msgid ""
-"Instead of manually editing  `` settings.json `` , you can use the"
-" `` fastmcp ``  command to automatically configure the tool server."
-msgstr "`` settings.json `` を手動で編集する代わりに、 `` fastmcp `` コマンドを使用してツールサーバーを自動的に設定できます。"
+"Instead of manually editing ``settings.json``, you can use the "
+"``fastmcp`` command to automatically configure the tool server."
+msgstr ""
+"`` settings.json `` を手動で編集する代わりに、 `` fastmcp `` "
+"コマンドを使用してツールサーバーを自動的に設定できます。"
 
-#: ../../quickstart.rst:142
+#: ../../quickstart.rst:151
+#, fuzzy
 msgid ""
-"This command will automatically detect and configure the `mcts_gen`"
-"server, creating a  `` .gemini/settings.json ``  file for you."
-msgstr "このコマンドは `mcts_gen` サーバーを自動的に検出し設定を行い、あなたのための `` .gemini/settings.json `` ファイルを生成します。"
+"This command will automatically detect and configure the `mcts_gen` "
+"server, creating a ``.gemini/settings.json`` file for you."
+msgstr ""
+"このコマンドは `mcts_gen` サーバーを自動的に検出し設定を行い、あなたのための `` .gemini/settings.json `` "
+"ファイルを生成します。"
 
-#: ../../quickstart.rst:144
+#: ../../quickstart.rst:153
+#, fuzzy
 msgid ""
-" **Note on the  `` :mcp ``  suffix** : The  `` :mcp ``  at the end is required"
-"because  `` fastmcp_server.py ``  contains multiple objects. This suffix"
-"explicitly tells  `` fastmcp ``  which object is the MCP server instance to"
+"**Note on the ``:mcp`` suffix**: The ``:mcp`` at the end is required "
+"because ``fastmcp_server.py`` contains multiple objects. This suffix "
+"explicitly tells ``fastmcp`` which object is the MCP server instance to "
 "be run."
 msgstr ""
-" ** `` :mcp `` 接尾辞に関する注** :"
-"末尾の `` :mcp `` は、 `` fastmcp_server.py `` に複数のオブジェクトが含まれているため必要です。この接尾辞は、実行すべきMCPサーバーインスタンスがどのオブジェクトであるかを `` fastmcp `` に明示的に伝えます。"
+" ** `` :mcp `` 接尾辞に関する注** :末尾の `` :mcp `` は、 `` fastmcp_server.py `` "
+"に複数のオブジェクトが含まれているため必要です。この接尾辞は、実行すべきMCPサーバーインスタンスがどのオブジェクトであるかを `` "
+"fastmcp `` に明示的に伝えます。"
 
-#: ../../quickstart.rst:147
+#: ../../quickstart.rst:156
 msgid "Agent Context Configuration with `uv`"
 msgstr "`uv` でのエージェントコンテキスト設定"
 
-#: ../../quickstart.rst:151
+#: ../../quickstart.rst:160
+#, fuzzy
 msgid ""
-" **v0.0.2+ Change** : The instructions below are for older versions or for"
-"cases where you need to add custom, additional context. As of v0.0.2,"
-"specifying  `` AGENTS.md ``  is not required for the agent to function"
+"**v0.0.2+ Change**: The instructions below are for older versions or for "
+"cases where you need to add custom, additional context. As of v0.0.2, "
+"specifying ``AGENTS.md`` is not required for the agent to function "
 "correctly."
 msgstr ""
-" **v0.0.2+での変更** :"
-"以下の手順は古いバージョン、またはカスタムの追加コンテキストが必要な場合向けです。v0.0.2以降、エージェントが正しく機能するために `` AGENTS.md `` の指定は不要です。"
+" **v0.0.2+での変更** "
+":以下の手順は古いバージョン、またはカスタムの追加コンテキストが必要な場合向けです。v0.0.2以降、エージェントが正しく機能するために `` "
+"AGENTS.md `` の指定は不要です。"
 
-#: ../../quickstart.rst:153
+#: ../../quickstart.rst:162
+#, fuzzy
 msgid ""
-"If you installed the package using `uv` or `pip` , the `AGENTS.md` file is"
-" included inside the package. To allow the Gemini agent to use it, you"
+"If you installed the package using `uv` or `pip`, the `AGENTS.md` file is"
+" included inside the package. To allow the Gemini agent to use it, you "
 "need to specify its full path in your `.gemini/settings.json` file."
-msgstr "`uv` または `pip` を使用してパッケージをインストールした場合、 `AGENTS.md` ファイルがパッケージ内に含まれます。Geminiエージェントがそれを使用できるようにするには、 `.gemini/settings.json` ファイルでそのフルパスを指定する必要があります。"
+msgstr ""
+"`uv` または `pip` を使用してパッケージをインストールした場合、 `AGENTS.md` "
+"ファイルがパッケージ内に含まれます。Geminiエージェントがそれを使用できるようにするには、 `.gemini/settings.json` "
+"ファイルでそのフルパスを指定する必要があります。"
 
-#: ../../quickstart.rst:155
+#: ../../quickstart.rst:164
+#, fuzzy
 msgid ""
-"Add the path to the `context.fileName` list. The exact path may vary"
+"Add the path to the `context.fileName` list. The exact path may vary "
 "depending on your Python version and environment."
 msgstr "`context.fileName` リストにパスを追加します。正確なパスは、お使いのPythonのバージョンや環境によって異なる場合があります。"
 
-#: ../../quickstart.rst:157
-msgid "**Example `.gemini/settings.json` :**"
+#: ../../quickstart.rst:166
+#, fuzzy
+msgid "**Example `.gemini/settings.json`:**"
 msgstr "** `.gemini/settings.json` の例：**"
 
-#: ../../quickstart.rst:182
+#: ../../quickstart.rst:191
 msgid "For Maintainers: How to Release a New Version"
 msgstr "メンテナー向け：新しいバージョンのリリース方法"
 
-#: ../../quickstart.rst:184
+#: ../../quickstart.rst:193
 msgid "The package publication process is automated using GitHub Actions."
 msgstr "パッケージの公開プロセスはGitHub Actionsを使用して自動化されています。"
 
-#: ../../quickstart.rst:187
+#: ../../quickstart.rst:196
 msgid "Releasing to TestPyPI (for testing)"
 msgstr "TestPyPIへのリリース（テスト用）"
 
-#: ../../quickstart.rst:189
+#: ../../quickstart.rst:198
+#, fuzzy
 msgid ""
-"To release a version to the TestPyPI repository for verification, create"
-"and push a git tag with a  `` -test ``  suffix."
+"To release a version to the TestPyPI repository for verification, create "
+"and push a git tag with a ``-test`` suffix."
 msgstr "TestPyPIリポジトリにバージョンをリリースして検証するには、 `` -test `` 接尾辞を付けてgitタグを作成し、プッシュします。"
 
-#: ../../quickstart.rst:198
+#: ../../quickstart.rst:207
 msgid "Releasing to PyPI (Official)"
 msgstr "PyPIへのリリース（公式）"
 
-#: ../../quickstart.rst:200
+#: ../../quickstart.rst:209
+#, fuzzy
 msgid ""
-"To perform an official release, create and push a git tag that follows"
-"the semantic versioning format (e.g.,  `` vX.Y.Z `` )."
+"To perform an official release, create and push a git tag that follows "
+"the semantic versioning format (e.g., ``vX.Y.Z``)."
 msgstr "公式リリースを実行するには、セマンティックバージョニング形式（例： `` vX.Y.Z `` ）に従ったgitタグを作成してプッシュします。"
+
