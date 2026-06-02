@@ -595,6 +595,7 @@ class LigandMCTSGameState(GameStateBase):
         pocket_path: Optional[str] = None, 
         source_molecule_path: Optional[str] = None, # (T007)
         target_size: int = 30, # (Spec-013) Target heavy atom count
+        spatial_zone: Optional[SpatialZone] = None, # (Task-015)
         internal_state: Optional[LigandState] = None, 
         evaluator: Optional[Evaluator] = None
     ):
@@ -606,7 +607,7 @@ class LigandMCTSGameState(GameStateBase):
         else:
             if not pocket_path:
                 raise ValueError("A pocket_path must be provided if an evaluator is not given.")
-            self.evaluator = Evaluator(pocket_path, target_size=target_size)
+            self.evaluator = Evaluator(pocket_path, target_size=target_size, spatial_zone=spatial_zone)
         
         # (T010) Initialize fragment library and internal state
         if internal_state:
