@@ -31,9 +31,7 @@ def mcts_autonomous_search(goal: str, ctx: Context) -> list[PromptMessage]:
 
         "\n**Phase 2: Initialization**",
         "5. **Gather Arguments**: If the constructor requires arguments (like `pocket_path` for `ligand_mcts`), ask the user to provide the necessary information. For `ligand_mcts`, you should proactively estimate the `target_size` (number of heavy atoms) by analyzing the protein pocket volume. A typical drug-like ligand is 20-50 atoms.",
-        "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module`, `state_class`, and `state_kwargs`.
-           - **Spatial Partitioning (Task-015):** For large protein pockets, use the `spatial_filter` argument (dict with `x_min`, `x_max`, etc.) to restrict fragment growth to a specific sub-region.
-           - **Predictive Search (Task-015):** Use the `slot_id` argument to initialize multiple searches in parallel (e.g., predicted opponent responses in Shogi/Chess).",
+        "6. **Initialize Simulation**: Call the `reinitialize_mcts` tool. You must provide `state_module`, `state_class`, and `state_kwargs`.\n           - **Spatial Partitioning (Task-015):** For large protein pockets, use the `spatial_filter` argument (dict with `x_min`, `x_max`, etc.) to restrict fragment growth to a specific sub-region.\n           - **Predictive Search (Task-015):** Use the `slot_id` argument to initialize multiple searches in parallel (e.g., predicted opponent responses in Shogi/Chess).",
 
         "\n**Phase 3: Execution (The MCTS/GP Cycle)**",
         "Your goal is to find the best move by intelligently guiding the MCTS search. You will act like a Genetic Programming (GP) algorithm, deciding the 'Search Limit' for each stage.",
@@ -43,12 +41,9 @@ def mcts_autonomous_search(goal: str, ctx: Context) -> list[PromptMessage]:
         "   - Use `num_rounds` (e.g., 10-50) to set your 'Search Limit'.",
         "   - On subsequent rounds, use `actions_to_expand` to focus the search. You can get all possible branches via `get_possible_actions`.",
         "",
-        "2. **ANALYZE Results**: The tool returns the latest `simulation_stats`.
-           - If using multiple slots, call `get_multi_slot_summary()` to compare progress.",
+        "2. **ANALYZE Results**: The tool returns the latest `simulation_stats`.\n           - If using multiple slots, call `get_multi_slot_summary()` to compare progress.",
         "",
-        "3. **DECIDE Next Step**:
-           - **Predictive Branching:** If you are confident about a future state, initialize a new `slot_id` with that state and run background analysis.
-           - **Slot Activation:** If a predicted state occurs, call `activate_mcts_slot(slot_id)` to swap contexts immediately.",
+        "3. **DECIDE Next Step**:\n           - **Predictive Branching:** If you are confident about a future state, initialize a new `slot_id` with that state and run background analysis.\n           - **Slot Activation:** If a predicted state occurs, call `activate_mcts_slot(slot_id)` to swap contexts immediately.",
         "",
         "4. **FINALIZE**: Once the search has converged, call `get_best_move()` or `get_principal_variation()`.",
         "",
