@@ -59,6 +59,7 @@ import pandas as pd
 
 from mcts_gen.models.game_state import GameStateBase
 from mcts_gen.models.spatial import SpatialZone
+from mcts_gen.services.mopac_evaluator import MopacEvaluator
 
 # Attempt to import RDKit and SciPy, but do not fail if they are not present.
 # A runtime check in the GameState constructor will handle their absence.
@@ -219,7 +220,7 @@ class LigandState:
     mol: Optional[Any] = None
     history: List[LigandAction] = field(default_factory=list)
     max_atoms: int = 50
-    fragment_library: List[str] = field(default_factory=lambda: ["C", "N", "O", "c1ccccc1", "C(=O)O"])
+    fragment_library: set[str] = field(default_factory=lambda: {"C", "N", "O", "c1ccccc1", "C(=O)O"})
 
     def to_smiles(self) -> str:
         """Returns the SMILES representation of the current molecule."""
@@ -256,7 +257,7 @@ class LigandState:
         
         if not self.mol or not Chem:
             # If there's no molecule, actions create one from a fragment.
-            for frag in self.fragment_library:
+            for frag in sorted(list(self.fragment_library)):
                 for ori in range(num_orientations):
                     actions.append(LigandAction(frag_smiles=frag, orientation_idx=ori))
         else:
@@ -274,7 +275,7 @@ class LigandState:
                     if not spatial_zone.contains(pos.x, pos.y, pos.z):
                         continue
 
-                for frag in self.fragment_library:
+                for frag in sorted(list(self.fragment_library)):
                     for ori in range(num_orientations):
                         actions.append(LigandAction(frag_smiles=frag, attach_idx=i, orientation_idx=ori))
         return actions
@@ -319,14 +320,21 @@ class LigandState:
                 sys.stderr.write(f"Bond formation failed: {e}. Falling back to disconnected combine.\n")
                 new_state.mol = Chem.CombineMols(new_state.mol, frag)
 
-        # Handle Orientation / Conformation Diversity (Spec-013)
+        # Handle Orientation / Conformation Diversity (Spec-013, Task-016)
         # This includes side chain rotations.
         try:
+            # (Task-016) Preserve parent 3D context
+            coord_map = {}
+            if self.mol and self.mol.GetNumConformers() > 0:
+                parent_conf = self.mol.GetConformer()
+                for i in range(self.mol.GetNumAtoms()):
+                    coord_map[i] = parent_conf.GetAtomPosition(i)
+
             mol_with_hs = Chem.AddHs(new_state.mol)
             # Generate multiple conformers to reflect orientation and side-chain diversity
             num_confs = 10 
-            # Use pruneRmsThresh to ensure diversity among conformers
-            AllChem.EmbedMultipleConfs(mol_with_hs, numConfs=num_confs, pruneRmsThresh=0.5, randomSeed=42)
+            # Use coordMap to fix the parent part (Task-016)
+            AllChem.EmbedMultipleConfs(mol_with_hs, numConfs=num_confs, pruneRmsThresh=0.5, randomSeed=42, coordMap=coord_map)
             
             if mol_with_hs.GetNumConformers() > 0:
                 # Select the conformer based on orientation_idx (wrap around if needed)
@@ -500,6 +508,8 @@ class Evaluator:
         self.sigma = sigma
         self.target_size = target_size
         self.spatial_zone = spatial_zone
+        self.mopac_evaluator = MopacEvaluator() # (Task-016)
+        self.mopac_result = None # (Task-016) Cache for latest result
 
         self.weights = {
             "shape": 1.0,
@@ -507,6 +517,7 @@ class Evaluator:
             "logp": -0.2,
             "qed": 2.0,
             "size": 1.5, # Weight for reaching target size
+            "mopac": 1.0, # (Task-016) Weight for quantum chemical stability
             "penalty": -1.0,
         }
 
@@ -536,6 +547,25 @@ class Evaluator:
             return self.weights.get("penalty", -1.0)
             
         return max(0.0, score)
+
+    def mopac_score(self, mol: Any) -> float:
+        """
+        (Task-016) Calculates a score based on MOPAC quantum chemical stability.
+        Rewards lower Heat of Formation.
+        """
+        if not mol or not Chem:
+            return 0.0
+        
+        # Run MOPAC via external process
+        res = self.mopac_evaluator.evaluate(mol)
+        self.mopac_result = res
+        
+        if not res.is_valid:
+            return self.weights.get("penalty", -1.0)
+        
+        # Reward stable molecules (lower heat of formation is better)
+        # Normalization: -0.01 * HOF (Assuming typical HOF is in 10s or 100s of kcal/mol)
+        return -0.01 * res.heat_of_formation
 
     def shape_score(self, mol: Any) -> float:
         """Calculates a shape similarity score based on USR descriptors."""
@@ -591,10 +621,20 @@ class Evaluator:
         gaussian = self.gaussian_score(mol)
         size = self.size_score(mol)
 
-        return (self.weights.get("shape", 1.0) * shape +
-                self.weights.get("gaussian", 1.0) * gaussian +
-                self.weights.get("size", 1.5) * size +
-                chem_score)
+        score = (self.weights.get("shape", 1.0) * shape +
+                 self.weights.get("gaussian", 1.0) * gaussian +
+                 self.weights.get("size", 1.5) * size +
+                 chem_score)
+        
+        # (Task-016) Quantum Chemical Reward with early rejection gate
+        if shape > 0.3:
+            mopac = self.mopac_score(mol)
+            score += self.weights.get("mopac", 1.0) * mopac
+        else:
+            # Mark as skipped for summary
+            self.mopac_result = None
+
+        return score
 
 
 class LigandMCTSGameState(GameStateBase):
@@ -626,29 +666,27 @@ class LigandMCTSGameState(GameStateBase):
                 raise ValueError("A pocket_path must be provided if an evaluator is not given.")
             self.evaluator = Evaluator(pocket_path, target_size=target_size, spatial_zone=spatial_zone)
         
-        # (T010) Initialize fragment library and internal state
+        # (T010, Task 016) Initialize fragment library and internal state
         if internal_state:
             self.internal_state = internal_state
         else:
-            fragment_library = None
+            # Task 016: Use a set for deduplication and merge source with defaults
+            fragment_library = {"C", "N", "O", "c1ccccc1", "C(=O)O"}
+            
             if source_molecule_path:
                 try:
                     sys.stderr.write(f"Attempting to generate fragments from source: {source_molecule_path}\n")
                     molecules = _load_molecules_from_file(source_molecule_path)
-                    fragment_library = _generate_fragments_from_molecules(molecules)
-                    sys.stderr.write(f"Successfully generated {len(fragment_library)} unique fragments.\n")
+                    source_fragments = _generate_fragments_from_molecules(molecules)
+                    fragment_library.update(source_fragments) # Merge and deduplicate
+                    sys.stderr.write(f"Successfully generated/merged {len(fragment_library)} unique fragments.\n")
                 except Exception as e:
                     sys.stderr.write(f"\n[Error] Failed to generate fragments from '{source_molecule_path}': {e}\n")
                     raise  # Re-raise to inform the AI/User of the failure
             
             # Set max_atoms slightly above target_size to allow for better fitting
             max_atoms = int(target_size * 1.2)
-            
-            if fragment_library:
-                self.internal_state = LigandState(fragment_library=fragment_library, max_atoms=max_atoms)
-            else:
-                # Fallback to default empty state
-                self.internal_state = LigandState(max_atoms=max_atoms)
+            self.internal_state = LigandState(fragment_library=fragment_library, max_atoms=max_atoms)
 
 
     def getCurrentPlayer(self) -> int:
@@ -689,12 +727,19 @@ class LigandMCTSGameState(GameStateBase):
             return 0.0
         
         return self.evaluator.total_score(self.internal_state.mol)
-
     def get_state_summary(self) -> Dict[str, Any]:
         """
         Saves the current molecule to a PDB file and returns a summary.
         """
         summary = {"smiles": self.internal_state.to_smiles()}
+
+        # Include MOPAC results if available (Task-016)
+        if self.evaluator.mopac_result:
+            summary["mopac_energy"] = self.evaluator.mopac_result.heat_of_formation
+            summary["mopac_status"] = self.evaluator.mopac_result.status
+        elif hasattr(self.evaluator, 'mopac_result'):
+             summary["mopac_status"] = "skipped"
+
         if self.internal_state.mol:
             try:
                 # Ensure output directory exists

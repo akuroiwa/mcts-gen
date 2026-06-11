@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Generic MCTS Framework 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-02 21:36+0900\n"
+"POT-Creation-Date: 2026-06-11 21:26+0900\n"
 "PO-Revision-Date: 2025-10-18 14:45+0900\n"
 "Last-Translator: Gemini\n"
 "Language: ja\n"
@@ -217,7 +217,8 @@ msgid ""
 "To handle large search spaces or pre-calculate future states, MCTS-Gen "
 "introduces spatial zones and search slots."
 msgstr ""
-"巨大な探索空間への対処や、未来の状態の事前計算を可能にするため、 MCTS-Gen は空間ゾーン（Spatial Zone）と探索スロット（Search Slot）を導入しました。"
+"巨大な探索空間への対処や、未来の状態の事前計算を可能にするため、 MCTS-Gen は空間ゾーン（Spatial "
+"Zone）と探索スロット（Search Slot）を導入しました。"
 
 #: ../../quickstart.rst:109
 msgid ""
@@ -227,7 +228,9 @@ msgid ""
 "branching factor and allows for focused exploration of specific pocket "
 "regions."
 msgstr ""
-" **空間分割** : 大規模な結合ポケットでのリガンド生成において、 ``reinitialize_mcts`` の ``spatial_filter`` 引数を使用して、探索を特定の座標範囲（バウンディングボックス）に制限できます。これにより、探索木の分岐因子が削減され、ポケットの特定領域に集中した探索が可能になります。"
+" **空間分割** : 大規模な結合ポケットでのリガンド生成において、 ``reinitialize_mcts`` の "
+"``spatial_filter`` "
+"引数を使用して、探索を特定の座標範囲（バウンディングボックス）に制限できます。これにより、探索木の分岐因子が削減され、ポケットの特定領域に集中した探索が可能になります。"
 
 #: ../../quickstart.rst:110
 msgid ""
@@ -238,40 +241,87 @@ msgid ""
 "``activate_mcts_slot`` to instantly switch to a pre-calculated tree when "
 "a predicted state occurs."
 msgstr ""
-" **予測探索（スロット）** : ``slot_id`` 引数を使用することで、複数の独立した探索木を並行して初期化できます。これは、将棋やチェスなどのゲームにおいて、相手の予測手に対する最善の応手を事前に計算しておくのに特に有効です。予測した状態が実際に発生した際、 ``activate_mcts_slot`` を呼び出すことで、事前計算済みの探索木に即座に切り替えることができます。"
+" **予測探索（スロット）** : ``slot_id`` "
+"引数を使用することで、複数の独立した探索木を並行して初期化できます。これは、将棋やチェスなどのゲームにおいて、相手の予測手に対する最善の応手を事前に計算しておくのに特に有効です。予測した状態が実際に発生した際、"
+" ``activate_mcts_slot`` を呼び出すことで、事前計算済みの探索木に即座に切り替えることができます。"
 
-#: ../../quickstart.rst:114
+#: ../../quickstart.rst:113
+msgid "Quantum Chemical Evaluation with MOPAC (v0.0.4+)"
+msgstr "MOPACによる量子化学評価 (v0.0.4+)"
+
+#: ../../quickstart.rst:115
+msgid ""
+"For high-precision ligand design, MCTS-Gen now integrates with "
+"**MOPAC2022**, a semi-empirical molecular orbital package. This allows "
+"the simulation to evaluate the thermodynamic stability (Heat of "
+"Formation) of generated molecules."
+msgstr ""
+"高精度なリガンド設計のために、 MCTS-Gen は半経験的分子軌道法パッケージである **MOPAC2022** と統合されました。これにより、生成された分子の熱力学的な安定性（生成熱）をシミュレーションで評価できるようになりました。"
+
+#: ../../quickstart.rst:117
+msgid ""
+"**Deduplication**: The fragment library now uses SMILES-based "
+"deduplication, ensuring that the MCTS search explores a unique set of "
+"chemical branches."
+msgstr ""
+" **重複排除** : フラグメントライブラリは SMILES ベースの重複排除を使用するようになり、 MCTS 探索がユニークな化学的枝のみを探索することを保証します。"
+
+#: ../../quickstart.rst:118
+msgid ""
+"**High-Fidelity State**: The engine preserves the full RDKit molecule "
+"object, including 3D coordinates and conformers, across state transitions"
+" to provide accurate input for quantum calculations."
+msgstr ""
+" **高忠実度な状態遷移** : エンジンは、 3D 座標やコンフォーマーを含む RDKit 分子オブジェクト全体を状態遷移間で保持し、量子計算のための正確な入力を提供します。"
+
+#: ../../quickstart.rst:119
+msgid ""
+"**MOPAC Reward**: Once a molecule reaches the target size, MOPAC is used "
+"to calculate its energy. Lower energy (more stable) molecules receive "
+"higher rewards."
+msgstr ""
+" **MOPAC 報酬** : 分子が目標サイズに達すると、 MOPAC を使用してそのエネルギーが計算されます。エネルギーが低い（より安定な）分子ほど、高い報酬を受け取ります。"
+
+#: ../../quickstart.rst:123
+msgid ""
+"This feature requires **MOPAC2022** to be installed and available in your"
+" system path. For academic and personal use, it is available as open-"
+"source software from `OpenMOPAC <https://github.com/openmopac/mopac>`_."
+msgstr ""
+"この機能を利用するには、 **MOPAC2022** がインストールされ、システムパスに含まれている必要があります。アカデミックおよび個人利用向けには、 `OpenMOPAC <https://github.com/openmopac/mopac>`_ からオープンソースソフトウェアとして入手可能です。"
+
+#: ../../quickstart.rst:127
 msgid "Installation with `uv` (Recommended)"
 msgstr "`uv` によるインストール（推奨）"
 
-#: ../../quickstart.rst:116
+#: ../../quickstart.rst:129
 #, fuzzy
 msgid ""
 "For a faster and more modern package management experience, we recommend "
 "using `uv`."
 msgstr "より高速でモダンなパッケージ管理を体験するために、 `uv` の使用を推奨します。"
 
-#: ../../quickstart.rst:118
+#: ../../quickstart.rst:131
 #, fuzzy
 msgid "**Install `pipx` and `uv`**:"
 msgstr "**pipxとuvのインストール** ："
 
-#: ../../quickstart.rst:128
+#: ../../quickstart.rst:141
 #, fuzzy
 msgid "**Set up the environment and install `mcts-gen`**:"
 msgstr "**環境のセットアップと `mcts-gen` のインストール** ："
 
-#: ../../quickstart.rst:141
+#: ../../quickstart.rst:154
 #, fuzzy
 msgid "To exit the virtual environment, simply run ``deactivate``."
 msgstr "仮想環境を終了するには、単に  `` deactivate ``  を実行します。"
 
-#: ../../quickstart.rst:143
+#: ../../quickstart.rst:156
 #, fuzzy
 msgid "**Configure `gemini-cli` with `fastmcp`**:"
 msgstr "** `fastmcp` による `gemini-cli` の設定** ："
 
-#: ../../quickstart.rst:145
+#: ../../quickstart.rst:158
 #, fuzzy
 msgid ""
 "Instead of manually editing ``settings.json``, you can use the "
@@ -280,7 +330,7 @@ msgstr ""
 "`` settings.json `` を手動で編集する代わりに、 `` fastmcp `` "
 "コマンドを使用してツールサーバーを自動的に設定できます。"
 
-#: ../../quickstart.rst:151
+#: ../../quickstart.rst:164
 #, fuzzy
 msgid ""
 "This command will automatically detect and configure the `mcts_gen` "
@@ -289,7 +339,7 @@ msgstr ""
 "このコマンドは `mcts_gen` サーバーを自動的に検出し設定を行い、あなたのための `` .gemini/settings.json `` "
 "ファイルを生成します。"
 
-#: ../../quickstart.rst:153
+#: ../../quickstart.rst:166
 #, fuzzy
 msgid ""
 "**Note on the ``:mcp`` suffix**: The ``:mcp`` at the end is required "
@@ -301,11 +351,11 @@ msgstr ""
 "に複数のオブジェクトが含まれているため必要です。この接尾辞は、実行すべきMCPサーバーインスタンスがどのオブジェクトであるかを `` "
 "fastmcp `` に明示的に伝えます。"
 
-#: ../../quickstart.rst:156
+#: ../../quickstart.rst:169
 msgid "Agent Context Configuration with `uv`"
 msgstr "`uv` でのエージェントコンテキスト設定"
 
-#: ../../quickstart.rst:160
+#: ../../quickstart.rst:173
 #, fuzzy
 msgid ""
 "**v0.0.2+ Change**: The instructions below are for older versions or for "
@@ -317,7 +367,7 @@ msgstr ""
 ":以下の手順は古いバージョン、またはカスタムの追加コンテキストが必要な場合向けです。v0.0.2以降、エージェントが正しく機能するために `` "
 "AGENTS.md `` の指定は不要です。"
 
-#: ../../quickstart.rst:162
+#: ../../quickstart.rst:175
 #, fuzzy
 msgid ""
 "If you installed the package using `uv` or `pip`, the `AGENTS.md` file is"
@@ -328,42 +378,42 @@ msgstr ""
 "ファイルがパッケージ内に含まれます。Geminiエージェントがそれを使用できるようにするには、 `.gemini/settings.json` "
 "ファイルでそのフルパスを指定する必要があります。"
 
-#: ../../quickstart.rst:164
+#: ../../quickstart.rst:177
 #, fuzzy
 msgid ""
 "Add the path to the `context.fileName` list. The exact path may vary "
 "depending on your Python version and environment."
 msgstr "`context.fileName` リストにパスを追加します。正確なパスは、お使いのPythonのバージョンや環境によって異なる場合があります。"
 
-#: ../../quickstart.rst:166
+#: ../../quickstart.rst:179
 #, fuzzy
 msgid "**Example `.gemini/settings.json`:**"
 msgstr "** `.gemini/settings.json` の例：**"
 
-#: ../../quickstart.rst:191
+#: ../../quickstart.rst:204
 msgid "For Maintainers: How to Release a New Version"
 msgstr "メンテナー向け：新しいバージョンのリリース方法"
 
-#: ../../quickstart.rst:193
+#: ../../quickstart.rst:206
 msgid "The package publication process is automated using GitHub Actions."
 msgstr "パッケージの公開プロセスはGitHub Actionsを使用して自動化されています。"
 
-#: ../../quickstart.rst:196
+#: ../../quickstart.rst:209
 msgid "Releasing to TestPyPI (for testing)"
 msgstr "TestPyPIへのリリース（テスト用）"
 
-#: ../../quickstart.rst:198
+#: ../../quickstart.rst:211
 #, fuzzy
 msgid ""
 "To release a version to the TestPyPI repository for verification, create "
 "and push a git tag with a ``-test`` suffix."
 msgstr "TestPyPIリポジトリにバージョンをリリースして検証するには、 `` -test `` 接尾辞を付けてgitタグを作成し、プッシュします。"
 
-#: ../../quickstart.rst:207
+#: ../../quickstart.rst:220
 msgid "Releasing to PyPI (Official)"
 msgstr "PyPIへのリリース（公式）"
 
-#: ../../quickstart.rst:209
+#: ../../quickstart.rst:222
 #, fuzzy
 msgid ""
 "To perform an official release, create and push a git tag that follows "

@@ -109,6 +109,19 @@ To handle large search spaces or pre-calculate future states, MCTS-Gen introduce
 - **Spatial Partitioning**: For ligand generation in large binding pockets, you can restrict the search to a specific coordinate box using the ``spatial_filter`` argument in ``reinitialize_mcts``. This reduces the branching factor and allows for focused exploration of specific pocket regions.
 - **Predictive Search (Slots)**: You can initialize multiple independent search trees in parallel using the ``slot_id`` argument. This is particularly useful for pre-calculating the best response to an opponent's predicted moves in games like Shogi or Chess. Use ``activate_mcts_slot`` to instantly switch to a pre-calculated tree when a predicted state occurs.
 
+Quantum Chemical Evaluation with MOPAC (v0.0.4+)
+------------------------------------------------
+
+For high-precision ligand design, MCTS-Gen now integrates with **MOPAC2022**, a semi-empirical molecular orbital package. This allows the simulation to evaluate the thermodynamic stability (Heat of Formation) of generated molecules.
+
+- **Deduplication**: The fragment library now uses SMILES-based deduplication, ensuring that the MCTS search explores a unique set of chemical branches.
+- **High-Fidelity State**: The engine preserves the full RDKit molecule object, including 3D coordinates and conformers, across state transitions to provide accurate input for quantum calculations.
+- **MOPAC Reward**: Once a molecule reaches the target size, MOPAC is used to calculate its energy. Lower energy (more stable) molecules receive higher rewards.
+
+.. note::
+
+   This feature requires **MOPAC2022** to be installed and available in your system path. For academic and personal use, it is available as open-source software from `OpenMOPAC <https://github.com/openmopac/mopac>`_.
+
 
 Installation with `uv` (Recommended)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
