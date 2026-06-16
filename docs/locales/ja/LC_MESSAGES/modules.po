@@ -28,27 +28,28 @@ msgid "Core Services"
 msgstr "コアサービス"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator:1 of
-#, fuzzy
 msgid ""
 "A stateful simulator that encapsulates an MCTS engine and provides a set "
 "of generic, game-agnostic tools for an AI agent."
-msgstr "MCTSエンジンをカプセル化し、AIエージェント向けに汎用的でゲームに依存しないツールのセットを提供するステートフルなシミュレータ。"
+msgstr ""
+"MCTS エンジンをカプセル化し、 AI エージェント向けに汎用的でゲームに依存しないツール"
+"のセットを提供するステートフルなシミュレータです。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.activate_mcts_slot:1 of
 msgid "Swaps the active search context to a previously initialized slot."
-msgstr ""
+msgstr "アクティブな探索コンテキストを、以前に初期化されたスロットに切り替えます。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.engine:1 of
 msgid "Dynamically retrieves the engine from the active slot."
-msgstr ""
+msgstr "アクティブなスロットからエンジンを動的に取得します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_best_move:1 of
 msgid "Retrieves the best move found so far."
-msgstr "これまでに見つかった最善手を取得します。"
+msgstr "これまでに探索で見つかった最善手を取得します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_multi_slot_summary:1 of
 msgid "Summarizes the best results from all search slots."
-msgstr ""
+msgstr "すべての探索スロットからの最良の結果を要約します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_possible_actions:1 of
 msgid "Retrieves the list of all possible actions from the current root state."
@@ -56,7 +57,7 @@ msgstr "現在のルート状態から可能なすべてのアクションのリ
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_principal_variation:1 of
 msgid "Retrieves the principal variation (best sequence of moves) from the root."
-msgstr ""
+msgstr "ルートからの主要変化（最善の手順）を取得します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.get_simulation_stats:1 of
 msgid "Returns the current state of the simulation variables."
@@ -64,149 +65,159 @@ msgstr "シミュレーション変数の現在の状態を返します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.list_mcts_slots:1 of
 msgid "Returns a list of all initialized search contexts."
-msgstr ""
+msgstr "初期化されたすべての探索コンテキストのリストを返します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:1 of
 msgid "Starts a new MCTS simulation for a given game."
-msgstr "指定されたゲームの新しいMCTSシミュレーションを開始します。"
+msgstr "指定されたゲームの新しい MCTS シミュレーションを開始します。"
 
 #: ../../modules.rst
 msgid "Parameters"
-msgstr ""
+msgstr "パラメーター"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:3 of
 msgid "The python module containing the GameState class."
-msgstr ""
+msgstr "GameState クラスを含む Python モジュール。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:4 of
 msgid "The name of the GameState class."
-msgstr ""
+msgstr "GameState クラスの名前。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:5 of
 msgid "Keyword arguments for the GameState constructor."
-msgstr ""
+msgstr "GameState コンストラクタへのキーワード引数。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:6 of
 msgid "Search budget for the engine."
-msgstr ""
+msgstr "エンジンの探索バジェット（予算）。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:7 of
 msgid "Identifier for the search context (defaults to \"main\")."
-msgstr ""
+msgstr "探索コンテキストの識別子（デフォルトは \"main\" ）。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.reinitialize_mcts:8 of
 msgid "Optional coordinate range (x_min, x_max, etc.) for ligand games."
-msgstr ""
+msgstr "リガンド生成ゲームにおけるオプションの座標範囲（x_min, x_maxなど）。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:1 of
 msgid ""
 "Executes a batch of MCTS rounds to improve search precision. This "
 "provides a 'searchLimit' functionality within a single tool call."
 msgstr ""
+"探索の精度を高めるために MCTS ラウンドを一括実行します。これにより、単一のツール"
+"呼び出しで「探索制限（searchLimit）」機能を提供します。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:4 of
 msgid "MCTS exploration factor."
-msgstr ""
+msgstr "MCTS 探索係数。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:5 of
 msgid "Number of rounds to execute in this batch."
-msgstr ""
+msgstr "このバッチで実行するラウンド数。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_analysis:6 of
 msgid "Optional list of actions to focus the search on."
-msgstr ""
+msgstr "探索を集中させるためのオプションのアクションリスト。"
 
 #: mcts_gen.services.ai_gp_simulator.AiGpSimulator.run_mcts_round:1 of
 msgid "Executes a single MCTS round and updates the simulation state."
 msgstr "単一のMCTSラウンドを実行し、シミュレーションの状態を更新します。"
 
 #: mcts_gen.services.mcts_engine.MCTSNode:1 of
-#, fuzzy
 msgid ""
 "Represents a node in the Monte Carlo Search Tree. Inherits from "
 "AntLionTreeNode to ensure full compatibility."
-msgstr "モンテカルロ探索木におけるノードを表します。完全な互換性を確保するため、AntLionTreeNode を継承します。"
+msgstr ""
+"モンテカルロ探索木におけるノードを表します。完全な互換性を確保するため、 "
+"``AntLionTreeNode`` を継承します。"
 
 #: mcts_gen.services.mcts_engine.McpMcts:1 of
 msgid "An MCTS engine that uses UCT (from parent) and AI value estimation."
-msgstr "UCT（親から継承）とAIの価値評価を使用するMCTSエンジン。"
+msgstr ""
+"UCT（親から継承）と AI の価値評価を使用する MCTS エンジンです。"
 
 #: mcts_gen.services.mcts_engine.McpMcts.dl_method:1 of
 msgid "Overrides parent to use the AI's value prediction."
-msgstr "親をオーバーライドしてAIの価値予測を使用します。"
+msgstr "親メソッドをオーバーライドして AI の価値予測を使用します。"
 
 #: mcts_gen.services.mcts_engine.McpMcts.expand:1 of
-#, fuzzy
 msgid ""
 "Uses a pre-filtered list of actions if provided, otherwise gets all "
 "actions."
-msgstr "提供されている場合は事前にフィルタリングされたアクションのリストを使用し、そうでない場合はすべてのアクションを取得します。"
+msgstr ""
+"提供されている場合は事前にフィルタリングされたアクションのリストを使用し、"
+"そうでない場合はすべてのアクションを取得します。"
 
 #: ../../modules.rst:14
 msgid "Base Models"
 msgstr "ベースモデル"
 
 #: mcts_gen.models.game_state.GameStateBase:1 of
-#, fuzzy
 msgid ""
 "Abstract base class for any game environment that can be used with "
 "McpMcts."
-msgstr "McpMctsで使用できるすべてのゲーム環境の抽象基底クラス。"
+msgstr " ``McpMcts`` で使用できるすべてのゲーム環境の抽象基底クラスです。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.getCurrentPlayer:1
 #: mcts_gen.models.game_state.GameStateBase.getCurrentPlayer:1 of
 msgid "Return +1 if it's player one's turn, -1 if it's player two's turn."
-msgstr "プレイヤー1の手番なら+1、プレイヤー2の手番なら-1を返します。"
+msgstr "プレイヤー 1 の手番なら +1 、プレイヤー 2 の手番なら -1 を返します。"
 
 #: mcts_gen.models.game_state.GameStateBase.getPossibleActions:1 of
-#, fuzzy
 msgid ""
 "Return a list of all possible actions from this state. The actions MUST "
 "be serializable and preferably human-readable strings (e.g., USI for "
 "shogi) to allow AI agents to process them."
-msgstr "この状態から可能なすべてのアクションのリストを返します。アクションは、AIエージェントが処理できるように、シリアライズ可能で、できれば人間が読める文字列（例：将棋のUSI）でなければなりません。"
+msgstr ""
+"この状態から可能なすべてのアクションのリストを返します。アクションは、 "
+"AI エージェントが処理できるように、シリアライズ可能で、できれば人間が読める"
+"文字列（例：将棋の USI ）でなければなりません。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.getReward:1
 #: mcts_gen.models.game_state.GameStateBase.getReward:1 of
-#, fuzzy
 msgid ""
 "Return the reward for the current player if the game is terminal. "
 "Convention: +1 (win), -1 (loss), 0 (draw)."
-msgstr "ゲームが終了している場合、現在のプレイヤーの報酬を返します。規約：+1（勝ち）、-1（負け）、0（引き分け）。"
+msgstr ""
+"ゲームが終了している場合、現在のプレイヤーの報酬を返します。規約： "
+"+1（勝ち）、 -1（負け）、 0（引き分け）。"
 
 #: mcts_gen.models.game_state.GameStateBase.get_state_summary:1 of
 msgid ""
 "Returns a summary of the current state. This can be overridden by "
 "subclasses to provide richer, game-specific information."
 msgstr ""
+"現在の状態の要約を返します。これはサブクラスによってオーバーライドされ、"
+"より豊富なゲーム固有の情報を提供できます。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.isTerminal:1
 #: mcts_gen.models.game_state.GameStateBase.isTerminal:1 of
 msgid "Return True if this state is terminal (game over)."
-msgstr "この状態が終端（ゲームオーバー）であればTrueを返します。"
+msgstr "この状態が終端（ゲームオーバー）であれば ``True`` を返します。"
 
 #: mcts_gen.models.game_state.GameStateBase.takeAction:1 of
 msgid "Return the new GameState after applying the given action."
-msgstr "指定されたアクションを適用した後の新しいGameStateを返します。"
+msgstr "指定されたアクションを適用した後の新しい GameState を返します。"
 
 #: ../../modules.rst:20
 msgid "Game Modules"
 msgstr "ゲームモジュール"
 
 #: ../../modules.rst:22
-#, fuzzy
 msgid ""
 "This framework can be extended with different games. Below are the "
 "provided examples."
-msgstr "このフレームワークは、さまざまなゲームで拡張できます。以下に提供されている例を示します。"
+msgstr ""
+"このフレームワークは、さまざまなゲームで拡張できます。以下に提供されている例"
+"を示します。"
 
 #: mcts_gen.games.dummy_game:1 of
 msgid "A dummy game implementation (Tic-Tac-Toe) for testing and demonstration."
-msgstr "テストおよびデモンストレーション用のダミーゲーム実装（三目並べ）。"
+msgstr "テストおよびデモンストレーション用のダミーゲーム実装（三目並べ）です。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy:1 of
 msgid "A simplified Tic-Tac-Toe game state for testing the MCTS engine."
-msgstr "MCTSエンジンをテストするための単純化された三目並べのゲーム状態。"
+msgstr "MCTS エンジンをテストするための単純化された三目並べのゲーム状態です。"
 
 #: mcts_gen.games.dummy_game.TicTacToeDummy.getCurrentPlayer:1 of
 msgid "Returns the current player."
@@ -230,21 +241,21 @@ msgstr "手を適用し、新しいゲーム状態を返します。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState:1 of
 msgid "Implements the game state for Shogi using the python-shogi library."
-msgstr "python-shogiライブラリを使用して将棋のゲーム状態を実装します。"
+msgstr " ``python-shogi`` ライブラリを使用して将棋のゲーム状態を実装します。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.getPossibleActions:1 of
 msgid "Returns a list of legal moves in USI string format."
-msgstr "合法な手のリストをUSI文字列形式で返します。"
+msgstr "合法な手のリストを USI 文字列形式で返します。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.get_state_summary:1 of
 msgid ""
 "Returns a summary of the current game state, including a KIF string with "
 "move history."
-msgstr ""
+msgstr "手番の履歴を含む KIF 文字列を含む、現在のゲーム状態の要約を返します。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.takeAction:1 of
 msgid "Takes a shogi.Move object and returns the new state."
-msgstr "shogi.Moveオブジェクトを受け取り、新しい状態を返します。"
+msgstr " ``shogi.Move`` オブジェクトを受け取り、新しい状態を返します。"
 
 #: mcts_gen.games.shogi_mcts.ShogiGameState.to_dict:1 of
 msgid "Serializes the game state to a dictionary for logging."
